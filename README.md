@@ -12,7 +12,7 @@ Initial setup before using the code.
     *
 The IP address: 35.176.9.18
 SSH port: 22
-The complete URL to your hosted web application: [catalog]https://lightsail.aws.amazon.com/ls/webapp/domains/datafrica-com
+The complete URL to your hosted web application: [catalog](https://lightsail.aws.amazon.com/ls/webapp/domains/datafrica-com)
 
 
 Locate the SSH key you created for the grader user.
