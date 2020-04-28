@@ -111,7 +111,7 @@ Create a directory structure within `/var/www/` for your domain.
   * Restart Apache with `sudo apache2ctl restart`
 
 
- `bin/bash
+ ```bin/bash
        <VirtualHost *:80>
           ServerAdmin domain_admin@gmail.com
           ServerName your_domain
@@ -122,7 +122,7 @@ Create a directory structure within `/var/www/` for your domain.
 
           WSGIScriptAlias / /var/www/your_domain/your_domain.wsgi
        </VirtualHost>
- `
+ ```
 
 
 
