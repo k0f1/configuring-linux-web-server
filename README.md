@@ -59,7 +59,9 @@ Username ALL = (ALL : ALL) ALL
 
 ```sudo adduser grader```
 Give a password to user when prompted to do so
+Long as grader with given password
 
+### Grant persmission
 Create a file name grader with:
 ```sudo touch /etc/sudoers.d/grader```
 
