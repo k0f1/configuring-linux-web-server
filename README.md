@@ -88,8 +88,9 @@ Create a directory structure within ```/var/www/``` for your domain.
 *  configure Apache to hand-off certain requests to an application handler - mod_wsgi  Install mod_wsgi with ```sudo apt-get install libapache2-mod-wsgi```
 
 * Configure Apache to handle requests using the WSGI module by editing the
-```/etc/apache2/sites-enabled/000-default.conf``` file.
-  * Add the following line ```WSGIScriptAlias / /var/www/html/myapp.wsgi``` at the end of the block right before the closing line
+```/etc/apache2/sites-enabled/000-default.conf``` file with.
+  * ```sudo vim  /etc/apache2/sites-enabled/catalog.conf``` Take that this file is inate and does not require touching.
+  * Add the following line ```WSGIScriptAlias / /var/www/your_cloned_project_ directory/your_cloned_project_ directory.wsgi``` at the end of the block right before the closing line
   ```/bin/bash
   <VirtualHost *:80>
   </VirtualHost>```
