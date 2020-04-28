@@ -112,16 +112,16 @@ Create a directory structure within `/var/www/` for your domain.
 
 
  `bin/bash
- <VirtualHost *:80>
-    ServerAdmin domain_admin@gmail.com
-    ServerName your_domain
-    DocumentRoot /var/www/your_domain
+       <VirtualHost *:80>
+          ServerAdmin domain_admin@gmail.com
+          ServerName your_domain
+          DocumentRoot /var/www/your_domain
 
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
+          ErrorLog ${APACHE_LOG_DIR}/error.log
+          CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-    WSGIScriptAlias / /var/www/your_domain/your_domain.wsgi
- </VirtualHost>
+          WSGIScriptAlias / /var/www/your_domain/your_domain.wsgi
+       </VirtualHost>
  `
 
 
