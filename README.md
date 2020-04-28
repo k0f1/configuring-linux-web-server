@@ -94,7 +94,18 @@ Create a directory structure within ```/var/www/``` for your domain.
   ```/bin/bash
   <VirtualHost *:80>
   </VirtualHost>```
+
+  * Add the change the following default values:
+    * ServerAdmin webmaster@localhost to the email address of the domain manager
+    * ServerName www.example.com to https://lightsail.aws.amazon.com/ls/webapp/domains/datafrica-com
+    * DocumentRoot /var/www/html to /var/www/your_cloned_project_ directory
   * Restart Apache with ```sudo apache2ctl restart```
+
+
+### Setting Up Postgresql Database
+Install posgressql
+Rename application.py to __init__.py using sudo mv application.py __init__.py
+Edit database_setup.py, website.py and functions_helper.py and change engine = create_engine('sqlite:///toyshop.db') to engine = create_engine('postgresql://catalog:password@localhost/catalog')
 
 ## Contributing
 We encourgae contributions to Configuring linux web server. Please checkout  [guidelines] on how to proceed.
