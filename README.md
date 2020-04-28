@@ -154,7 +154,7 @@ Apr 28 14:30:45 ip-172-26-10-235 systemd[1]: Failed to start The Apache HTTP Ser
 ```
 
 ## Contributing
-We encourgae contributions to Configuring linux web server. Please checkout  [guidelines] on how to proceed.
+We encourgae contributions to Configuring linux web server. Please checkout  [guidelines]() on how to proceed.
 
 ## Licensing
-Configuring a linux web server is licenced under [GNU AGPLv3]https://choosealicense.com/licenses/agpl-3.0/
+Configuring a linux web server is licenced under [GNU AGPLv3](https://choosealicense.com/licenses/agpl-3.0/)
