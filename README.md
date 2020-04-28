@@ -52,13 +52,24 @@ example code
 ## Create user with access
 Create a new user
 Install finder ```sudo apt-get install finger```
-Create user ```grader``` with ```sudo adduser grader```
+Giving Sudo Access
+Do this in the main admin account - ubuntu@IP address
+Create a new file inside - sudoers.d with the new of the new user
+Open this file with visudo
+Add this line of code inside this file
+Username ALL = (ALL : ALL) ALL
+
+```sudo adduser grader```
 Give a password to user when prompted to do so
 
-```cat /etc/sudoers```
-Create a file name grader with ```sudo touch /etc/sudoers.d/grader```
-Then open the file with ```sudo visudo /etc/sudoers.d/grader```
-Enter this live of code: ```ALL=(ALL:ALL) ALL```, save and quit.
+Create a file name grader with:
+```sudo touch /etc/sudoers.d/grader```
+
+Then open the file with:
+ ```sudo visudo /etc/sudoers.d/grader```
+
+Enter this live of code:
+```ALL=(ALL:ALL) ALL```, save and quit.
 
 ### Grant persmission
 Give ```grader``` the permission to ```sudo```
