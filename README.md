@@ -123,7 +123,7 @@ Rename ```application.py``` to ```__init__.py``` using
 
 ```sudo mv application.py __init__.py```
 
-* Edit these files, ( ```database_setup.py```, ```application.py``` and ```functions_helper.py``` ) change
+* Edit these files, ( ```database_setup.py```, ```application.py``` and ```functions_helper.py``` ),  by changing 
 
 ```engine = create_engine('sqlite:///your_database_name.db.db'``` to
 
