@@ -103,9 +103,29 @@ Create a directory structure within ```/var/www/``` for your domain.
 
 
 ### Setting Up Postgresql Database
-Install posgressql
-Rename application.py to __init__.py using sudo mv application.py __init__.py
-Edit database_setup.py, website.py and functions_helper.py and change engine = create_engine('sqlite:///toyshop.db') to engine = create_engine('postgresql://catalog:password@localhost/catalog')
+* Install posgressql with
+```sudo apt-get install postgresql```
+
+Use this command to start the Postgres interactive shell and to switch user to Postgres: You must be already logged in as a sudo user
+
+```$ sudo -i -u postgres```
+
+* Create database user with:
+``` postgresql@IP Adress: createruser -P <username>```
+Give password as password on prompt
+
+```postgresql@IP Adress: createrdb <username>
+
+Rename ```application.py``` to ```__init__.py``` using
+
+```sudo mv application.py __init__.py```
+
+* Edit these files, ( ```database_setup.py```, ```application.py``` and ```functions_helper.py``` ) change
+
+```engine = create_engine('sqlite:///your_database_name.db.db'``` to
+
+ ```engine = create_engine('postgresql://<username>:password@localhost/<username>'```
+
 
 ## Contributing
 We encourgae contributions to Configuring linux web server. Please checkout  [guidelines] on how to proceed.
