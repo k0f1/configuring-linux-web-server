@@ -116,6 +116,8 @@ Give password as password on prompt
 
 * Create database with the same name as username
 ```postgresql@IP Adress: createrdb <username>```
+* Check to see permissions to the user with:
+
 
 Rename ```application.py``` to ```__init__.py``` using
 
@@ -127,6 +129,29 @@ Rename ```application.py``` to ```__init__.py``` using
 
  ```engine = create_engine('postgresql://<username>:password@localhost/<username>'```
 
+
+## Known Bugs
+Check apache status with;
+```sudo systemctl status apache2```
+
+``` apache2.service - The Apache HTTP Server
+   Loaded: loaded (/lib/systemd/system/apache2.service; enabled; vendor preset: enabled)
+  Drop-In: /lib/systemd/system/apache2.service.d
+           └─apache2-systemd.conf
+   Active: failed (Result: exit-code) since Tue 2020-04-28 14:30:45 UTC; 6h ago
+  Process: 6683 ExecStop=/usr/sbin/apachectl stop (code=exited, status=1/FAILURE)
+  Process: 11359 ExecStart=/usr/sbin/apachectl start (code=exited, status=1/FAILURE)
+ Main PID: 26395 (code=exited, status=0/SUCCESS)
+
+Apr 28 14:30:45 ip-172-26-10-235 systemd[1]: Starting The Apache HTTP Server...
+Apr 28 14:30:45 ip-172-26-10-235 apachectl[11359]: AH00526: Syntax error on line 29 of /etc/apache2/sites-enabled/000-default.conf:
+Apr 28 14:30:45 ip-172-26-10-235 apachectl[11359]: Invalid command 'WSGIScriptAlias', perhaps misspelled or defined by a module not included in the server configuration
+Apr 28 14:30:45 ip-172-26-10-235 apachectl[11359]: Action 'start' failed.
+Apr 28 14:30:45 ip-172-26-10-235 apachectl[11359]: The Apache error log may have more information.
+Apr 28 14:30:45 ip-172-26-10-235 systemd[1]: apache2.service: Control process exited, code=exited status=1
+Apr 28 14:30:45 ip-172-26-10-235 systemd[1]: apache2.service: Failed with result 'exit-code'.
+Apr 28 14:30:45 ip-172-26-10-235 systemd[1]: Failed to start The Apache HTTP Server.
+```
 
 ## Contributing
 We encourgae contributions to Configuring linux web server. Please checkout  [guidelines] on how to proceed.
