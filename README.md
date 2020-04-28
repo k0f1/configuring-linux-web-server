@@ -26,8 +26,6 @@ iv. A list of any third-party resources you made use of to complete this project
 
 
 
-
-
 ## Secure your server
 Configure your firewall earlier on
 ufw status -inactive
@@ -106,13 +104,13 @@ Create a directory structure within ```/var/www/``` for your domain.
   * Add the change the following default values to ```/etc/apache2/sites-available/your_domain.conf```:
     * ServerAdmin webmaster@localhost to the email address of the domain manager
     * ServerName www.example.com to https://lightsail.aws.amazon.com/ls/webapp/domains/datafrica-com
-    * DocumentRoot /var/www/html to /var/www/your_cloned_project_ directory
+    * DocumentRoot /var/www/html to /var/www/your_domain
   * Restart Apache with ```sudo apache2ctl restart```
 
 
  ```bin/bash
  <VirtualHost *:80>
-    ServerAdmin webmaster@localhost
+    ServerAdmin domain_admin@gmail.com
     ServerName your_domain
     DocumentRoot /var/www/your_domain
 
