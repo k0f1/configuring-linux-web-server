@@ -3,9 +3,17 @@ The project explains how to a take a baseline installation of a linux server and
 
 ## Installation
 Initial setup before using the code.
+
+### Get your server
+* Amazon account with a lightsail
+  * Start a new Ubuntu linux server intstance
+  * SSH into the Server
+    *
+    *
 The IP address: 35.176.9.18
 SSH port: 22
 The complete URL to your hosted web application: https://lightsail.aws.amazon.com/ls/webapp/domains/datafrica-com
+
 
 Locate the SSH key you created for the grader user.
 
@@ -13,17 +21,15 @@ Locate the SSH key you created for the grader user.
 A summary of software you installed and configuration changes made.
 iv. A list of any third-party resources you made use of to complete this project.
 
-#### Get your server
-* Amazon account with a lightsail
-  * Start a new Ubuntu linux server intstance
-  * SSH into the Server
-    *
-    *
+
+* Install
+
+
 
 
 
 ## Secure your server
-Secure your server earlier on
+Configure your firewall earlier on
 ufw status -inactive
 Configure ports
 ufw enable status
@@ -68,9 +74,16 @@ Create an SSH key pair for ```grader``` using the ssh-keygen tool
 
 
 ## Deploy the project
+### Setting Up Virtual Hosts
+Create a directory structure within ```/var/www/``` for your domain.
 * cd in /var/wwww
-* Clone the ptoject from github
-* directory persmission
+* Clone the project from github with this directory ```www```
+* Now cd into the project directory cloned ```cd /var/www/your_cloned_project_ directory```
+* Next assign ownership of the directory with $USER environment variable.
+  * ```sudo chown -R $USER:$USER /var/www/your_cloned_project_ directory```
+* Next give permissions to your web root
+  * ```sudo chmod -R 775 /var/www/your_cloned_project_ directory```
+
 * Install libapache2 ```sudo apt-get install apache2```
 *  configure Apache to hand-off certain requests to an application handler - mod_wsgi  Install mod_wsgi with ```sudo apt-get install libapache2-mod-wsgi```
 
