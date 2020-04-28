@@ -46,8 +46,6 @@ ufw enable status
 Configuring a linux web server requires a number of environmental variables for runtime configuration. The following examples demonstrate ho to run it manually from the command line
 example code
 
-## Known bugs
-
 
 ## Create user with access
 Create a new user
