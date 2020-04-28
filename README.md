@@ -114,7 +114,8 @@ Use this command to start the Postgres interactive shell and to switch user to P
 ``` postgresql@IP Adress: createruser -P <username>```
 Give password as password on prompt
 
-```postgresql@IP Adress: createrdb <username>
+* Create database with the same name as username
+```postgresql@IP Adress: createrdb <username>```
 
 Rename ```application.py``` to ```__init__.py``` using
 
