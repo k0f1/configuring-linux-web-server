@@ -71,9 +71,7 @@ Then open the file with:
 Enter this live of code:
 ```ALL=(ALL:ALL) ALL```, save and quit.
 
-### Grant persmission
-Give ```grader``` the permission to ```sudo```
-Create an SSH key pair for ```grader``` using the ssh-keygen tool
+### Generate key pairs
 
 
 
@@ -101,16 +99,30 @@ Create a directory structure within ```/var/www/``` for your domain.
 * Configure Apache to handle requests using the WSGI module by editing the
 ```/etc/apache2/sites-enabled/000-default.conf``` file with.
   * ```sudo vim  /etc/apache2/sites-enabled/catalog.conf``` Take that this file is inate and does not require touching.
-  * Add the following line ```WSGIScriptAlias / /var/www/your_cloned_project_ directory/your_cloned_project_ directory.wsgi``` at the end of the block right before the closing line
-  ```/bin/bash
-  <VirtualHost *:80>
-  </VirtualHost>```
 
-  * Add the change the following default values:
+  * Add the following line
+   ```WSGIScriptAlias / /var/www/your_domain/your_domain.wsgi``` at the end of the block right before the closing line
+
+  * Add the change the following default values to ```/etc/apache2/sites-available/your_domain.conf```:
     * ServerAdmin webmaster@localhost to the email address of the domain manager
     * ServerName www.example.com to https://lightsail.aws.amazon.com/ls/webapp/domains/datafrica-com
     * DocumentRoot /var/www/html to /var/www/your_cloned_project_ directory
   * Restart Apache with ```sudo apache2ctl restart```
+
+
+ ```bin/bash
+ <VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    ServerName your_domain
+    DocumentRoot /var/www/your_domain
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    WSGIScriptAlias / /var/www/your_domain/your_domain.wsgi
+ </VirtualHost>
+ ```
+
 
 
 ### Setting Up Postgresql Database
@@ -139,6 +151,9 @@ Rename ```application.py``` to ```__init__.py``` using
 ```engine = create_engine('sqlite:///your_database_name.db.db'``` to
 
  ```engine = create_engine('postgresql://<username>:password@localhost/<username>'```
+
+Exit postgresql user:
+ ```Exit```
 
 
 ## Known Bugs
