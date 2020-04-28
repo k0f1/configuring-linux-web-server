@@ -71,9 +71,9 @@ Create an SSH key pair for ```grader``` using the ssh-keygen tool
 * Configure Apache to handle requests using the WSGI module by editing the
 ```/etc/apache2/sites-enabled/000-default.conf``` file.
   * Add the following line ```WSGIScriptAlias / /var/www/html/myapp.wsgi``` at the end of the block right before the closing line
-  ```<VirtualHost *:80>
-     </VirtualHost>
-  ```
+  ```/bin/bash
+  <VirtualHost *:80>
+  </VirtualHost>```
   * Restart Apache with ```sudo apache2ctl restart```
 
 ## Contributing
