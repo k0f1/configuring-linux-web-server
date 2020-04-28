@@ -153,8 +153,12 @@ Rename `application.py` to `__init__.py` using
 
  `engine = create_engine('postgresql://<username>:password@localhost/<username>'`
 
-Exit postgresql user:
- `Exit`
+ Exit postgresql user:
+  `Exit`
+
+Run the database setup file  `sudo python database_setup.py`
+
+
 
 
 ## Known Bugs
