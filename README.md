@@ -103,11 +103,12 @@ conf.d/       httpd.conf  mods-available/  ports.conf     sites-enabled/
 * Configure the local timezone to UTC
 
 
-### Prelimnary configuration of apche to display "Hello World!"
+### Prelimnary configuration of apache to display "Hello World!"
 * Install and configure Apache to server a Python mod_wsgi application
  `sudo apt-get install libapache2-mod-wsgi-py3`
 
- Edit the /etc/apache2/sites-enabled/000-default.conf file. This file tells Apache how to respond to requests, where to find the files for a particular site and much more.
+ Define the name of the file you need to write within Apache configuration by using `WSGIScriptAlias` directive
+ Now **edit** the /etc/apache2/sites-enabled/000-default.conf file. This file tells Apache how to respond to requests, where to find the files for a particular site and much more.
 
  Edit by adding the following line at the end of the
  ```
@@ -115,10 +116,12 @@ conf.d/       httpd.conf  mods-available/  ports.conf     sites-enabled/
  </VirtualHost> line:
  `WSGIScriptAlias / /var/www/html/myapp.wsgi`
 
- Finally, restart Apache with the sudo apache2ctl restar
+ Then **_create_** the `/var/www/html/myapp.wsgi` file using the command `sudo vim /var/www/html/myapp.wsgi`
 
-Now that we have defined the name of the file you need to write within Apache configuration by using `WSGIScriptAlias` directive. Create the `/var/www/html/myapp.wsgi`file using the command `sudo vim /var/www/html/myapp.wsgi`
 
+ Finally, restart Apache with the sudo apache2ctl restart
+
+The name of the file you need to write within Apache configuration by using `WSGIScriptAlias` directive.
 
 
 
@@ -140,9 +143,9 @@ Create a directory structure within `/var/www/` for your domain.
 
 * Configure Apache to handle requests using the WSGI module. But instead of by editing the file`/etc/apache2/sites-enabled/000-default.conf`, lets create a new file with:
 
-  * `sudo vim  /etc/apache2/sites-enabled/your_domain.conf` Take note that this file is inate and does not require touching.
+  * `sudo vim  /etc/apache2/sites-enabled/your_domain.conf` Take note that this is you app configuration file and is inate. It doesn not require touching.
 
-  * Add the change the following default values to `/etc/apache2/sites-enabled/your_domain.conf`:
+  * Add the following default values to `/etc/apache2/sites-enabled/your_domain.conf`:
     * ServerAdmin webmaster@localhost to the email address of the domain manager
     * ServerName www.example.com to your DNS or IP address.
     * DocumentRoot `/var/www/html` to `/var/www/your_domain`
@@ -163,7 +166,7 @@ The `/etc/apache2/sites-enabled/your_domain.conf` should now look like this:
           ErrorLog ${APACHE_LOG_DIR}/error.log
           CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-          WSGIScriptAlias / /var/www/your_domain/your_domain.wsgi
+          WSGIScriptAlias / /var/www/your_domain/myapp.wsgi
        </VirtualHost>
  ```
 
@@ -171,8 +174,6 @@ The `/etc/apache2/sites-enabled/your_domain.conf` should now look like this:
 
 
 #### Add the following lines of code to the myapp.wsgi file:
-Create the `/var/www/your_domain/your_domain.wsgi` file using the command sudo vim /var/www/your_domain/your_domainp.wsgi.
-
 Then add this block of code to the `your_domain.wsgi` application.
 
 ```#!/usr/bin/python3
@@ -181,7 +182,7 @@ import logging
 logging.basicConfig(stream=sys.stderr)
 sys.path.insert(0,"/var/www/your_doamin/")
 
-from catalog import app as application
+from your_domain import app as application
 application.secret_key = 'Add your secret key'
 ```
 
