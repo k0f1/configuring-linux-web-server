@@ -114,8 +114,17 @@ On Ubuntu, Apache keeps its main configuration files within the "/etc/apache2" f
 `cd /etc/apache2`
 `ls`
 
-apache2.conf,  envvars,     magic ,           mods-enabled/,  sites-available/,
-conf.d/,      httpd.conf,  mods-available/,  ports.conf,     sites-enabled/,
+apache2
+conf
+envvars
+magic
+mods-enabled/
+sites-available/
+conf.d/
+httpd.conf
+mods-available/
+\ports.conf
+sites-enabled/
 
 
 * Configure the local timezone to UTC
