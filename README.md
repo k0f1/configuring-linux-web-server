@@ -35,17 +35,22 @@ To run flask app on the instance (ubuntu OS), we have to install Apache server, 
 
 ## Secure your server
 Configure your firewall ()**ufw**} earlier on
-ufw status -inactive
+`sudo ufw status`
+status -inactive
 Configure ports
-ufw enable status
+`sudo ufw default deny incoming`
+`sudo ufw default allow outgoing`
+`ufw enable status`
+status inactive
 
-
-
-
-
-1 what steps needs to be taken?
-2 what should the user already have installed or configured
-3 what might they have hard time understanding right away
+### Start configuring various ports the application will need
+To support SSH:
+`sudo ufw allow ssh`
+We are going to be using SSH on port 2200, so let us setup ssh to allow port 2200
+`sudo ufw allow 2200/tcp`
+We plan to support a basic http server,and we can allow this by using:
+`sudo ufw allow wwww`
+With that we can now enable our firewall with `sudo ufw enable`
 
 
 ## Usage
@@ -139,7 +144,7 @@ Create a directory structure within `/var/www/` for your domain.
   * `sudo chmod -R 775 /var/www/your_cloned_project_ directory`
 
 
-#### Customise the Apache to hand-off certain requests to an app
+### Customise the Apache to hand-off certain requests to an app
 
 * Configure Apache to handle requests using the WSGI module. But instead of by editing the file`/etc/apache2/sites-enabled/000-default.conf`, lets create a new file with:
 
