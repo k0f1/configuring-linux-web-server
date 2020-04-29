@@ -35,6 +35,7 @@ ufw enable status
 
 
 
+
 1 what steps needs to be taken?
 2 what should the user already have installed or configured
 3 what might they have hard time understanding right away
@@ -74,7 +75,26 @@ Enter this live of code:
 
 
 ## Prepare to deploy your project
+## Install and configure the Apache Web Server on an Ubuntu
+`sudo apt-get update`
+`sudo apt-get install apache2`
+
+The visit your client to check if you have a working server by typing
+`your_domain_name_or_ip_address`
+This is the default web page for this server.
+
+### The Apache File Hierarchy in Ubuntu
+On Ubuntu, Apache keeps its main configuration files within the "/etc/apache2" folder:
+
+`cd /etc/apache2`
+`ls`
+
+apache2.conf  envvars     magic            mods-enabled/  sites-available/
+conf.d/       httpd.conf  mods-available/  ports.conf     sites-enabled/
+
+
 * Configure the local timezone to UTC
+
 * Install and configure Apache to server a Python mod_wsgi application
  `sudo apt-get install libapache2-mod-wsgi-py3`
 
@@ -117,13 +137,39 @@ Create a directory structure within `/var/www/` for your domain.
           ServerName your_domain
           DocumentRoot /var/www/your_domain
 
+          DocumentRoot /var/www
+        <Directory /var/www/your_domain>
+                Options FollowSymLinks
+                AllowOverride None
+        </Directory>
+        <Directory /var/www/your_domain>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride None
+                Order allow,deny
+                allow from all
+        </Directory>
+
           ErrorLog ${APACHE_LOG_DIR}/error.log
           CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-          WSGIScriptAlias / /var/www/your_domain/your_domain.wsgi
+          WSGIScriptAlias / /var/www/your_domain/myapp.wsgi
        </VirtualHost>
  ```
 
+ 
+
+#### Add the following lines of code to the myapp.wsgi file:
+Create the `/var/www/your_domain/myapp.wsgi` file using the command sudo nano /var/www/your_domain/myapp.wsgi.
+
+```#!/usr/bin/python3
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/your_doamin/")
+
+from FlaskApp import app as application
+application.secret_key = 'Add your secret key'
+```
 
 
 ### Setting Up Postgresql Database
