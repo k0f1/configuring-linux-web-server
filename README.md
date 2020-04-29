@@ -30,25 +30,24 @@ To run flask app on the instance (ubuntu OS), we have to install Apache server, 
 
 
 ## Secure your server
-Configure your firewall ()**ufw**} earlier on
+Configure your firewall ()**ufw**} earlier on.
 `sudo ufw status`
 status -inactive
-Configure ports
-`sudo ufw default deny incoming`
-`sudo ufw default allow outgoing`
-`ufw enable status`
+Configure ports.
+*`sudo ufw default deny incoming`
+*`sudo ufw default allow outgoing`
 status inactive
 
 ### Start configuring various ports the application will need
 To support SSH:
 `sudo ufw allow ssh`
-We are going to be using SSH on port 2200, so let us setup ssh to allow port 2200
+We are going to be using SSH on port 2200, so let us setup ssh to allow port 2200.
 `sudo ufw allow 2200/tcp`
 We plan to support a basic http server,and we can allow this by using:
 `sudo ufw allow wwww`
-With that we can now enable our firewall with `sudo ufw enable`
+With that we can now enable our firewall with `sudo ufw enable`.
 
-Finally, confirm that all our configuration are working with
+Finally, confirm that all our configuration are working with.
 `sudo ufw status` command
 
 
