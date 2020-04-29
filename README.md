@@ -8,14 +8,11 @@ Initial setup before using the code.
 * Amazon account with a _lightsail_
   * Start a new Ubuntu linux server intstance
   * SSH into the Server
-    *
-    *
-The IP address: 35.176.9.18
-SSH port: 22
-The complete URL to your hosted web application: [catalog](https://lightsail.aws.amazon.com/ls/webapp/domains/datafrica-com)
 
+The IP address: XXXXXXXX
+SSH port: XXXX
+The complete URL to your hosted web application: www.datafrica.com
 
-Locate the SSH key you created for the grader user.
 
 ### Dependencies on other software or libraries
 A list of any third-party resources you need in this project.
@@ -30,7 +27,6 @@ To run flask app on the instance (ubuntu OS), we have to install Apache server, 
 `sudo apt-get install apache2`
 
 `sudo apt-get install libapache2-mod-wsgi`
-
 
 
 ## Secure your server
@@ -93,7 +89,6 @@ Enter this live of code:
 ### Generate key pairs
 
 
-
 ## Prepare to deploy your project
 ## Install and configure the Apache Web Server on an Ubuntu
 `sudo apt-get update`
@@ -124,10 +119,12 @@ conf.d/       httpd.conf  mods-available/  ports.conf     sites-enabled/
  Now **edit** the /etc/apache2/sites-enabled/000-default.conf file. This file tells Apache how to respond to requests, where to find the files for a particular site and much more.
 
  Edit by adding the following line at the end of the
+
+ ```<VirtualHost *:80> block, right before the closing
+    </VirtualHost> line:
+    WSGIScriptAlias / /var/www/html/myapp.wsgi
  ```
- <VirtualHost *:80> block, right before the closing
- </VirtualHost> line:
- `WSGIScriptAlias / /var/www/html/myapp.wsgi`
+
 
  Then **_create_** the `/var/www/html/myapp.wsgi` file using the command `sudo vim /var/www/html/myapp.wsgi`
 
@@ -135,8 +132,6 @@ conf.d/       httpd.conf  mods-available/  ports.conf     sites-enabled/
  Finally, restart Apache with the sudo apache2ctl restart
 
 The name of the file you need to write within Apache configuration by using `WSGIScriptAlias` directive.
-
-
 
 
 ## Deploy the project
@@ -199,7 +194,6 @@ from your_domain import app as application
 application.secret_key = 'Add your secret key'
 ```
 
-
 ### Setting Up Postgresql Database
 * Install posgressql with
 `sudo apt-get install postgresql`
@@ -231,7 +225,6 @@ Rename `application.py` to `__init__.py` using
   `Exit`
 
 Run the database setup file  `sudo python database_setup.py`
-
 
 
 ## Known Bugs
