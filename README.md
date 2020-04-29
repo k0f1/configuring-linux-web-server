@@ -46,14 +46,21 @@ status inactive
 
 ### Start configuring various ports the application will need
 To support SSH:
+
 ```sudo ufw allow ssh```
+
 We are going to be using SSH on port 2200, so let us setup ssh to allow port 2200
+
 ```sudo ufw allow 2200/tcp```
+
 We plan to support a basic http server,and we can allow this by using:
+
 ```sudo ufw allow wwww```
+
 With that we can now enable our firewall with `sudo ufw enable`
 
 Finally, confirm that all our configuration are working with
+
 ```sudo ufw status``` command
 
 
