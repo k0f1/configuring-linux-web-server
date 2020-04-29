@@ -52,6 +52,9 @@ We plan to support a basic http server,and we can allow this by using:
 `sudo ufw allow wwww`
 With that we can now enable our firewall with `sudo ufw enable`
 
+Finally, confirm that all our configuration are working with
+`sudo ufw status` command
+
 
 ## Usage
 Configuring a linux web server requires a number of environmental variables for runtime configuration. The following examples demonstrate ho to run it manually from the command line
