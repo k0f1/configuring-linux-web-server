@@ -8,14 +8,11 @@ Initial setup before using the code.
 * Amazon account with a _lightsail_
   * Start a new Ubuntu linux server intstance
   * SSH into the Server
-    *
-    *
-The IP address: 35.176.9.18
-SSH port: 22
-The complete URL to your hosted web application: [catalog](https://lightsail.aws.amazon.com/ls/webapp/domains/datafrica-com)
+ 
+The IP address: XXXXXXXX
+SSH port: XXXX
+The complete URL to your hosted web application: www.datafrica.com
 
-
-Locate the SSH key you created for the grader user.
 
 ### Dependencies on other software or libraries
 A list of any third-party resources you need in this project.
