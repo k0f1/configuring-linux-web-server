@@ -18,11 +18,18 @@ The complete URL to your hosted web application: [catalog](https://lightsail.aws
 Locate the SSH key you created for the grader user.
 
 ### Dependencies on other software or libraries
-A summary of software you installed and configuration changes made.
-iv. A list of any third-party resources you made use of to complete this project.
+A list of any third-party resources you need in this project.
+To run flask app on the instance (ubuntu OS), we have to install Apache server, WSGI (Web Server Gateway Interface), flask and other libraries used in the app. Basically run the following:-
 
+`sudo apt-get update`
 
-* Install
+`sudo apt-get install python-pip`
+
+`sudo apt-get install python-flask`
+
+`sudo apt-get install apache2`
+
+`sudo apt-get install libapache2-mod-wsgi`
 
 
 
@@ -95,8 +102,25 @@ conf.d/       httpd.conf  mods-available/  ports.conf     sites-enabled/
 
 * Configure the local timezone to UTC
 
+
+### Prelimnary configuration of apche to display "Hello World!"
 * Install and configure Apache to server a Python mod_wsgi application
  `sudo apt-get install libapache2-mod-wsgi-py3`
+
+ Edit the /etc/apache2/sites-enabled/000-default.conf file. This file tells Apache how to respond to requests, where to find the files for a particular site and much more.
+
+ Edit by adding the following line at the end of the
+ ```
+ <VirtualHost *:80> block, right before the closing
+ </VirtualHost> line:
+ `WSGIScriptAlias / /var/www/html/myapp.wsgi`
+
+ Finally, restart Apache with the sudo apache2ctl restar
+
+Now that we have defined the name of the file you need to write within Apache configuration by using `WSGIScriptAlias` directive. Create the `/var/www/html/myapp.wsgi`file using the command `sudo vim /var/www/html/myapp.wsgi`
+
+
+
 
 
 ## Deploy the project
@@ -111,25 +135,22 @@ Create a directory structure within `/var/www/` for your domain.
 * Next give permissions to your web root
   * `sudo chmod -R 775 /var/www/your_cloned_project_ directory`
 
-* Install libapache2 `sudo apt-get install apache2`
 
-*  configure Apache to hand-off certain requests to an application handler - mod_wsgi  Install mod_wsgi with
-`sudo apt-get install libapache2-mod-wsgi`
+#### Customise the Apache to hand-off certain requests to an app
 
-* Configure Apache to handle requests using the WSGI module by editing the
-`/etc/apache2/sites-enabled/000-default.conf` file with.
+* Configure Apache to handle requests using the WSGI module. But instead of by editing the file`/etc/apache2/sites-enabled/000-default.conf`, lets create a new file with:
 
-  * `sudo vim  /etc/apache2/sites-enabled/catalog.conf` Take that this file is inate and does not require touching.
+  * `sudo vim  /etc/apache2/sites-enabled/your_domain.conf` Take note that this file is inate and does not require touching.
 
-  * Add the following line
-   `WSGIScriptAlias / /var/www/your_domain/your_domain.wsgi` at the end of the block right before the closing line
-
-  * Add the change the following default values to `/etc/apache2/sites-available/your_domain.conf`:
+  * Add the change the following default values to `/etc/apache2/sites-enabled/your_domain.conf`:
     * ServerAdmin webmaster@localhost to the email address of the domain manager
-    * ServerName www.example.com to https://lightsail.aws.amazon.com/ls/webapp/domains/datafrica-com
+    * ServerName www.example.com to your DNS or IP address.
     * DocumentRoot `/var/www/html` to `/var/www/your_domain`
-  * Restart Apache with `sudo apache2ctl restart`
 
+    * Add the following line
+     `WSGIScriptAlias / /var/www/your_domain/your_domain.wsgi` at the end of the block right before the closing line
+
+The `/etc/apache2/sites-enabled/your_domain.conf` should now look like this:
 
  ```bin/bash
        <VirtualHost *:80>
@@ -137,29 +158,22 @@ Create a directory structure within `/var/www/` for your domain.
           ServerName your_domain
           DocumentRoot /var/www/your_domain
 
-          DocumentRoot /var/www
-        <Directory /var/www/your_domain>
-                Options FollowSymLinks
-                AllowOverride None
-        </Directory>
-        <Directory /var/www/your_domain>
-                Options Indexes FollowSymLinks MultiViews
-                AllowOverride None
-                Order allow,deny
-                allow from all
-        </Directory>
+          DocumentRoot /var/www/your_doamin
 
           ErrorLog ${APACHE_LOG_DIR}/error.log
           CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-          WSGIScriptAlias / /var/www/your_domain/myapp.wsgi
+          WSGIScriptAlias / /var/www/your_domain/your_domain.wsgi
        </VirtualHost>
  ```
 
- 
+  * Restart Apache with `sudo apache2ctl restart`
+
 
 #### Add the following lines of code to the myapp.wsgi file:
-Create the `/var/www/your_domain/myapp.wsgi` file using the command sudo nano /var/www/your_domain/myapp.wsgi.
+Create the `/var/www/your_domain/your_domain.wsgi` file using the command sudo vim /var/www/your_domain/your_domainp.wsgi.
+
+Then add this block of code to the `your_domain.wsgi` application.
 
 ```#!/usr/bin/python3
 import sys
@@ -167,7 +181,7 @@ import logging
 logging.basicConfig(stream=sys.stderr)
 sys.path.insert(0,"/var/www/your_doamin/")
 
-from FlaskApp import app as application
+from catalog import app as application
 application.secret_key = 'Add your secret key'
 ```
 
