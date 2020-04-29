@@ -34,8 +34,8 @@ Configure your firewall ()**ufw**} earlier on.
 `sudo ufw status`
 status -inactive
 Configure ports.
-*`sudo ufw default deny incoming`
-*`sudo ufw default allow outgoing`
+`sudo ufw default deny incoming`
+`sudo ufw default allow outgoing`
 status inactive
 
 ### Start configuring various ports the application will need
