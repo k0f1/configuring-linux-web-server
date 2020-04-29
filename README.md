@@ -120,10 +120,12 @@ conf.d/       httpd.conf  mods-available/  ports.conf     sites-enabled/
 
 ### Prelimnary configuration of apache to display "Hello World!"
 * Install and configure Apache to server a Python mod_wsgi application
- `sudo apt-get install libapache2-mod-wsgi-py3`
+
+ ```sudo apt-get install libapache2-mod-wsgi-py3```
 
  Define the name of the file you need to write within Apache configuration by using `WSGIScriptAlias` directive
- Now **edit** the /etc/apache2/sites-enabled/000-default.conf file. This file tells Apache how to respond to requests, where to find the files for a particular site and much more.
+
+ Now **edit** the `/etc/apache2/sites-enabled/000-default.conf` file. This file tells Apache how to respond to requests, where to find the files for a particular site and much more.
 
  Edit by adding the following line at the end of the
 
@@ -149,8 +151,11 @@ Create a directory structure within `/var/www/` for your domain.
 
 * Now cd into the project directory cloned `cd /var/www/your_cloned_project_ directory`
 * Next assign ownership of the directory with $USER environment variable.
+
   * `sudo chown -R $USER:$USER /var/www/your_cloned_project_ directory`
+
 * Next give permissions to your web root
+
   * `sudo chmod -R 775 /var/www/your_cloned_project_ directory`
 
 
@@ -161,8 +166,11 @@ Create a directory structure within `/var/www/` for your domain.
   * `sudo vim  /etc/apache2/sites-enabled/your_domain.conf` Take note that this is you app configuration file and is inate. It doesn not require touching.
 
   * Add the following default values to `/etc/apache2/sites-enabled/your_domain.conf`:
+
     * ServerAdmin webmaster@localhost to the email address of the domain manager
+
     * ServerName www.example.com to your DNS or IP address.
+    
     * DocumentRoot `/var/www/html` to `/var/www/your_domain`
 
     * Add the following line
