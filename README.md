@@ -29,7 +29,6 @@ To run flask app on the instance (ubuntu OS), we have to install Apache server, 
 `sudo apt-get install libapache2-mod-wsgi`
 
 
-
 ## Secure your server
 Configure your firewall ()**ufw**} earlier on
 `sudo ufw status`
@@ -85,7 +84,6 @@ Enter this live of code:
 ### Generate key pairs
 
 
-
 ## Prepare to deploy your project
 ## Install and configure the Apache Web Server on an Ubuntu
 `sudo apt-get update`
@@ -127,8 +125,6 @@ conf.d/       httpd.conf  mods-available/  ports.conf     sites-enabled/
  Finally, restart Apache with the sudo apache2ctl restart
 
 The name of the file you need to write within Apache configuration by using `WSGIScriptAlias` directive.
-
-
 
 
 ## Deploy the project
@@ -191,7 +187,6 @@ from your_domain import app as application
 application.secret_key = 'Add your secret key'
 ```
 
-
 ### Setting Up Postgresql Database
 * Install posgressql with
 `sudo apt-get install postgresql`
@@ -223,7 +218,6 @@ Rename `application.py` to `__init__.py` using
   `Exit`
 
 Run the database setup file  `sudo python database_setup.py`
-
 
 
 ## Known Bugs
