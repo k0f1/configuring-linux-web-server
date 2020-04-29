@@ -70,18 +70,21 @@ example code
 
 
 ## Create user with access
-Create a new user
-Install finder `sudo apt-get install finger`
-Giving Sudo Access
-Do this in the main admin account - ubuntu@IP address
-Create a new file inside - sudoers.d with the new of the new user
-Open this file with visudo
-Add this line of code inside this file
-Username `ALL = (ALL : ALL) ALL`
+Create a new user,
+Install finder `sudo apt-get install finger,`
+
 
 `sudo adduser grader`
 Give a password to user when prompted to do so
 Long as grader with given password
+
+
+Giving Sudo Access,
+Do this in the main admin account - ubuntu@IP address,
+Create a new file inside - sudoers.d with the new of the new user,
+Open this file with visudo,
+Add this line of code inside this file,
+Username `ALL = (ALL : ALL) ALL`
 
 ### Grant persmission
 Create a file name grader with:
