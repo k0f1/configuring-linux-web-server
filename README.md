@@ -132,10 +132,11 @@ conf.d/       httpd.conf  mods-available/  ports.conf     sites-enabled/
 
  Edit by adding the following line at the end of the
 
- ```<VirtualHost *:80> block, right before the closing
-    </VirtualHost> line:
-    WSGIScriptAlias / /var/www/html/myapp.wsgi
  ```
+ <VirtualHost *:80> block, right before the closing
+ </VirtualHost> line:
+ ```
+ ```WSGIScriptAlias / /var/www/html/myapp.wsgi```
 
 
  Then **_create_** the `/var/www/html/myapp.wsgi` file using the command `sudo vim /var/www/html/myapp.wsgi`
