@@ -8,7 +8,7 @@ Initial setup before using the code.
 * Amazon account with a _lightsail_
   * Start a new Ubuntu linux server intstance
   * SSH into the Server
-  ssh ubuntu@IP Address -p <port> -i ~/.ssh/privateKeyName
+  `ssh ubuntu@IP Address -p <port> -i ~/.ssh/privateKeyName`
 
 The IP address: XXXXXXXX
 SSH port: XXXX
