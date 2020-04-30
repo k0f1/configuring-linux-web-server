@@ -126,10 +126,10 @@ Save and quit.
 * Once done, use the `cat` command to copy the public key ending in `.pub`,
 * Upload this key to your amazon account as one of the keys to be used for access.,
 * Alternatively, first make sure to lohin as the grader,
- * The create a directory .ssh with `mkdir .ssh` within the home directory
- * Then create a new file within this directory called authorized_keys `sudo touch ~/.ssh/authorized_keys`,
- * Back in your local machine, read out the content of the key pair generated with the extension `.pub`,
- * Copy it, and back in your server, edit the authorized keys file by adding this key.
+  * The create a directory .ssh with `mkdir .ssh` within the home directory
+  * Then create a new file within this directory called authorized_keys `sudo touch ~/.ssh/authorized_keys`,
+  * Back in your local machine, read out the content of the key pair generated with the extension `.pub`,
+  * Copy it, and back in your server, edit the authorized keys file by adding this key.
 
 Then login with `ssh <username>@ip-address -p 2200 -i ~/.ssh/your_private_key_name`.,
 
