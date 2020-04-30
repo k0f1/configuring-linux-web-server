@@ -68,7 +68,7 @@ Finally, confirm that all our configuration are working with
 ### Add custom firewall configuration like so:
   1. Open amazon lightsail panel and, select firewall,
   2. Add _custom_ port 2200, then select tcp protocol and finally save.,
-  3. Now go to `/etc/ssh/sshd_config` file and change port option to from 22 to 2200.,
+  3. Now go to `/etc/ssh/sshd_config` file and change port option from 22 to 2200.,
   4. Make to configure firewall to allow port 2200 if not already done with `sudo ufw allow 2200/tcp`
   5. Restart SSH service with `sudo systemctl restart ssh`
 
