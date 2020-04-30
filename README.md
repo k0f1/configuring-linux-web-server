@@ -10,7 +10,7 @@ Initial setup before using the code.
   * SSH into the Server
 
 The IP address: XXXXXXXX
-SSH port: XXXX
+SSH port: XXXX 
 The complete URL to your hosted web application: www.datafrica.com
 
 
@@ -183,7 +183,7 @@ Create a directory structure within `/var/www/` for your domain.
     * ServerAdmin webmaster@localhost to the email address of the domain manager
 
     * ServerName www.example.com to your DNS or IP address.
-    
+
     * DocumentRoot `/var/www/html` to `/var/www/your_domain`
 
     * Add the following line
