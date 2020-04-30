@@ -9,6 +9,7 @@ Initial setup before using the code.
   * Start a new Ubuntu linux server intstance
   * SSH into the Server
   `ssh ubuntu@IP Address -p 22 -i ~/.ssh/privateKeyName`
+  We will see later how to generate key pairs and upload the public key to amazon
 
 The IP address: XXXXXXXX
 SSH port: XXXX
