@@ -7,27 +7,11 @@ Initial setup before using the code.
 ### Get your server
 * Amazon account with a _lightsail_
   * Start a new Ubuntu linux server intstance
-  * SSH into the Server
-
-The IP address: XXXXXXXX
-SSH port: XXXX
-The complete URL to your hosted web application: www.datafrica.com
-
-
-### Dependencies on other software or libraries
-A list of any third-party resources you need in this project.
-To run flask app on the instance (ubuntu OS), we have to install Apache server, WSGI (Web Server Gateway Interface), flask and other libraries used in the app. Basically run the following:-
-
-`sudo apt-get update`
-
-`sudo apt-get install python-pip`
-
-`sudo apt-get install python-flask`
-
-`sudo apt-get install apache2`
-
-`sudo apt-get install libapache2-mod-wsgi`
-
+  * SSH into the Server:
+  The IP address: XXXXXXXX
+  SSH port: XXXX
+  The complete URL to your hosted web application: www.datafrica.com
+  
 
 ## Secure your server
 Configure your firewall ()**ufw**} earlier on
@@ -61,42 +45,74 @@ With that we can now enable our firewall with `sudo ufw enable`
 
 Finally, confirm that all our configuration are working with
 
-```sudo ufw status``` command
+```sudo ufw status``` command  
+  
+
+### Add custom firewall configuration like so:
+  1. Open amazon lightsail panel and, select firewall,
+  2. Add _custom_ port 2200, then select tcp protocol and finally save.,
+  3. Now go to `/etc/ssh/sshd_config` file and change port option to from 22 to 2200.,
+  4. Make to configure firewall to allow port 2200 if not already done with `sudo ufw allow 2200/tcp`
+  5. Restart SSH service with `sudo systemctl restart ssh`
+  
+
+### Dependencies on other software or libraries
+A list of any third-party resources you need in this project.
+To run flask app on the instance (ubuntu OS), we have to install Apache server, WSGI (Web Server Gateway Interface), flask and other libraries used in the app. Basically run the following:-
+
+`sudo apt-get update`
+
+`sudo apt-get install python-pip`
+
+`sudo apt-get install python-flask`
+
+`sudo apt-get install apache2`
+
+`sudo apt-get install libapache2-mod-wsgi`
+
 
 
 ## Usage
 Configuring a linux web server requires a number of environmental variables for runtime configuration. The following examples demonstrate ho to run it manually from the command line
 example code
+`sudo pip3 install virtualenv` inside your application domain/directory
 
 
 ## Create user with access
 Create a new user,
-Install finder `sudo apt-get install finger,`
+Install finger `sudo apt-get install finger,`
 
 
 `sudo adduser grader`
-Give a password to user when prompted to do so
-Long as grader with given password
+Give a password to user when prompted to do so,
+Log in as grader with given password,
 
 
-Giving Sudo Access,
+### Giving Sudo Access,
 Do this in the main admin account - ubuntu@IP address,
-Create a new file inside - sudoers.d with the new of the new user,
+Create a new file inside - sudoers.d with the name of the new user in this case 'grader',
 Open this file with visudo,
-Add this line of code inside this file,
-Username `ALL = (ALL : ALL) ALL`
-
-### Grant persmission
 Create a file name grader with:
-`sudo touch /etc/sudoers.d/grader`
+`sudo visudo /etc/sudoers.d/grader`,
 
-Then open the file with:
- `sudo visudo /etc/sudoers.d/grader`
+Add this line of code inside this file,
+grader `ALL = (ALL : ALL) ALL`,
+Save and quit.
 
-Enter this live of code:
-`ALL=(ALL:ALL) ALL`, save and quit.
+### Finally grant permission
 
-### Generate key pairs
+
+### Generate key pairs with the commmand
+`ssh-keygen
+* One done use the cat command to copy the public key ending in `.pub`,
+* Upload this key to your amazon account as one of the keys to be used for access.,
+* Alternatively, first make sure to lohin as the grader,
+* The create a directory .ssh with `mkdir .ssh` within the home directory
+* Then create a new file within this directory called authorized_keys `sudo touch ~/.ssh/authorized_keys`,
+* Back in your local machine, read out the content of the key pair generated with the extension `.pub`,
+* Copy it, and back in your server, edit the authorized keys file by adding this key.
+
+Then login with `ssh <username>@ip-address -p 2200 -i ~/.ssh/your_private_key_name`.,
 
 
 ## Prepare to deploy your project
@@ -104,7 +120,7 @@ Enter this live of code:
 `sudo apt-get update`
 `sudo apt-get install apache2`
 
-The visit your client to check if you have a working server by typing
+The visit your client to check if you have a working server by typing,
 `your_domain_name_or_ip_address`
 This is the default web page for this server.
 
@@ -139,16 +155,16 @@ On Ubuntu, Apache keeps its main configuration files within the "/etc/apache2" f
 
  Now **edit** the `/etc/apache2/sites-enabled/000-default.conf` file. This file tells Apache how to respond to requests, where to find the files for a particular site and much more.
 
- Edit by adding the following line at the end of the
+ Edit by adding the following line  `WSGIScriptAlias / /var/www/html/myapp.wsgi`  at the end of the
 
  ```
  <VirtualHost *:80> block, right before the closing
  </VirtualHost> line:
- ```
- ```WSGIScriptAlias / /var/www/html/myapp.wsgi```
+
 
 
  Then **_create_** the `/var/www/html/myapp.wsgi` file using the command `sudo vim /var/www/html/myapp.wsgi`
+ This is a python application even though it ends with wsgi. 
 
 
  Finally, restart Apache with the sudo apache2ctl restart
