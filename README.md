@@ -195,24 +195,24 @@ The name of the file you need to write within Apache configuration by using `WSG
 ## Deploy the project
 ### Setting Up Virtual Hosts
 Create a directory structure within `/var/www/` for your domain.
-* cd in /var/wwww
+_`cd in /var/www`_
 * Clone the project from github with this directory `www`
 
 * Now cd into the project directory cloned `cd /var/www/your_cloned_project_ directory`
 * Next assign ownership of the directory with $USER environment variable.
 
-  * `sudo chown -R $USER:$USER /var/www/your_cloned_project_ directory`
+   `sudo chown -R $USER:$USER /var/www/your_cloned_project_ directory`
 
 * Next give permissions to your web root
 
-  * `sudo chmod -R 775 /var/www/your_cloned_project_ directory`
+  `sudo chmod -R 775 /var/www/your_cloned_project_ directory`
 
 
 ### Customise the Apache to hand-off certain requests to an app
 
 * Configure Apache to handle requests using the WSGI module. But instead of by editing the file`/etc/apache2/sites-enabled/000-default.conf`, lets create a new file with:
 
-  * `sudo vim  /etc/apache2/sites-enabled/your_domain.conf` Take note that this is you app configuration file and is inate. It doesn not require touching.
+  `sudo vim  /etc/apache2/sites-enabled/your_domain.conf` Take note that this is you app configuration file and is inate. It doesn not require touching.
 
   * Add the following default values to `/etc/apache2/sites-enabled/your_domain.conf`:
 
@@ -242,7 +242,7 @@ The `/etc/apache2/sites-enabled/your_domain.conf` should now look like this:
        </VirtualHost>
  ```
 
-  * Restart Apache with `sudo apache2ctl restart`
+  Restart Apache with `sudo apache2ctl restart`
 
 
 #### Add the following lines of code to the myapp.wsgi file:
