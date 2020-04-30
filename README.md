@@ -90,9 +90,10 @@ To run flask app on the instance (ubuntu OS), we have to install Apache server, 
 
 
 ## Usage
-Configuring a linux web server requires a number of environmental variables for runtime configuration. The following examples demonstrate ho to run it manually from the command line
+Configuring a linux web server requires a number of environmental variables for runtime configuration. The following examples demonstrate how to run it manually from the command line
 example code
 `sudo pip3 install virtualenv` inside your application domain/directory
+To activate : `source venv/bin/activate`
 
 
 ## Create user with access
