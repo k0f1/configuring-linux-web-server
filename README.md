@@ -169,7 +169,7 @@ Update the index.html to simply display “Hello, World!” and refresh your bro
 
 * Install and configure Apache to server a Python mod_wsgi application outside of the virtual environment
 
- ```sudo apt-get install libapache2-mod-wsgi-py3```
+
  
  You then need to configure Apache to handle requests using the WSGI module. You will do this by editing:
 
@@ -234,17 +234,26 @@ Create a directory structure within `/var/www/` for your domain.
 cd into your project directory
 
 #### Prepare the virtualenv.
-cd into the project root directory in this case `/var/project_drectory/` 
-and install venv `sudo apt-get install python3-venv`,
-Then install pip with `sudo apt-get install python-pip`,
-Create a virtual environment with the code `python3 -m venv /path/to/new/virtual/environment`,
-Which in my case is  `sudo python3 -m venv /var/www/env`
+cd into the cloned directory inside the project root directory in this case `/var/project_drectory/catalog` 
 
-Now install the following packages without activating `env` by env/bin/pip install`, without activating venv 
+Then install pip with `sudo apt-get install python3-pip`
+
+and install venv `sudo pip install virtualenv `,
+
+Create a virtual environment with the code `python3 -m venv /path/to/new/virtual/environment`,
+Which in my case is  `sudo python3 -m venv /var/www/datafrica/catalog/venv`
+
+Now install the following packages after activating virtualenv `source venv/bin/activate`, 
 Inside the project directory(w),
 
-1.`sudo env/bin/pip install flask`,
-2. `sudo env/bin/pip install sqlalchemy`
+Give this command to install Flask inside:
+
+sudo pip install Flask 
+
+`sudo pip install sqlalchemy`
+
+Outside the venv
+`sudo apt-get install install python-psycopg2`
 
 
 
@@ -290,16 +299,16 @@ Give password as password on prompt
 
   `sudo vim  /etc/apache2/sites-enabled/your_domain.conf` Take note that this is you app configuration file and is inate. It doesn not require touching.
 
-  * Add the following default values to `/etc/apache2/sites-enabled/your_domain.conf`:
+  * Add the following default values to `/etc/apache2/sites-enabled/your_cloned_directory.conf`:
 
     * ServerAdmin webmaster@localhost to the email address of the domain manager
 
     * ServerName www.example.com to your DNS or IP address.
 
-    * DocumentRoot `/var/www/html` to `/var/www/your_domain`
+    * DocumentRoot `/var/www/html` to `/var/www/your_project_directory/
 
     * Add the following line
-     `WSGIScriptAlias / /var/www/your_domain/your_domain.wsgi` at the end of the block right before the closing line
+     `WSGIScriptAlias / /var/www/your_project_directory/myapp.wsgi` at the end of the block right before the closing line
 
 The `/etc/apache2/sites-enabled/your_domain.conf` should now look like this:
 
@@ -312,13 +321,17 @@ The `/etc/apache2/sites-enabled/your_domain.conf` should now look like this:
           DocumentRoot /var/www/your_doamin
 
           ErrorLog ${APACHE_LOG_DIR}/error.log
+          
           CustomLog ${APACHE_LOG_DIR}/access.log combined
-
+          LogLevel warn
           WSGIScriptAlias / /var/www/your_domain/myapp.wsgi
        </VirtualHost>
  ```
+  Enable the virtual host with the following command:
 
-  Restart Apache with `sudo apache2ctl restart`
+sudo a2ensite catalog
+
+Restart Apache with `sudo apache2ctl restart`
 
 
 #### Add the following lines of code to the myapp.wsgi file:
@@ -371,7 +384,7 @@ More information about this error may be available in the server error log.
 
 
 ## Contributing
-We encourgae contributions to Configuring linux web server. Please checkout  [guidelines]() on how to proceed.
+We encourgae contributions to Configuring linux web server. Please checkout  [guidelines]() on how to proceed. Acknowledgement is made of information used in the document from [digitalocean](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps) and IBM [QradarAPP](https://developer.ibm.com/qradar/2018/10/03/secret-key-session-python-apps/)
 
 ## Licensing
 Configuring a linux web server is licenced under [GNU AGPLv3](https://choosealicense.com/licenses/agpl-3.0/)
