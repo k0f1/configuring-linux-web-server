@@ -150,7 +150,7 @@ Then restart the service with sudo ssh service restart`
 `sudo apt-get update`
 `sudo apt-get install apache2`
 
-The visit your client to check if you have a working server by typing,
+Then visit your client to check if you have a working server by typing,
 `your_domain_name_or_ip_address`
 This is the default web page for this server.
 
