@@ -170,40 +170,29 @@ Update the index.html to simply display “Hello, World!” and refresh your bro
 
 
 ### Prelimnary configuration of apache to display "Hello World!"
+* The first step in this process is to install `sudo apt-get install libapache2-mod-wsgi`
 
-cd into the project root directory in this case `/var/www/` and install venv `sudo apt-get install python3-venv`,
-Then install pip with `sudo apt-get install python-pip`,
-Create a virtual environment with the code `python3 -m venv /path/to/new/virtual/environment`,
-Which in my case is  `sudo python3 -m venv /var/www/env`
-
-Now install the following packages without activating `env` by env/bin/pip install`, without activating venv 
-Inside the project directory(www),
-
-1.`sudo env/bin/pip install flask`,
-2. `sudo env/bin/pip install sqlalchemy`
-
-Other packages are as described below.
 
 * Install and configure Apache to server a Python mod_wsgi application outside of the virtual environment
 
  ```sudo apt-get install libapache2-mod-wsgi-py3```
  
- 
-
- Define the name of the file you need to write within Apache configuration by using `WSGIScriptAlias` directive
+ You then need to configure Apache to handle requests using the WSGI module. You will do this by editing:
 
  Now **edit** the `/etc/apache2/sites-enabled/000-default.conf` file. This file tells Apache how to respond to requests, where to find the files for a particular site and much more.
 
- Edit by adding the following line  `WSGIScriptAlias / /var/www/html/myapp.wsgi`  at the end of the
+ Adding the following line  `WSGIScriptAlias / /var/www/html/myapp.wsgi`  at the end of the
 
  ```
  <VirtualHost *:80> block, right before the closing
-
+ 
+         Here
  </VirtualHost> line:
-
  ```
+Finally, restart Apache with the `sudo apache2ctl restart`
 
 
+#### Create your first wsgi application
  Then **_create_** the `/var/www/html/myapp.wsgi` file using the command `sudo vim /var/www/html/myapp.wsgi`
  This is a python application even though it ends with wsgi.
 
@@ -248,6 +237,21 @@ _`cd in /var/www`_
 * Next give permissions to your web root
 
   `sudo chmod -R 775 /var/www/your_cloned_project_ directory`
+
+### Prepare the virtualenv.
+cd into the project root directory in this case `/var/project_drectory/` 
+and install venv `sudo apt-get install python3-venv`,
+Then install pip with `sudo apt-get install python-pip`,
+Create a virtual environment with the code `python3 -m venv /path/to/new/virtual/environment`,
+Which in my case is  `sudo python3 -m venv /var/www/env`
+
+Now install the following packages without activating `env` by env/bin/pip install`, without activating venv 
+Inside the project directory(www),
+
+1.`sudo env/bin/pip install flask`,
+2. `sudo env/bin/pip install sqlalchemy`
+
+Other packages are as described below.
 
 
 ### Customise the Apache to hand-off certain requests to an app
