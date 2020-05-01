@@ -195,11 +195,11 @@ Finally, restart Apache with the `sudo apache2ctl restart`
 #### Create your first wsgi application
  Then **_create_** the `/var/www/html/myapp.wsgi` file using the command `sudo vim /var/www/html/myapp.wsgi`
  This is a python application even though it ends with wsgi.
+ 
+ Add this code to file and change the output to 'Hello World!'
 
 
- Finally, restart Apache with the sudo apache2ctl restart
-
-The name of the file you need to write within Apache configuration by using `WSGIScriptAlias` directive.
+ Finally, restart Apache with the sudo apache2ctl restart and refresh your browser.
 
 
 
