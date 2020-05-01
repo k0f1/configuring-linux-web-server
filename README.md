@@ -173,7 +173,7 @@ On Ubuntu, Apache keeps its main configuration files within the "/etc/apache2" f
 `sites-enabled/`
 
 
-* Configure the local timezone to UTC
+* Configure the local timezone to UTC `sudo dpkg-reconfigure tzdata`
 
 
 ### Prelimnary configuration of apache to display "Hello World!"
