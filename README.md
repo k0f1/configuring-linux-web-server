@@ -26,13 +26,7 @@ To run flask app on the instance (ubuntu OS), we have to install Apache server, 
 
 `sudo apt-get install python-flask`
 
-`sudo apt-get install apache2`
-
-`sudo apt-get install libapache2-mod-wsgi`
-
 `sudo apt-get install python3-venv`
-
-Note, some of the dependencies should be done inside the virtualenv within the project directory but the apche2 server would need to be installed in the server outside the virtualenv before the commencement of any application deployment with ``sudo apt-get install apache2``
 
 
 ## Secure your server
@@ -197,9 +191,20 @@ Finally, restart Apache with the `sudo apache2ctl restart`
  This is a python application even though it ends with wsgi.
  
  Add this code to file and change the output to 'Hello World!'
+ 
+ ```
+ def application(environ, start_response):
+    status = '200 OK'
+    output = 'Hello Udacity!'
 
+    response_headers = [('Content-type', 'text/plain'), ('Content-Length', str(len(output)))]
+    start_response(status, response_headers)
 
- Finally, restart Apache with the sudo apache2ctl restart and refresh your browser.
+    return [output]
+    
+ ```
+ 
+Finally, refresh your browser and you should see your app runing Hello World!
 
 
 
