@@ -30,7 +30,7 @@ To run flask app on the instance (ubuntu OS), we have to install Apache server, 
 
 `sudo apt-get install libapache2-mod-wsgi`
 
-`sudo python3 -m venv env`
+`sudo apt-get install python3-venv`
 
 Note, some of the dependencies should be done inside the virtualenv within the project directory but the apche2 server would need to be installed in the server outside the virtualenv before the commencement of any application deployment with ``sudo apt-get install apache2``
 
@@ -96,10 +96,18 @@ To run flask app on the instance (ubuntu OS), we have to install Apache server, 
 
 
 ## Usage
-Configuring a linux web server requires a number of environmental variables for runtime configuration. The following examples demonstrate how to run it manually from the command line
+Configuring a linux web server requires a number of environmental variables for runtime configuration. The following examples demonstrate how to run it manually from the command line in the appriopriate directory
 example code
-`sudo pip3 install virtualenv` inside your application domain/directory
-To activate : `source venv/bin/activate`
+
+`sudo apt-get install python3-venv`,
+`sudo apt-get install python-pip`,
+Create a virtual environment with the code `python3 -m venv /path/to/new/virtual/environment`,
+Which in my case is  `sudo python3 -m venv /var/www/env`
+
+Now install the following packages without activating virtualenv by using inside the project directory(www) `sudo env/bin/pip install`,
+
+1.`sudo env/bin/pip install flask`,
+2. `sudo env/bin/pip install sqlalchemy`
 
 
 ## Create user with access
@@ -162,17 +170,20 @@ Update the index.html to simply display “Hello, World!” and refresh your bro
 
 ### Prelimnary configuration of apache to display "Hello World!"
 
-cd into the project root directory and activate env with `source env/bin/activate`
-Then install `sudo  apt-get install python-flask`
-And also `sudo  apt-get install python-sqlalchemy`
+cd into the project root directory in this case `/var/www/` and install venv `sudo apt-get install python3-venv`,
+Then install pip with `sudo apt-get install python-pip`,
+Create a virtual environment with the code `python3 -m venv /path/to/new/virtual/environment`,
+Which in my case is  `sudo python3 -m venv /var/www/env`
+
+Now install the following packages without activating `env` by env/bin/pip install`, without activating venv 
+Inside the project directory(www),
+
+1.`sudo env/bin/pip install flask`,
+2. `sudo env/bin/pip install sqlalchemy`
+
 Other packages are as described below.
-`sudo apt-get install python-pip`
 
-`sudo apt-get install apache2`
-
-`sudo apt-get install libapache2-mod-wsgi-py3`
-
-* Install and configure Apache to server a Python mod_wsgi application
+* Install and configure Apache to server a Python mod_wsgi application outside of the virtual environment
 
  ```sudo apt-get install libapache2-mod-wsgi-py3```
 
