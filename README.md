@@ -231,19 +231,9 @@ On Ubuntu, Apache keeps its main configuration files within the "/etc/apache2" f
 ## Deploy the project
 ### Setting Up Virtual Hosts
 Create a directory structure within `/var/www/` for your domain.
-_`cd in /var/www`_
-* Clone the project from github with this directory `www`
+cd into your project directory
 
-* Now cd into the project directory cloned `cd /var/www/your_cloned_project_ directory`
-* Next assign ownership of the directory with $USER environment variable.
-
-   `sudo chown -R $USER:$USER /var/www/your_cloned_project_ directory`
-
-* Next give permissions to your web root
-
-  `sudo chmod -R 775 /var/www/your_cloned_project_ directory`
-
-### Prepare the virtualenv.
+#### Prepare the virtualenv.
 cd into the project root directory in this case `/var/project_drectory/` 
 and install venv `sudo apt-get install python3-venv`,
 Then install pip with `sudo apt-get install python-pip`,
@@ -251,12 +241,47 @@ Create a virtual environment with the code `python3 -m venv /path/to/new/virtual
 Which in my case is  `sudo python3 -m venv /var/www/env`
 
 Now install the following packages without activating `env` by env/bin/pip install`, without activating venv 
-Inside the project directory(www),
+Inside the project directory(w),
 
 1.`sudo env/bin/pip install flask`,
 2. `sudo env/bin/pip install sqlalchemy`
 
-Other packages are as described below.
+
+
+* Now clone the project
+* Now cd into the cloned `cd /var/www/your_cloned_project_ directory`
+* Next assign ownership of the directory with $USER environment variable.
+
+   `sudo chown -R $USER:$USER /var/www/your_cloned_project_ directory`
+
+* Next give permissions to your web root
+
+  `sudo chmod -R 775 /var/www/your_cloned_project_ directory`
+  
+Install postgresql with `sudo apt-get install postgresql`, inside the cloned directory
+Install psycopg2 with `sudo apt-get install python3-psycopg2`
+  
+cd into cloned directory and edit the files within the directory as follows:
+* Edit application.py to `__init__.py` with sudo mv,
+* Edit database_setup.py, application.py and functions_helper.py to change engine = create_engine('sqlite:///database.db') to engine = create_engine('postgresql://catalog:password@localhost/catalog')
+
+Switch to postgres object with: `sudo -i -u postgres`
+
+
+### Setting Up Postgresql Database
+
+Use this command to start the Postgres interactive shell and to switch user to Postgres: You must be already logged in as a sudo user
+
+`$ sudo -i -u postgres`
+
+* Create database user with:
+`postgresql@IP Adress: createruser -P <username>`
+Give password as password on prompt
+
+* Create database with the same name as username
+`postgresql@IP Adress: createrdb <username>`
+* Check to see permissions to the user with:
+    
 
 
 ### Customise the Apache to hand-off certain requests to an app
@@ -308,38 +333,32 @@ sys.path.insert(0,"/var/www/your_doamin/")
 from your_domain import app as application
 application.secret_key = 'Add your secret key'
 ```
+## Setting up a secret key and sessions in [Python Apps](https://developer.ibm.com/qradar/2018/10/03/secret-key-session-python-apps/)
+For a secure session information is secure, a strong, cryptographically secure secret key is needed,
+Also because diferent versions of the app would have different secret_keys at different times. This avoids hard coding the secret key.
 
-### Setting Up Postgresql Database
-* Install posgressql with
-`sudo apt-get install postgresql`
+We first must import the os module.
 
-Use this command to start the Postgres interactive shell and to switch user to Postgres: You must be already logged in as a sudo user
+`Import os`
 
-`$ sudo -i -u postgres`
+```
+app.config.update(
 
-* Create database user with:
-`postgresql@IP Adress: createruser -P <username>`
-Give password as password on prompt
+    #Set the secret key to a sufficiently random value
+    SECRET_KEY=os.urandom(24),
 
-* Create database with the same name as username
-`postgresql@IP Adress: createrdb <username>`
-* Check to see permissions to the user with:
+    #Set the session cookie to be secure
+    SESSION_COOKIE_SECURE=True,
 
+    #Set the session cookie for our app to a unique name
+    SESSION_COOKIE_NAME='YourAppName-WebSession',
 
-Rename `application.py` to `__init__.py` using
+    #Set CSRF tokens to be valid for the duration of the session. This assumes you’re using WTF-CSRF protection
+    WTF_CSRF_TIME_LIMIT=None
 
-`sudo mv application.py __init__.py`
+)
 
-* Edit these files, ( `database_setup.py`, `application.py` and `functions_helper.py` ),  by changing
-
-```engine = create_engine('sqlite:///your_database_name.db.db'``` to
-
- `engine = create_engine('postgresql://<username>:password@localhost/<username>'`
-
- Exit postgresql user:
-  `Exit`
-
-Run the database setup file  `sudo python database_setup.py`
+```
 
 
 ## Known Bugs
