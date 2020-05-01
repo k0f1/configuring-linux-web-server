@@ -120,8 +120,11 @@ Create a file name grader with how to [here](https://www.digitalocean.com/commun
 Add this line of code inside this file,
 grader `ALL = (ALL : ALL) ALL`,
 Save and quit.
+Now login as the new user ie grader
 
-### Finally grant permission
+### Finally force key based authentication
+With `sudo vim /etc/ssh/sshd_config`This is the server listening for all of your ssh connections
+
 
 
 ### Generate key pairs with the commmand
@@ -133,8 +136,11 @@ Save and quit.
   * Then create a new file within this directory called authorized_keys `sudo touch ~/.ssh/authorized_keys`,
   * Back in your local machine, read out the content of the key pair generated with the extension `.pub`,
   * Copy it, and back in your server, edit the authorized keys file by adding this key.
+  
+Then restart the service with sudo ssh service restart`
 
 Then login with `ssh <username>@ip-address -p 2200 -i ~/.ssh/your_private_key_name`.,
+Then restart the service with sudo ssh service restart`
 
 
 ## Prepare to deploy your project
