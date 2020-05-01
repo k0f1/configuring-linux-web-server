@@ -75,6 +75,7 @@ Finally, confirm that all our configuration are working with
   3. Now go to `/etc/ssh/sshd_config` file and change port option from 22 to 2200.,
   4. Make to configure firewall to allow port 2200 if not already done with `sudo ufw allow 2200/tcp`
   5. Restart SSH service with `sudo systemctl restart ssh`
+  6. Exit and connect through ssh with the new ssh port 2200.
 
 
 ### Dependencies on other software or libraries
