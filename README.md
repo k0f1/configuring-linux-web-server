@@ -155,25 +155,9 @@ Then visit your client to check if you have a working server by typing,
 This is the default web page for this server.
 
 ### The Apache File Hierarchy in Ubuntu
-On Ubuntu, Apache keeps its main configuration files within the "/etc/apache2" folder:
+Apache, by default, serves its files from the `/var/www/html` directory., If you explore this directory you will find a file called `index.html`
 
-`cd /etc/apache2`
-`ls`
-
-`apache2`
-`conf`
-`envvars`
-`magic`
-`mods-enabled/`
-`sites-available/`
-`conf.d/`
-`httpd.conf`
-`mods-available/`
-`\ports.conf`
-`sites-enabled/`
-
-
-* Configure the local timezone to UTC `sudo dpkg-reconfigure tzdata`
+Update the index.html to simply display “Hello, World!” and refresh your browser to see your new page.
 
 
 ### Prelimnary configuration of apache to display "Hello World!"
@@ -213,6 +197,29 @@ Other packages are as described below.
  Finally, restart Apache with the sudo apache2ctl restart
 
 The name of the file you need to write within Apache configuration by using `WSGIScriptAlias` directive.
+
+
+
+On Ubuntu, Apache keeps its main configuration files within the "/etc/apache2" folder:
+
+`cd /etc/apache2`
+`ls`
+
+`apache2`
+`conf`
+`envvars`
+`magic`
+`mods-enabled/`
+`sites-available/`
+`conf.d/`
+`httpd.conf`
+`mods-available/`
+`\ports.conf`
+`sites-enabled/`
+
+
+* Configure the local timezone to UTC `sudo dpkg-reconfigure tzdata`
+
 
 
 ## Deploy the project
