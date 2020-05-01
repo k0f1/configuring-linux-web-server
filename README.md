@@ -1,5 +1,5 @@
 # Configuring Linux Web Server
-The project explains how to a take a baseline installation of a linux server and prepare it to host a web applications. At the end of the project you will secure your server from a number of attack vectors, install and configure a database server, and delpoy an existing web applications onto it.
+The project explains how to a take a baseline installation of a linux server and prepare it to host a web applications. At the end of the project you will secure your server from a number of attack vectors, install and configure a database server, and delpoy an existing web applications onto it. The steps should progress from acquiring and updating the server dependencies,  user managment(creating, permission, log in via ssh) to configuring the firewall rules followed by application deployment and configuration and finally, database configuration.
 
 ## Installation
 Initial setup before using the code.
@@ -31,7 +31,7 @@ To run flask app on the instance (ubuntu OS), we have to install Apache server, 
 `sudo apt-get install libapache2-mod-wsgi`
 
 `sudo python3 -m venv env`
-
+Note, some of the dependencies should be done inside the virtualenv within the project directory
 
 
 ## Secure your server
