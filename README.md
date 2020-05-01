@@ -31,7 +31,8 @@ To run flask app on the instance (ubuntu OS), we have to install Apache server, 
 `sudo apt-get install libapache2-mod-wsgi`
 
 `sudo python3 -m venv env`
-Note, some of the dependencies should be done inside the virtualenv within the project directory
+
+Note, some of the dependencies should be done inside the virtualenv within the project directory but the apche2 server would need to be installed in the server outside the virtualenv before the commencement of any application deployment with ``sudo apt-get install apache2``
 
 
 ## Secure your server
