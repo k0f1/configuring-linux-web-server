@@ -30,6 +30,9 @@ To run flask app on the instance (ubuntu OS), we have to install Apache server, 
 
 `sudo apt-get install libapache2-mod-wsgi`
 
+`sudo python3 -m venv env`
+
+
 
 ## Secure your server
 Configure your firewall ()**ufw**} earlier on
@@ -166,6 +169,17 @@ On Ubuntu, Apache keeps its main configuration files within the "/etc/apache2" f
 
 
 ### Prelimnary configuration of apache to display "Hello World!"
+
+cd into the project root directory and activate env with `source env/bin/activate`
+Then install `sudo  apt-get install python-flask`
+And also `sudo  apt-get install python-sqlalchemy`
+Other packages are as described below.
+`sudo apt-get install python-pip`
+
+`sudo apt-get install apache2`
+
+`sudo apt-get install libapache2-mod-wsgi-py3`
+
 * Install and configure Apache to server a Python mod_wsgi application
 
  ```sudo apt-get install libapache2-mod-wsgi-py3```
