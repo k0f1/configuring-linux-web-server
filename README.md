@@ -345,16 +345,52 @@ sys.path.insert(0,"/var/www/your_doamin/")
 
 from your_domain import app as application
 application.secret_key = 'Add your secret key'
+
+def application(environ, start_response):
+    status = '200 OK'
+    output = b'Hello World!'
+
+    response_headers = [('Content-type', 'text/plain'),
+                        ('Content-Length', str(len(output)))]
+    start_response(status, response_headers)
+
+    return [output]
+
 ```
+Add this code at the bottom for the app secret key
 ## Setting up a secret key and sessions in [Python Apps](https://developer.ibm.com/qradar/2018/10/03/secret-key-session-python-apps/)
 For a secure session information is secure, a strong, cryptographically secure secret key is needed,
 Also because diferent versions of the app would have different secret_keys at different times. This avoids hard coding the secret key.
 
+The final wsgi app look something like this:
+
 We first must import the os module.
 
-`Import os`
-
 ```
+#!/usr/bin/python3
+Import os
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/your_doamin/")
+
+from your_domain import app as application
+application.secret_key = 'Add your secret key'
+
+##################
+
+def application(environ, start_response):
+    status = '200 OK'
+    output = b'Hello World!'
+
+    response_headers = [('Content-type', 'text/plain'),
+                        ('Content-Length', str(len(output)))]
+    start_response(status, response_headers)
+
+    return [output]
+
+
+#####################
 app.config.update(
 
     #Set the secret key to a sufficiently random value
