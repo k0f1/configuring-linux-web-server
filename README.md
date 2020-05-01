@@ -18,7 +18,7 @@ The complete URL to your hosted web application: www.datafrica.com
 
 ### Dependencies on other software or libraries
 A list of any third-party resources you need in this project.
-To run flask app on the instance (ubuntu OS), we have to install Apache server, WSGI (Web Server Gateway Interface), flask and other libraries used in the app. Basically run the following:-
+To run flask app on the instance (ubuntu OS), we have to install Apache server, WSGI (Web Server Gateway Interface), flask and other libraries used in the app. Basically run the following some inside your project virtualenv:-
 
 `sudo apt-get update`
 
