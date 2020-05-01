@@ -78,6 +78,7 @@ Finally, confirm that all our configuration are working with
   5. Restart SSH service with `sudo systemctl restart ssh`
   6. Exit and connect through ssh with the new ssh port 2200.
 
+_Configure the local timezone to UTC `sudo dpkg-reconfigure tzdata`_
 
 ### Dependencies on other software or libraries
 A list of any third-party resources you need in this project.
@@ -186,6 +187,8 @@ Other packages are as described below.
 * Install and configure Apache to server a Python mod_wsgi application outside of the virtual environment
 
  ```sudo apt-get install libapache2-mod-wsgi-py3```
+ 
+ 
 
  Define the name of the file you need to write within Apache configuration by using `WSGIScriptAlias` directive
 
@@ -228,8 +231,6 @@ On Ubuntu, Apache keeps its main configuration files within the "/etc/apache2" f
 `\ports.conf`
 `sites-enabled/`
 
-
-* Configure the local timezone to UTC `sudo dpkg-reconfigure tzdata`
 
 
 
