@@ -1,5 +1,5 @@
 # Configuring Linux Web Server
-The project explains how to a take a baseline installation of a linux server and prepare it to host a web applications. At the end of the project you will secure your server from a number of attack vectors, install and configure a database server, and delpoy an existing web applications onto it.
+The project explains how to a take a baseline installation of a linux server and prepare it to host a web applications. At the end of the project you will secure your server from a number of attack vectors, install and configure a database server, and delpoy an existing web applications onto it. The steps should progress from acquiring and updating the server dependencies,  user managment(creating, permission, log in via ssh) to configuring the firewall rules followed by application deployment and configuration and finally, database configuration.
 
 ## Installation
 Initial setup before using the code.
@@ -18,7 +18,7 @@ The complete URL to your hosted web application: www.datafrica.com
 
 ### Dependencies on other software or libraries
 A list of any third-party resources you need in this project.
-To run flask app on the instance (ubuntu OS), we have to install Apache server, WSGI (Web Server Gateway Interface), flask and other libraries used in the app. Basically run the following:-
+To run flask app on the instance (ubuntu OS), we have to install Apache server, WSGI (Web Server Gateway Interface), flask and other libraries used in the app. Basically run the following some inside your project virtualenv:-
 
 `sudo apt-get update`
 
@@ -28,9 +28,7 @@ To run flask app on the instance (ubuntu OS), we have to install Apache server, 
 
 `sudo apt-get install python-flask`
 
-`sudo apt-get install apache2`
-
-`sudo apt-get install libapache2-mod-wsgi`
+`sudo apt-get install python3-venv`
 
 `sudo apt-get install unattended-upgrades`
 
@@ -93,7 +91,9 @@ Finally, confirm that all our configuration are working with
   3. Now go to `/etc/ssh/sshd_config` file and change port option from 22 to 2200.,
   4. Make to configure firewall to allow port 2200 if not already done with `sudo ufw allow 2200/tcp`
   5. Restart SSH service with `sudo systemctl restart ssh`
+  6. Exit and connect through ssh with the new ssh port 2200.
 
+_Configure the local timezone to UTC `sudo dpkg-reconfigure tzdata`_
 
 ### Dependencies on other software or libraries
 A list of any third-party resources you need in this project.
@@ -112,10 +112,18 @@ To run flask app on the instance (ubuntu OS), we have to install Apache server, 
 
 
 ## Usage
-Configuring a linux web server requires a number of environmental variables for runtime configuration. The following examples demonstrate how to run it manually from the command line
+Configuring a linux web server requires a number of environmental variables for runtime configuration. The following examples demonstrate how to run it manually from the command line in the appriopriate directory
 example code
-`sudo pip3 install virtualenv` inside your application domain/directory
-To activate : `source venv/bin/activate`
+
+`sudo apt-get install python3-venv`,
+`sudo apt-get install python-pip`,
+Create a virtual environment with the code `python3 -m venv /path/to/new/virtual/environment`,
+Which in my case is  `sudo python3 -m venv /var/www/env`
+
+Now install the following packages without activating virtualenv by using inside the project directory(www) `sudo env/bin/pip install`,
+
+1.`sudo env/bin/pip install flask`,
+2. `sudo env/bin/pip install sqlalchemy`
 
 
 ### User management
@@ -133,14 +141,17 @@ Log in as grader with given password,
 Do this in the main admin account - ubuntu@IP address,
 Create a new file inside - sudoers.d with the name of the new user in this case 'grader',
 Open this file with visudo,
-Create a file name grader with:
+Create a file name grader with how to [here](https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file-on-ubuntu-and-centos):
 `sudo visudo /etc/sudoers.d/grader`,
 
 Add this line of code inside this file,
 grader `ALL = (ALL : ALL) ALL`,
 Save and quit.
+Now login as the new user ie grader
 
-### Finally grant permission
+### Finally force key based authentication
+With `sudo vim /etc/ssh/sshd_config`This is the server listening for all of your ssh connections
+
 
 
 ### Generate key pairs with the commmand
@@ -148,12 +159,15 @@ Save and quit.
 * Once done, use the `cat` command to copy the public key ending in `.pub`,
 * Upload this key to your amazon account as one of the keys to be used for access.,
 * Alternatively, first make sure to lohin as the grader,
- * The create a directory .ssh with `mkdir .ssh` within the home directory
- * Then create a new file within this directory called authorized_keys `sudo touch ~/.ssh/authorized_keys`,
- * Back in your local machine, read out the content of the key pair generated with the extension `.pub`,
- * Copy it, and back in your server, edit the authorized keys file by adding this key.
+  * Then create a directory .ssh with `mkdir .ssh` within the home directory
+  * Then create a new file within this directory called authorized_keys `sudo touch ~/.ssh/authorized_keys`,
+  * Back in your local machine, read out the content of the key pair generated with the extension `.pub`,
+  * Copy it, and back in your server, edit the authorized keys file by adding this key.
+  
+Then restart the service with sudo ssh service restart`
 
 Then login with `ssh <username>@ip-address -p 2200 -i ~/.ssh/your_private_key_name`.,
+Then restart the service with sudo ssh service restart`
 
 
 ## Prepare to deploy your project
@@ -161,11 +175,61 @@ Then login with `ssh <username>@ip-address -p 2200 -i ~/.ssh/your_private_key_na
 `sudo apt-get update`
 `sudo apt-get install apache2`
 
-The visit your client to check if you have a working server by typing,
+Then visit your client to check if you have a working server by typing,
 `your_domain_name_or_ip_address`
 This is the default web page for this server.
 
 ### The Apache File Hierarchy in Ubuntu
+Apache, by default, serves its files from the `/var/www/html` directory., If you explore this directory you will find a file called `index.html`
+
+Update the index.html to simply display “Hello, World!” and refresh your browser to see your new page.
+
+
+### Prelimnary configuration of apache to display "Hello World!"
+* The first step in this process is to install `sudo apt-get install libapache2-mod-wsgi`
+
+
+* Install and configure Apache to server a Python mod_wsgi application outside of the virtual environment
+
+
+ 
+ You then need to configure Apache to handle requests using the WSGI module. You will do this by editing:
+
+ Now **edit** the `/etc/apache2/sites-enabled/000-default.conf` file. This file tells Apache how to respond to requests, where to find the files for a particular site and much more.
+
+ Adding the following line  `WSGIScriptAlias / /var/www/html/myapp.wsgi`  at the end of the
+
+ ```
+ <VirtualHost *:80> block, right before the closing
+ 
+         Here
+ </VirtualHost> line:
+ ```
+Finally, restart Apache with the `sudo apache2ctl restart`
+
+
+#### Create your first wsgi application
+ Then **_create_** the `/var/www/html/myapp.wsgi` file using the command `sudo vim /var/www/html/myapp.wsgi`
+ This is a python application even though it ends with wsgi.
+ 
+ Add this code to file and change the output to 'Hello World!'
+ 
+ ```
+ def application(environ, start_response):
+    status = '200 OK'
+    output = 'Hello Udacity!'
+
+    response_headers = [('Content-type', 'text/plain'), ('Content-Length', str(len(output)))]
+    start_response(status, response_headers)
+
+    return [output]
+    
+ ```
+ 
+Finally, refresh your browser and you should see your app runing Hello World!
+
+
+
 On Ubuntu, Apache keeps its main configuration files within the "/etc/apache2" folder:
 
 `cd /etc/apache2`
@@ -184,44 +248,35 @@ On Ubuntu, Apache keeps its main configuration files within the "/etc/apache2" f
 `sites-enabled/`
 
 
-* Configure the local timezone to UTC
-
-
-### Prelimnary configuration of apache to display "Hello World!"
-* Install and configure Apache to server a Python mod_wsgi application
-
- ```sudo apt-get install libapache2-mod-wsgi-py3```
-
- Define the name of the file you need to write within Apache configuration by using `WSGIScriptAlias` directive
-
- Now **edit** the `/etc/apache2/sites-enabled/000-default.conf` file. This file tells Apache how to respond to requests, where to find the files for a particular site and much more.
-
- Edit by adding the following line  `WSGIScriptAlias / /var/www/html/myapp.wsgi`  at the end of the
-
- ```
- <VirtualHost *:80> block, right before the closing
-
- </VirtualHost> line:
-
- ```
-
-
- Then **_create_** the `/var/www/html/myapp.wsgi` file using the command `sudo vim /var/www/html/myapp.wsgi`
- This is a python application even though it ends with wsgi.
-
-
- Finally, restart Apache with the sudo apache2ctl restart
-
-The name of the file you need to write within Apache configuration by using `WSGIScriptAlias` directive.
 
 
 ## Deploy the project
 ### Setting Up Virtual Hosts
 Create a directory structure within `/var/www/` for your domain.
-_`cd in /var/www`_
-* Clone the project from github with this directory `www`
+cd into your project directory
 
-* Now cd into the project directory cloned `cd /var/www/your_cloned_project_ directory`
+* Now clone the project
+
+#### Prepare the virtualenv.
+cd into the cloned directory inside the project root directory in this case `/var/project_drectory/catalog` 
+
+Then install pip with `sudo apt-get install python3-pip`
+
+and install venv `sudo pip install virtualenv `,
+
+Create a virtual environment with the code `python3 -m venv /path/to/new/virtual/environment`,
+Which in my case is  `sudo python3 -m venv /var/www/datafrica/catalog/venv`
+
+Now install the following packages after activating virtualenv `source venv/bin/activate`, 
+
+Run this command to install Flask inside:
+
+`sudo pip install Flask` 
+
+`sudo pip install sqlalchemy`
+* `Deactivate` the venv
+
+* Still inside the cloned `cd /var/www/your_cloned_project_ directory`
 * Next assign ownership of the directory with $USER environment variable.
 
    `sudo chown -R $USER:$USER /var/www/your_cloned_project_ directory`
@@ -229,7 +284,33 @@ _`cd in /var/www`_
 * Next give permissions to your web root
 
   `sudo chmod -R 775 /var/www/your_cloned_project_ directory`
+  
+  
+Install postgresql with `sudo apt-get install postgresql`, inside the cloned directory
+Install psycopg2 with `sudo apt-get install python3-psycopg2`
+  
+Create a file __init__.py  inside the application directory,
+To convert catalog into a module with a sample flask app at a minimum:
 
+`from flask import Flask`
+`app = Flask(__name__)`
+
+Eedit the files within the cloned directory as follows:
+* Edit application.py, database_setup.py, application.py and functions_helper.py to change engine = create_engine('sqlite:///database.db') to engine = create_engine('postgresql://catalog:password@localhost/catalog')
+
+
+### Setting Up Postgresql Database
+
+Use this command to start the Postgres interactive shell and to switch user to Postgres: You must be already logged in as a sudo user
+
+Switch to postgres object with: `sudo -i -u postgres`
+
+* Create database user with:
+`postgresql@IP Adress: createruser -P <username>`
+Give password as password on prompt
+
+* Create database with the same name as username
+`postgresql@IP Adress: createrdb <username>`
 
 ### Customise the Apache to hand-off certain requests to an app
 
@@ -237,16 +318,16 @@ _`cd in /var/www`_
 
   `sudo vim  /etc/apache2/sites-enabled/your_domain.conf` Take note that this is you app configuration file and is inate. It doesn not require touching.
 
-  * Add the following default values to `/etc/apache2/sites-enabled/your_domain.conf`:
+  * Add the following default values to `/etc/apache2/sites-enabled/your_cloned_directory.conf`:
 
     * ServerAdmin webmaster@localhost to the email address of the domain manager
 
     * ServerName www.example.com to your DNS or IP address.
 
-    * DocumentRoot `/var/www/html` to `/var/www/your_domain`
+    * DocumentRoot `/var/www/html` to `/var/www/your_project_directory/
 
     * Add the following line
-     `WSGIScriptAlias / /var/www/your_domain/your_domain.wsgi` at the end of the block right before the closing line
+     `WSGIScriptAlias / /var/www/your_project_directory/myapp.wsgi` at the end of the block right before the closing line
 
 The `/etc/apache2/sites-enabled/your_domain.conf` should now look like this:
 
@@ -259,13 +340,17 @@ The `/etc/apache2/sites-enabled/your_domain.conf` should now look like this:
           DocumentRoot /var/www/your_doamin
 
           ErrorLog ${APACHE_LOG_DIR}/error.log
+          
           CustomLog ${APACHE_LOG_DIR}/access.log combined
-
+          LogLevel warn
           WSGIScriptAlias / /var/www/your_domain/myapp.wsgi
        </VirtualHost>
  ```
+  Enable the virtual host with the following command:
 
-  Restart Apache with `sudo apache2ctl restart`
+sudo a2ensite catalog
+
+Restart Apache with `sudo apache2ctl restart`
 
 
 #### Add the following lines of code to the myapp.wsgi file:
@@ -279,39 +364,71 @@ sys.path.insert(0,"/var/www/your_doamin/")
 
 from your_domain import app as application
 application.secret_key = 'Add your secret key'
+
+def application(environ, start_response):
+    status = '200 OK'
+    output = b'Hello World!'
+
+    response_headers = [('Content-type', 'text/plain'),
+                        ('Content-Length', str(len(output)))]
+    start_response(status, response_headers)
+
+    return [output]
+
 ```
+Add this code at the bottom for the app secret key
+## Setting up a secret key and secure sessions in [Python Apps](https://developer.ibm.com/qradar/2018/10/03/secret-key-session-python-apps/)
+For a secure session information, a strong, cryptographically secure secret key is needed,
+Also because hard coding the secret key at different versions of the app would have different secret_keys at different times.,
+For these two reasons, use the code below to personalise yoursecret key in the wsgi app.
+Notice that the byte method in the string assigned to output is neccessary to avoid server error in python3.
 
-### Setting Up Postgresql Database
-* Install posgressql with
-`sudo apt-get install postgresql`
+The final wsgi app look something like this:
 
-Use this command to start the Postgres interactive shell and to switch user to Postgres: You must be already logged in as a sudo user
+We first must import the os module.
 
-`$ sudo -i -u postgres`
+```
+#!/usr/bin/python3
+Import os
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/your_doamin/")
 
-* Create database user with:
-`postgresql@IP Adress: createruser -P <username>`
-Give password as password on prompt
-
-* Create database with the same name as username
-`postgresql@IP Adress: createrdb <username>`
-* Check to see permissions to the user with:
+from your_domain import app as application
 
 
-Rename `application.py` to `__init__.py` using
+##################
 
-`sudo mv application.py __init__.py`
+def application(environ, start_response):
+    status = '200 OK'
+    output = b'Hello World!'
 
-* Edit these files, ( `database_setup.py`, `application.py` and `functions_helper.py` ),  by changing
+    response_headers = [('Content-type', 'text/plain'),
+                        ('Content-Length', str(len(output)))]
+    start_response(status, response_headers)
 
-```engine = create_engine('sqlite:///your_database_name.db.db'``` to
+    return [output]
 
- `engine = create_engine('postgresql://<username>:password@localhost/<username>'`
 
- Exit postgresql user:
-  `Exit`
+#####################
+app.config.update(
 
-Run the database setup file  `sudo python database_setup.py`
+    #Set the secret key to a sufficiently random value
+    SECRET_KEY=os.urandom(24),
+
+    #Set the session cookie to be secure
+    SESSION_COOKIE_SECURE=True,
+
+    #Set the session cookie for our app to a unique name
+    SESSION_COOKIE_NAME='YourAppName-WebSession',
+
+    #Set CSRF tokens to be valid for the duration of the session. This assumes you’re using WTF-CSRF protection
+    WTF_CSRF_TIME_LIMIT=None
+
+)
+
+```
 
 
 ## Known Bugs
@@ -324,7 +441,7 @@ More information about this error may be available in the server error log.
 
 
 ## Contributing
-We encourgae contributions to Configuring linux web server. Please checkout  [guidelines]() on how to proceed.
+We encourgae contributions to Configuring linux web server. Please checkout  [guidelines]() on how to proceed. Acknowledgement is made of information used in the document from [digitalocean](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps) and IBM [QradarAPP](https://developer.ibm.com/qradar/2018/10/03/secret-key-session-python-apps/)
 
 ## Licensing
 Configuring a linux web server is licenced under [GNU AGPLv3](https://choosealicense.com/licenses/agpl-3.0/)
