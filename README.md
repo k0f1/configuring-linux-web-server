@@ -334,10 +334,10 @@ The `/etc/apache2/sites-enabled/your_domain.conf` should now look like this:
  ```bin/bash
        <VirtualHost *:80>
           ServerAdmin domain_admin@gmail.com
-          ServerName your_domain
-          DocumentRoot /var/www/your_domain
+          ServerName your_domain or IP address
+          DocumentRoot /var/www/myproject_directory
 
-          DocumentRoot /var/www/your_doamin
+          DocumentRoot /var/www/myproject_directory
 
           ErrorLog ${APACHE_LOG_DIR}/error.log
           
@@ -368,7 +368,7 @@ logging.basicConfig(stream=sys.stderr)
 sys.path.insert(0,"/var/www/your_doamin/")
 
 from your_domain import app as application
-application.secret_key = os.urandom(24
+application.secret_key = os.urandom(24)
 
 def application(environ, start_response):
     status = '200 OK'
@@ -382,10 +382,7 @@ def application(environ, start_response):
     
 if __name__ == '__main__':
 
-
-
 ```
-
 
 ## Known Bugs
 
