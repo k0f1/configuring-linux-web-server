@@ -355,9 +355,11 @@ def application(environ, start_response):
 
 ```
 Add this code at the bottom for the app secret key
-## Setting up a secret key and sessions in [Python Apps](https://developer.ibm.com/qradar/2018/10/03/secret-key-session-python-apps/)
-For a secure session information is secure, a strong, cryptographically secure secret key is needed,
-Also because diferent versions of the app would have different secret_keys at different times. This avoids hard coding the secret key.
+## Setting up a secret key and secure sessions in [Python Apps](https://developer.ibm.com/qradar/2018/10/03/secret-key-session-python-apps/)
+For a secure session information, a strong, cryptographically secure secret key is needed,
+Also because hard coding the secret key at different versions of the app would have different secret_keys at different times.,
+For these two reasons, use the code below to personalise yoursecret key in the wsgi app.
+Notice that the byte method in the string assigned to output is neccessary to avoid server error in python3.
 
 The final wsgi app look something like this:
 
@@ -372,7 +374,7 @@ logging.basicConfig(stream=sys.stderr)
 sys.path.insert(0,"/var/www/your_doamin/")
 
 from your_domain import app as application
-application.secret_key = 'Add your secret key'
+
 
 ##################
 
