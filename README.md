@@ -343,47 +343,19 @@ The `/etc/apache2/sites-enabled/your_domain.conf` should now look like this:
           
           CustomLog ${APACHE_LOG_DIR}/access.log combined
           LogLevel warn
-          WSGIScriptAlias / /var/www/your_domain/myapp.wsgi
+          WSGIScriptAlias / /var/www/myproject_directory/catalog.wsgi
        </VirtualHost>
  ```
   Enable the virtual host with the following command:
 
-sudo a2ensite catalog
-
-Restart Apache with `sudo apache2ctl restart`
+Reload Apache with `sudo service apache2 reload`
 
 
 #### Add the following lines of code to the myapp.wsgi file:
-Then add this block of code to the `your_domain.wsgi` application.
+Create catalog.wsgi file and add this code to it.
 
-```#!/usr/bin/python3
-import sys
-import logging
-logging.basicConfig(stream=sys.stderr)
-sys.path.insert(0,"/var/www/your_doamin/")
 
-from your_domain import app as application
-application.secret_key = 'Add your secret key'
-
-def application(environ, start_response):
-    status = '200 OK'
-    output = b'Hello World!'
-
-    response_headers = [('Content-type', 'text/plain'),
-                        ('Content-Length', str(len(output)))]
-    start_response(status, response_headers)
-
-    return [output]
-
-```
-Add this code at the bottom for the app secret key
-## Setting up a secret key and secure sessions in [Python Apps](https://developer.ibm.com/qradar/2018/10/03/secret-key-session-python-apps/)
-For a secure session information, a strong, cryptographically secure secret key is needed,
-Also because hard coding the secret key at different versions of the app would have different secret_keys at different times.,
-For these two reasons, use the code below to personalise yoursecret key in the wsgi app.
-Notice that the byte method in the string assigned to output is neccessary to avoid server error in python3.
-
-The final wsgi app look something like this:
+The final wsgi app look something like this `catalog.wsgi`:
 
 We first must import the os module.
 
@@ -396,9 +368,7 @@ logging.basicConfig(stream=sys.stderr)
 sys.path.insert(0,"/var/www/your_doamin/")
 
 from your_domain import app as application
-
-
-##################
+application.secret_key = os.urandom(24
 
 def application(environ, start_response):
     status = '200 OK'
@@ -409,24 +379,10 @@ def application(environ, start_response):
     start_response(status, response_headers)
 
     return [output]
+    
+if __name__ == '__main__':
 
 
-#####################
-app.config.update(
-
-    #Set the secret key to a sufficiently random value
-    SECRET_KEY=os.urandom(24),
-
-    #Set the session cookie to be secure
-    SESSION_COOKIE_SECURE=True,
-
-    #Set the session cookie for our app to a unique name
-    SESSION_COOKIE_NAME='YourAppName-WebSession',
-
-    #Set CSRF tokens to be valid for the duration of the session. This assumes you’re using WTF-CSRF protection
-    WTF_CSRF_TIME_LIMIT=None
-
-)
 
 ```
 
