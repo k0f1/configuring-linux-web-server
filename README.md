@@ -233,6 +233,8 @@ On Ubuntu, Apache keeps its main configuration files within the "/etc/apache2" f
 Create a directory structure within `/var/www/` for your domain.
 cd into your project directory
 
+* Now clone the project
+
 #### Prepare the virtualenv.
 cd into the cloned directory inside the project root directory in this case `/var/project_drectory/catalog` 
 
@@ -244,21 +246,15 @@ Create a virtual environment with the code `python3 -m venv /path/to/new/virtual
 Which in my case is  `sudo python3 -m venv /var/www/datafrica/catalog/venv`
 
 Now install the following packages after activating virtualenv `source venv/bin/activate`, 
-Inside the project directory(w),
 
-Give this command to install Flask inside:
+Run this command to install Flask inside:
 
-sudo pip install Flask 
+`sudo pip install Flask` 
 
 `sudo pip install sqlalchemy`
+* `Deactivate` the venv
 
-Outside the venv
-`sudo apt-get install install python-psycopg2`
-
-
-
-* Now clone the project
-* Now cd into the cloned `cd /var/www/your_cloned_project_ directory`
+* Still inside the cloned `cd /var/www/your_cloned_project_ directory`
 * Next assign ownership of the directory with $USER environment variable.
 
    `sudo chown -R $USER:$USER /var/www/your_cloned_project_ directory`
@@ -267,21 +263,25 @@ Outside the venv
 
   `sudo chmod -R 775 /var/www/your_cloned_project_ directory`
   
+  
 Install postgresql with `sudo apt-get install postgresql`, inside the cloned directory
 Install psycopg2 with `sudo apt-get install python3-psycopg2`
   
-cd into cloned directory and edit the files within the directory as follows:
-* Edit application.py to `__init__.py` with sudo mv,
-* Edit database_setup.py, application.py and functions_helper.py to change engine = create_engine('sqlite:///database.db') to engine = create_engine('postgresql://catalog:password@localhost/catalog')
+Create a file __init__.py  inside the application directory,
+To convert catalog into a module with a sample flask app at a minimum:
 
-Switch to postgres object with: `sudo -i -u postgres`
+`from flask import Flask`
+`app = Flask(__name__)`
+
+Eedit the files within the cloned directory as follows:
+* Edit application.py, database_setup.py, application.py and functions_helper.py to change engine = create_engine('sqlite:///database.db') to engine = create_engine('postgresql://catalog:password@localhost/catalog')
 
 
 ### Setting Up Postgresql Database
 
 Use this command to start the Postgres interactive shell and to switch user to Postgres: You must be already logged in as a sudo user
 
-`$ sudo -i -u postgres`
+Switch to postgres object with: `sudo -i -u postgres`
 
 * Create database user with:
 `postgresql@IP Adress: createruser -P <username>`
@@ -289,9 +289,6 @@ Give password as password on prompt
 
 * Create database with the same name as username
 `postgresql@IP Adress: createrdb <username>`
-* Check to see permissions to the user with:
-    
-
 
 ### Customise the Apache to hand-off certain requests to an app
 
