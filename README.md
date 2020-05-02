@@ -22,6 +22,8 @@ To run flask app on the instance (ubuntu OS), we have to install Apache server, 
 
 `sudo apt-get update`
 
+`sudo apt list --upgradable`
+
 `sudo apt-get install python-pip`
 
 `sudo apt-get install python-flask`
@@ -29,6 +31,25 @@ To run flask app on the instance (ubuntu OS), we have to install Apache server, 
 `sudo apt-get install apache2`
 
 `sudo apt-get install libapache2-mod-wsgi`
+
+`sudo apt-get install unattended-upgrades`
+
+#### Other dependencies - unattended-upgrades
+Check for unattended-upgrades and if not available install it.
+
+ The purpose of unattended-upgrades is to keep the computer current with the latest security (and others) updates automatically.
+
+ Finally, test for unattended-upgrade installed -- another mechanism to check:
+`$ dpkg --get-selections | grep unattended-upgrade`
+
+Output:
+```
+unattended-upgrades                             install
+ubuntu@logged-in-ip-address:~$
+```
+
+ unattended-upgrade is installed!  
+
 
 
 ## Secure your server
@@ -97,7 +118,8 @@ example code
 To activate : `source venv/bin/activate`
 
 
-## Create user with access
+### User management
+#### Create user with access
 Create a new user,
 Install finger `sudo apt-get install finger,`
 
@@ -107,7 +129,7 @@ Give a password to user when prompted to do so,
 Log in as grader with given password,
 
 
-### Giving Sudo Access,
+### Give Sudo Access,
 Do this in the main admin account - ubuntu@IP address,
 Create a new file inside - sudoers.d with the name of the new user in this case 'grader',
 Open this file with visudo,
