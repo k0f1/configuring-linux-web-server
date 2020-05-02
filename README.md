@@ -186,7 +186,7 @@ Update the index.html to simply display “Hello, World!” and refresh your bro
 
 
 ### Prelimnary configuration of apache to display "Hello World!"
-* The first step in this process is to install `sudo apt-get install libapache2-mod-wsgi`
+* The first step in this process is to install `sudo apt-get install libapache2-mod-wsgi-py3`
 
 
 * Install and configure Apache to server a Python mod_wsgi application outside of the virtual environment
