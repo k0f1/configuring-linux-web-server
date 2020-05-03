@@ -251,10 +251,6 @@ On Ubuntu, Apache keeps its main configuration files within the "/etc/apache2" f
 
 
 ## Deploy the project
-### Setting Up Virtual Hosts
-Create a directory structure within `/var/www/` for your domain.
-cd into your project directory
-
 * Now clone the project
 
 #### Prepare the virtualenv.
@@ -313,12 +309,13 @@ Give password as password on prompt
 `postgresql@IP Adress: createrdb <username>`
 
 ### Customise the Apache to hand-off certain requests to an app
+#### Setting Up Virtual Hosts
+* Configure Apache to handle requests using the WSGI module. But instead of by editing the file `/etc/apache2/sites-enabled/000-default.conf`, lets create a new file with:
 
-* Configure Apache to handle requests using the WSGI module. But instead of by editing the file`/etc/apache2/sites-enabled/000-default.conf`, lets create a new file with:
+  `sudo vim  /etc/apache2/sites-enabled/myapplication_directory.conf` which in this case is catalog.,
+  Take note that this is you app configuration file and is inate. It doesn not require touching.
 
-  `sudo vim  /etc/apache2/sites-enabled/your_domain.conf` Take note that this is you app configuration file and is inate. It doesn not require touching.
-
-  * Add the following default values to `/etc/apache2/sites-enabled/your_cloned_directory.conf`:
+  * Add the following default values to `/etc/apache2/sites-enabled/catalog.conf`:
 
     * ServerAdmin webmaster@localhost to the email address of the domain manager
 
@@ -333,18 +330,29 @@ The `/etc/apache2/sites-enabled/your_domain.conf` should now look like this:
 
  ```bin/bash
        <VirtualHost *:80>
-          ServerAdmin domain_admin@gmail.com
-          ServerName your_domain or IP address
-          DocumentRoot /var/www/myproject_directory
+        ServerName datafrica.com
+        ServerAlias www.datafrica.com
+        DocumentRoot /var/www/datafrica/
 
-          DocumentRoot /var/www/myproject_directory
+        <Directory /var/www/datafrica/catalog/>
+                Order allow,deny
+                Allow from all
+        </Directory>
+        Alias /static /var/www/datafrica/catalog/static
+        <Directory /var/www/datafrica/catalog/static/>
+                Order allow,deny
+                Allow from all
+        </Directory>
 
-          ErrorLog ${APACHE_LOG_DIR}/error.log
-          
-          CustomLog ${APACHE_LOG_DIR}/access.log combined
-          LogLevel warn
-          WSGIScriptAlias / /var/www/myproject_directory/catalog.wsgi
-       </VirtualHost>
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        LogLevel warn
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        WSGIScriptAlias / /var/www/datafrica/catalog.wsgi
+
+</VirtualHost>
+
  ```
   Enable the virtual host with the following command:
 
@@ -365,7 +373,7 @@ Import os
 import sys
 import logging
 logging.basicConfig(stream=sys.stderr)
-sys.path.insert(0,"/var/www/your_doamin/")
+sys.path.insert(0,"/var/www/datafrica/")
 
 from your_domain import app as application
 application.secret_key = os.urandom(24)
