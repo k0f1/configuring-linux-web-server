@@ -396,14 +396,13 @@ if __name__ == '__main__':
 
 ## Networking
 Attach your instance to a static IP address,
-Create A records with example.com inside your amazon lighsail instance. Also create subdomains starting with `www` and at least a TXT subdomain records.,
+Create A records with example.com inside your amazon lighsail instance. Also create subdomains starting with `www` subdomain record.,
 
 Go to your DNS host provider and map your domain to the Nameservers provided in the lightsail instance
-To map your IP Address to the domain name, you need a TXT subdomain record.,
+Also map your domain name, to the A recors you created inside lighsail.,
 
-This mapping to show you are the owner of the domain name.
-For example, in the Lightsail DNS zone, you want to respond with 23223a30-7f1d-4 when the @.example.com hostname is queried.
-Your TXT record would have a host value of `@` and the TXT value would be 23223a30-7f1d-4.
+These mappings to show you are the owner of the domain name.
+
 
 
 ## Contributing
