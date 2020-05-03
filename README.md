@@ -22,31 +22,11 @@ To run flask app on the instance (ubuntu OS), we have to install Apache server, 
 
 `sudo apt-get update`
 
-`sudo apt list --upgradable`
-
 `sudo apt-get install python-pip`
 
 `sudo apt-get install python-flask`
+`sudo apt-get install 
 
-`sudo apt-get install python3-venv`
-
-`sudo apt-get install unattended-upgrades`
-
-#### Other dependencies - unattended-upgrades
-Check for unattended-upgrades and if not available install it.
-
- The purpose of unattended-upgrades is to keep the computer current with the latest security (and others) updates automatically.
-
- Finally, test for unattended-upgrade installed -- another mechanism to check:
-`$ dpkg --get-selections | grep unattended-upgrade`
-
-Output:
-```
-unattended-upgrades                             install
-ubuntu@logged-in-ip-address:~$
-```
-
- unattended-upgrade is installed!  
 
 
 
