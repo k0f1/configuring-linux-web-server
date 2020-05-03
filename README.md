@@ -394,10 +394,20 @@ if __name__ == '__main__':
 
 ## Known Bugs
 
+## Networking
+Attach your instance to a static IP address,
+Create A records with example.com inside your amazon lighsail instance. Also create subdomains starting with `www` and at least a TXT subdomain records.,
+
+Go to your DNS host provider and map your domain to the Nameservers provided in the lightsail instance
+To map your IP Address to the domain name, you need a TXT subdomain record.,
+
+This mapping to show you are the owner of the domain name.
+For example, in the Lightsail DNS zone, you want to respond with 23223a30-7f1d-4 when the @.example.com hostname is queried.
+Your TXT record would have a host value of `@` and the TXT value would be 23223a30-7f1d-4.
 
 
 ## Contributing
-We encourgae contributions to Configuring linux web server. Please checkout  [guidelines]() on how to proceed. Acknowledgement is made of information used in the document from [digitalocean](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps) and IBM [QradarAPP](https://developer.ibm.com/qradar/2018/10/03/secret-key-session-python-apps/)
+We encourgae contributions to Configuring linux web server. Please checkout  [guidelines]() on how to proceed. Acknowledgement is made of information used in the document from [digitalocean](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps)
 
 ## Licensing
 Configuring a linux web server is licenced under [GNU AGPLv3](https://choosealicense.com/licenses/agpl-3.0/)
