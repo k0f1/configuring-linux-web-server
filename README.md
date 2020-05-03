@@ -251,10 +251,13 @@ On Ubuntu, Apache keeps its main configuration files within the "/etc/apache2" f
 
 
 ## Deploy the project
+Create a new directory at sudo mkdir /var/www/new_directory
+cd /var/www/new_directory
+
 * Now clone the project
 
 #### Prepare the virtualenv.
-cd into the cloned directory inside the project root directory in this case `/var/project_drectory/catalog` 
+cd into the cloned directory inside the project root directory in this case `/var/New_drectory/catalog` 
 
 Then install pip with `sudo apt-get install python3-pip`
 
