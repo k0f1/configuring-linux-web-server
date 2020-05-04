@@ -16,19 +16,6 @@ SSH port: XXXX
 The complete URL to your hosted web application: www.datafrica.com
 
 
-### Dependencies on other software or libraries
-A list of any third-party resources you need in this project.
-To run flask app on the instance (ubuntu OS), we have to install Apache server, WSGI (Web Server Gateway Interface), flask and other libraries used in the app. Basically run the following some inside your project virtualenv:-
-
-`sudo apt-get update`
-
-`sudo apt-get install python-pip`
-
-`sudo apt-get install python-flask`
-`sudo apt-get install 
-
-
-
 
 ## Secure your server
 Configure your firewall ()**ufw**} earlier on
@@ -75,35 +62,6 @@ Finally, confirm that all our configuration are working with
 
 _Configure the local timezone to UTC `sudo dpkg-reconfigure tzdata`_
 
-### Dependencies on other software or libraries
-A list of any third-party resources you need in this project.
-To run flask app on the instance (ubuntu OS), we have to install Apache server, WSGI (Web Server Gateway Interface), flask and other libraries used in the app. Basically run the following:-
-
-`sudo apt-get update`
-
-`sudo apt-get install python-pip`
-
-`sudo apt-get install python-flask`
-
-`sudo apt-get install apache2`
-
-`sudo apt-get install libapache2-mod-wsgi`
-
-
-
-## Usage
-Configuring a linux web server requires a number of environmental variables for runtime configuration. The following examples demonstrate how to run it manually from the command line in the appriopriate directory
-example code
-
-`sudo apt-get install python3-venv`,
-`sudo apt-get install python-pip`,
-Create a virtual environment with the code `python3 -m venv /path/to/new/virtual/environment`,
-Which in my case is  `sudo python3 -m venv /var/www/env`
-
-Now install the following packages without activating virtualenv by using inside the project directory(www) `sudo env/bin/pip install`,
-
-1.`sudo env/bin/pip install flask`,
-2. `sudo env/bin/pip install sqlalchemy`
 
 
 ### User management
@@ -150,7 +108,8 @@ Then login with `ssh <username>@ip-address -p 2200 -i ~/.ssh/your_private_key_na
 Then restart the service with sudo ssh service restart`
 
 
-## Prepare to deploy your project
+
+##Login as grader, and install apache2 as grader:
 ## Install and configure the Apache Web Server on an Ubuntu
 `sudo apt-get update`
 `sudo apt-get install apache2`
@@ -159,36 +118,54 @@ Then visit your client to check if you have a working server by typing,
 `your_domain_name_or_ip_address`
 This is the default web page for this server.
 
-### The Apache File Hierarchy in Ubuntu
-Apache, by default, serves its files from the `/var/www/html` directory., If you explore this directory you will find a file called `index.html`
-
-Update the index.html to simply display “Hello, World!” and refresh your browser to see your new page.
-
 
 ### Prelimnary configuration of apache to display "Hello World!"
-* The first step in this process is to install `sudo apt-get install libapache2-mod-wsgi-py3`
+* The first step in this process is to install `libapache2-mod-wsgi-py3`
+`sudo apt-get install libapache2-mod-wsgi-py3`,
 
-
-* Install and configure Apache to server a Python mod_wsgi application outside of the virtual environment
-
-
- 
- You then need to configure Apache to handle requests using the WSGI module. You will do this by editing:
-
+You then need to configure Apache to handle requests using the WSGI module. You will do this by editing:
  Now **edit** the `/etc/apache2/sites-enabled/000-default.conf` file. This file tells Apache how to respond to requests, where to find the files for a particular site and much more.
 
  Adding the following line  `WSGIScriptAlias / /var/www/html/myapp.wsgi`  at the end of the
-
- ```
- <VirtualHost *:80> block, right before the closing
  
-         Here
- </VirtualHost> line:
  ```
-Finally, restart Apache with the `sudo apache2ctl restart`
+ <VirtualHost *:80>
+	# The ServerName directive sets the request scheme, hostname and port that
+	# the server uses to identify itself. This is used when creating
+	# redirection URLs. In the context of virtual hosts, the ServerName
+	# specifies what hostname must appear in the request's Host: header to
+	# match this virtual host. For the default virtual host (this file) this
+	# value is not decisive as it is used as a last resort host regardless.
+	# However, you must set it for any further virtual host explicitly.
+	#ServerName www.example.com
+
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/html
+
+	# Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+	# error, crit, alert, emerg.
+	# It is also possible to configure the loglevel for particular
+	# modules, e.g.
+	#LogLevel info ssl:warn
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+	# For most configuration files from conf-available/, which are
+	# enabled or disabled at a global level, it is possible to
+	# include a line for only one particular virtual host. For example the
+	# following line enables the CGI configuration for this host only
+	# after it has been globally disabled with "a2disconf".
+	#Include conf-available/serve-cgi-bin.conf
+	WSGIScriptAlias / /var/www/html/myapp.wsgi
+</VirtualHost>
+```
+
+### Create your first wsgi application
+First install wsgi module with:
+`sudo apt-get install libapache2-mod-wsgi`
 
 
-#### Create your first wsgi application
  Then **_create_** the `/var/www/html/myapp.wsgi` file using the command `sudo vim /var/www/html/myapp.wsgi`
  This is a python application even though it ends with wsgi.
  
@@ -197,7 +174,7 @@ Finally, restart Apache with the `sudo apache2ctl restart`
  ```
  def application(environ, start_response):
     status = '200 OK'
-    output = 'Hello Udacity!'
+    output = 'Hello World!'
 
     response_headers = [('Content-type', 'text/plain'), ('Content-Length', str(len(output)))]
     start_response(status, response_headers)
@@ -205,69 +182,62 @@ Finally, restart Apache with the `sudo apache2ctl restart`
     return [output]
     
  ```
- 
-Finally, refresh your browser and you should see your app runing Hello World!
+ Finally, restart Apache with the `sudo apache2ctl restart`
+
+Refresh your browser and you should see your app runing Hello World!
 
 
 
-On Ubuntu, Apache keeps its main configuration files within the "/etc/apache2" folder:
+### Install dependencies on other software or libraries
+To run flask app on the instance (ubuntu OS), we have to install Apache server, WSGI (Web Server Gateway Interface), flask and other libraries used in the app. Basically run the following some inside your project virtualenv after you have created the project directory with `sudo mkdir /var/www/datafrica`:-
+To install virtual environment:
+From /var/www/datafrica/catalog directory install pip,
+First install:
+`sudo apt-get install python3-pip`,
 
-`cd /etc/apache2`
-`ls`
+Then install virtual environment with:
+`sudo pip install python3-venv`,
 
-`apache2`
-`conf`
-`envvars`
-`magic`
-`mods-enabled/`
-`sites-available/`
-`conf.d/`
-`httpd.conf`
-`mods-available/`
-`\ports.conf`
-`sites-enabled/`
+Then create the virtual environment with:
+`python3 -m venv /path/to/new/virtual/environment`,
+Which in this case is  `sudo python3 -m venv /var/www/datafrica/catalog/venv`
 
-
+Change the ownership to grader with:
+sudo chown -R grader:grader venv/
 
 
-## Deploy the project
-Create a new directory at sudo mkdir /var/www/new_directory
-cd /var/www/new_directory
+You can now clone your project into this project directory
+cd /var/www/datafrica
+git clone https://github.com/youraccount/projectrepo
 
-* Now clone the project
+cd into the cloned directory.,
+Create the .wsgi file (check content on screenshots)
 
-#### Prepare the virtualenv.
-cd into the cloned directory inside the project root directory in this case `/var/New_drectory/catalog` 
+`sudo vim catalog.wsgi`
 
-Then install pip with `sudo apt-get install python3-pip`
+### Install app dependencies
 
-and install venv `sudo pip install virtualenv `,
+cd projectFolder ie catalog and activate your venv with sudo venv/bin/activate
+Now install the following packages in the virtualenv by using inside the application directory(catalog) with `sudo env/bin/pip install`,
 
-Create a virtual environment with the code `python3 -m venv /path/to/new/virtual/environment`,
-Which in my case is  `sudo python3 -m venv /var/www/datafrica/catalog/venv`
+1.`sudo venv/bin/pip install python3-flask`,
+2. `sudo venv/bin/pip install python3-sqlalchemy`
+3 `sudo venv/bin/pip install postgresql`
+4. `sudo venv/bin/pip install python3-psycopg2`
 
-Now install the following packages after activating virtualenv `source venv/bin/activate`, 
+Then deactivate venv with just `Deactivate`
 
-Run this command to install Flask inside:
 
-`sudo pip install Flask` 
+* Still inside the cloned `cd /var/www/datafrica/catalog`
+* Next assign ownership of the project directory with user environment variable.
 
-`sudo pip install sqlalchemy`
-* `Deactivate` the venv
+   `sudo chown -R user:user /var/www/datafrica/catalog`
 
-* Still inside the cloned `cd /var/www/your_cloned_project_ directory`
-* Next assign ownership of the directory with $USER environment variable.
+* Next give permissions to the user
 
-   `sudo chown -R $USER:$USER /var/www/your_cloned_project_ directory`
-
-* Next give permissions to your web root
-
-  `sudo chmod -R 775 /var/www/your_cloned_project_ directory`
+  `sudo chmod -R 775 /var/www/datafrica/catalog`
   
-  
-Install postgresql with `sudo apt-get install postgresql`, inside the cloned directory
-Install psycopg2 with `sudo apt-get install python3-psycopg2`
-  
+### Setting Up Postgresql Databa  
 Create a file __init__.py  inside the application directory,
 To convert catalog into a module with a sample flask app at a minimum:
 
@@ -276,13 +246,13 @@ To convert catalog into a module with a sample flask app at a minimum:
 
 Eedit the files within the cloned directory as follows:
 * Edit application.py, database_setup.py, application.py and functions_helper.py to change engine = create_engine('sqlite:///database.db') to engine = create_engine('postgresql://catalog:password@localhost/catalog')
+Then run `python3 database_setup.py`
+To populate the database run python3 lotsofitems.py
 
-
-### Setting Up Postgresql Database
-
-Use this command to start the Postgres interactive shell and to switch user to Postgres: You must be already logged in as a sudo user
-
-Switch to postgres object with: `sudo -i -u postgres`
+### Switch to postgresql object with 
+cd to the the home and use
+`sudo -i -u postgres`
+Use this command to start the Postgres interactive shell and to switch user to Postgres: You must be already logged in as a sudo user at the 
 
 * Create database user with:
 `postgresql@IP Adress: createruser -P <username>`
@@ -291,11 +261,12 @@ Give password as password on prompt
 * Create database with the same name as username
 `postgresql@IP Adress: createrdb <username>`
 
-### Customise the Apache to hand-off certain requests to an app
+ 
+### Customise the Apache to hand-off certain requests to myapp
 #### Setting Up Virtual Hosts
 * Configure Apache to handle requests using the WSGI module. But instead of by editing the file `/etc/apache2/sites-enabled/000-default.conf`, lets create a new file with:
 
-  `sudo vim  /etc/apache2/sites-enabled/myapplication_directory.conf` which in this case is catalog.,
+  `sudo vim  /etc/apache2/sites-enabled/catalog.conf`,
   Take note that this is you app configuration file and is inate. It doesn not require touching.
 
   * Add the following default values to `/etc/apache2/sites-enabled/catalog.conf`:
@@ -304,12 +275,12 @@ Give password as password on prompt
 
     * ServerName www.example.com to your DNS or IP address.
 
-    * DocumentRoot `/var/www/html` to `/var/www/your_project_directory/
+    * DocumentRoot `/var/www/html` to `/var/www/datafrica/catalog
 
     * Add the following line
-     `WSGIScriptAlias / /var/www/your_project_directory/myapp.wsgi` at the end of the block right before the closing line
+     `WSGIScriptAlias / /var/www/datafrica/catalog.wsgi` at the end of the block right before the closing line
 
-The `/etc/apache2/sites-enabled/your_domain.conf` should now look like this:
+The `/etc/apache2/sites-enabled/catalog.conf` should now look like this:
 
  ```bin/bash
        <VirtualHost *:80>
@@ -342,8 +313,8 @@ The `/etc/apache2/sites-enabled/your_domain.conf` should now look like this:
 Reload Apache with `sudo service apache2 reload`
 
 
-#### Add the following lines of code to the myapp.wsgi file:
-Create catalog.wsgi file and add this code to it.
+#### Setup my catalog.wsgi file:
+Add this code to it catalog.wsgi.
 
 
 The final wsgi app look something like this `catalog.wsgi`:
@@ -358,7 +329,7 @@ import logging
 logging.basicConfig(stream=sys.stderr)
 sys.path.insert(0,"/var/www/datafrica/")
 
-from your_domain import app as application
+from datafrica import app as application
 application.secret_key = os.urandom(24)
 
 def application(environ, start_response):
@@ -374,6 +345,12 @@ def application(environ, start_response):
 if __name__ == '__main__':
 
 ```
+
+
+
+## Usage
+Configuring a linux web server requires a number of environmental variables for runtime configuration as shown above. The following examples demonstrate how to run it manually from the command line in the appriopriate directory
+example code.
 
 ## Known Bugs
 
