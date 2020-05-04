@@ -45,6 +45,9 @@ We plan to support a basic http server,and we can allow this by using:
 
 ```sudo ufw allow wwww```
 
+Also allow port 123 on udp
+```sudo ufw allow 123/udp```
+
 With that we can now enable our firewall with `sudo ufw enable`
 
 Finally, confirm that all our configuration are working with
