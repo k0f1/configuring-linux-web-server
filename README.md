@@ -83,7 +83,7 @@ Do this in the main admin account - ubuntu@IP address,
 Create a new file inside - sudoers.d with the name of the new user in this case 'grader',
 Open this file with visudo,
 Create a file name grader with how to [here](https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file-on-ubuntu-and-centos):
-`sudo visudo /etc/sudoers.d/grader`,
+`sudo visudo -f /etc/sudoers.d/grader`,
 
 Add this line of code inside this file,
 grader `ALL = (ALL : ALL) ALL`,
