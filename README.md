@@ -104,24 +104,23 @@ With `sudo vim /etc/ssh/sshd_config`This is the server listening for all of your
   * Then create a new file within this directory called authorized_keys `sudo touch ~/.ssh/authorized_keys`,
   * Back in your local machine, read out the content of the key pair generated with the extension `.pub`,
   * Copy it, and back in your server, edit the authorized keys file by adding this key.
+  * go into `sudo /etc/.ssh/sshd_config` and change `PasswordAuthentication no`
   
 Then restart the service with sudo ssh service restart`
 
 Then login with `ssh <username>@ip-address -p 2200 -i ~/.ssh/your_private_key_name`.,
-Then restart the service with sudo ssh service restart`
 login as grader
 Create a directory `mkdir .ssh`
 In your loacl machine, look view the public key and copy it with `cat .ssh/grader.pub`
 Post the public key inside this file
-Restart with `sudo service ssh restart`
 
-##Login as grader, and install apache2 as grader:
+## Install apache2:
 ## Install and configure the Apache Web Server on an Ubuntu
 `sudo apt-get update`
 `sudo apt-get install apache2`
 
 Then visit your client to check if you have a working server by typing,
-`your_domain_name_or_ip_address`
+`your_domain_name_or_ip_address:80`
 This is the default web page for this server.
 
 
@@ -129,10 +128,12 @@ This is the default web page for this server.
 * The first step in this process is to install `libapache2-mod-wsgi-py3`
 `sudo apt-get install libapache2-mod-wsgi-py3`,
 
+### Configure the virtaul host
 You then need to configure Apache to handle requests using the WSGI module. You will do this by editing:
  Now **edit** the `/etc/apache2/sites-enabled/000-default.conf` file. This file tells Apache how to respond to requests, where to find the files for a particular site and much more.
 
- Adding the following line  `WSGIScriptAlias / /var/www/html/myapp.wsgi`  at the end of the
+ Adding the following line  
+ `WSGIScriptAlias / /var/www/html/myapp.wsgi`  at the end of the
  
  ```
  <VirtualHost *:80>
@@ -169,8 +170,6 @@ You then need to configure Apache to handle requests using the WSGI module. You 
 
 ### Create your first wsgi application
 First install wsgi module with:
-`sudo apt-get install libapache2-mod-wsgi`
-
 
  Then **_create_** the `/var/www/html/myapp.wsgi` file using the command `sudo vim /var/www/html/myapp.wsgi`
  This is a python application even though it ends with wsgi.
@@ -199,42 +198,34 @@ To run flask app on the instance (ubuntu OS), we have to install Apache server,
 WSGI (Web Server Gateway Interface), flask and other libraries used in the app. 
 
 Create the project directory with `sudo mkdir /var/www/datafrica`:-
+cd into /var/www/datafrica
+Now clone your direcory and cd into it
+
 Then install virtual environment:
 From `/var/www/datafrica/catalog` directory,
 First install pip:
 `sudo apt-get install python3-pip`,
 
 Then install virtual environment with:
-`sudo pip install python3-venv`,
+`python3 -m pip install --user virtualenv`,
+Then create venv with  `python3 -m venv env`
+Now activate virtualenv with `source env/bin/activate`
 
-Then create the virtual environment with:
-`python3 -m venv /path/to/new/virtual/environment`,
-Which in this case is  `sudo python3 -m venv /var/www/datafrica/catalog/venv`,
-
-Change the ownership to grader with:
-`sudo chown -R grader:grader venv/`
-
-
-You can now clone your project into this project directory
-`cd /var/www/datafrica`
-`git clone https://github.com/youraccount/projectrepo`
-
-cd into the cloned directory.,
-Create the .wsgi file with:
-
-`sudo vim catalog.wsgi`
 
 ### Install app dependencies
 
 cd projectFolder ie catalog and activate your venv with `source venv/bin/activate`
-Now install the following packages in the virtualenv by using inside the application directory(catalog) with `sudo env/bin/pip install`,
+Now install the following packages in the virtualenv by using inside the application directory(catalog) with,
 
-1.`sudo venv/bin/pip install python3-flask`,
-2. `sudo venv/bin/pip install python3-sqlalchemy`
-3 `sudo venv/bin/pip install postgresql`
-4. `sudo venv/bin/pip install python3-psycopg2`
+1.`sudo apt-get install python3-flask`,
+2. `sudo apt-get install python3-sqlalchemy`
+3 `sudo apt-get install postgresql`
+4. `sudo pat-get install python3-psycopg2`
 
 Then deactivate venv with just `Deactivate`
+
+
+
 
 
 * Still inside the cloned `cd /var/www/datafrica/catalog`
@@ -246,7 +237,8 @@ Then deactivate venv with just `Deactivate`
 
   `sudo chmod -R 775 /var/www/datafrica/catalog`
   
-### Setting Up Postgresql Databa  
+  
+### Setting up posgresql
 Create a file` __init__.py`  inside the application directory,
 To convert catalog into a module with a sample flask app at a minimum:
 
@@ -274,7 +266,11 @@ Give password as password on prompt
 * Create database with the same name as username
 `postgresql@IP Adress: createrdb <username>`
 
- 
+ Connect to db
+`psql postgresql://catalog:password@localhost/catalog`
+
+
+
 ### Customise the Apache to hand-off certain requests to myapp
 #### Setting Up Virtual Hosts
 * Configure Apache to handle requests using the WSGI module. But instead of by editing the file `/etc/apache2/sites-enabled/000-default.conf`, lets create a new file with:
@@ -329,9 +325,7 @@ Reload Apache with `sudo service apache2 reload`
 #### Setup my catalog.wsgi file:
 Add this code to it `catalog.wsgi`.
 
-
 The final wsgi app look something like this `catalog.wsgi`:
-
 We first must import the os module.
 
 ```
@@ -354,11 +348,10 @@ def application(environ, start_response):
     start_response(status, response_headers)
 
     return [output]
-    
+    :
 if __name__ == '__main__':
 
 ```
-
 
 
 ## Usage
