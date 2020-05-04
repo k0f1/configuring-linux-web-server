@@ -234,7 +234,7 @@ Then deactivate venv with just `Deactivate`
 * Still inside the cloned `cd /var/www/datafrica/catalog`
 * Next assign ownership of the project directory with user environment variable.
 
-   `sudo chown -R user:user /var/www/datafrica/catalog`
+   `sudo chown -R $user:$user /var/www/datafrica/catalog`
 
 * Next give permissions to the user
 
