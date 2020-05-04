@@ -109,8 +109,11 @@ Then restart the service with sudo ssh service restart`
 
 Then login with `ssh <username>@ip-address -p 2200 -i ~/.ssh/your_private_key_name`.,
 Then restart the service with sudo ssh service restart`
-
-
+login as grader
+Create a directory `mkdir .ssh`
+In your loacl machine, look view the public key and copy it with `cat .ssh/grader.pub`
+Post the public key inside this file
+Restart with `sudo service ssh restart`
 
 ##Login as grader, and install apache2 as grader:
 ## Install and configure the Apache Web Server on an Ubuntu
