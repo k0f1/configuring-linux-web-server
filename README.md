@@ -86,7 +86,7 @@ Create a file name grader with how to [here](https://www.digitalocean.com/commun
 `sudo visudo -f /etc/sudoers.d/grader`,
 
 Add this line of code inside this file,
-grader `ALL = (ALL : ALL) ALL`,
+`grader ALL = (ALL : ALL) ALL`,
 Save and quit.
 Now login as the new user ie grader
 
