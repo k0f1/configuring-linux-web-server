@@ -189,10 +189,13 @@ Refresh your browser and you should see your app runing Hello World!
 
 
 ### Install dependencies on other software or libraries
-To run flask app on the instance (ubuntu OS), we have to install Apache server, WSGI (Web Server Gateway Interface), flask and other libraries used in the app. Basically run the following some inside your project virtualenv after you have created the project directory with `sudo mkdir /var/www/datafrica`:-
-To install virtual environment:
-From /var/www/datafrica/catalog directory install pip,
-First install:
+To run flask app on the instance (ubuntu OS), we have to install Apache server, 
+WSGI (Web Server Gateway Interface), flask and other libraries used in the app. 
+
+Create the project directory with `sudo mkdir /var/www/datafrica`:-
+Then install virtual environment:
+From `/var/www/datafrica/catalog` directory,
+First install pip:
 `sudo apt-get install python3-pip`,
 
 Then install virtual environment with:
@@ -200,24 +203,24 @@ Then install virtual environment with:
 
 Then create the virtual environment with:
 `python3 -m venv /path/to/new/virtual/environment`,
-Which in this case is  `sudo python3 -m venv /var/www/datafrica/catalog/venv`
+Which in this case is  `sudo python3 -m venv /var/www/datafrica/catalog/venv`,
 
 Change the ownership to grader with:
-sudo chown -R grader:grader venv/
+`sudo chown -R grader:grader venv/`
 
 
 You can now clone your project into this project directory
-cd /var/www/datafrica
-git clone https://github.com/youraccount/projectrepo
+`cd /var/www/datafrica`
+`git clone https://github.com/youraccount/projectrepo`
 
 cd into the cloned directory.,
-Create the .wsgi file (check content on screenshots)
+Create the .wsgi file with:
 
 `sudo vim catalog.wsgi`
 
 ### Install app dependencies
 
-cd projectFolder ie catalog and activate your venv with sudo venv/bin/activate
+cd projectFolder ie catalog and activate your venv with `source venv/bin/activate`
 Now install the following packages in the virtualenv by using inside the application directory(catalog) with `sudo env/bin/pip install`,
 
 1.`sudo venv/bin/pip install python3-flask`,
@@ -238,16 +241,20 @@ Then deactivate venv with just `Deactivate`
   `sudo chmod -R 775 /var/www/datafrica/catalog`
   
 ### Setting Up Postgresql Databa  
-Create a file __init__.py  inside the application directory,
+Create a file` __init__.py`  inside the application directory,
 To convert catalog into a module with a sample flask app at a minimum:
 
-`from flask import Flask`
-`app = Flask(__name__)`
+```
+from flask import Flask
+app = Flask(__name__)
+```
 
 Eedit the files within the cloned directory as follows:
-* Edit application.py, database_setup.py, application.py and functions_helper.py to change engine = create_engine('sqlite:///database.db') to engine = create_engine('postgresql://catalog:password@localhost/catalog')
-Then run `python3 database_setup.py`
-To populate the database run python3 lotsofitems.py
+* Edit `application.py`, `database_setup.py`, `lotsofitems.py`and `functions_helper.py` to change `engine = create_engine('sqlite:///database.db')` to `engine = create_engine('postgresql://catalog:password@localhost/catalog')`
+Then run:
+`python3 database_setup.py`
+To populate the database run: 
+`python3 lotsofitems.py`
 
 ### Switch to postgresql object with 
 cd to the the home and use
@@ -282,7 +289,7 @@ Give password as password on prompt
 
 The `/etc/apache2/sites-enabled/catalog.conf` should now look like this:
 
- ```bin/bash
+ ```
        <VirtualHost *:80>
         ServerName datafrica.com
         ServerAlias www.datafrica.com
@@ -314,7 +321,7 @@ Reload Apache with `sudo service apache2 reload`
 
 
 #### Setup my catalog.wsgi file:
-Add this code to it catalog.wsgi.
+Add this code to it `catalog.wsgi`.
 
 
 The final wsgi app look something like this `catalog.wsgi`:
@@ -366,7 +373,7 @@ These mappings to show you are the owner of the domain name.
 
 
 ## Contributing
-We encourgae contributions to Configuring linux web server. Please checkout  [guidelines]() on how to proceed. Acknowledgement is made of information used in the document from [digitalocean](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps)
+We encourgae contributions to Configuring linux web server. Please checkout  [guidelines]() on how to proceed.
 
 ## Licensing
 Configuring a linux web server is licenced under [GNU AGPLv3](https://choosealicense.com/licenses/agpl-3.0/)
