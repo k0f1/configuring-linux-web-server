@@ -130,7 +130,7 @@ This is the default web page for this server.
 
 ### Configure the virtaul host
 You then need to configure Apache to handle requests using the WSGI module. You will do this by editing:
- Now **edit** the `/etc/apache2/sites-enabled/000-default.conf` file. This file tells Apache how to respond to requests, where to find the files for a particular site and much more.
+ Now **edit** the `/etc/apache2/sites-enabled/000-default.conf` file., This file tells Apache how to respond to requests, where to find the files for a particular site and much more.
 
  Adding the following line  
  `WSGIScriptAlias / /var/www/html/myapp.wsgi`  at the end of the
@@ -257,7 +257,7 @@ To populate the database run:
 ### Switch to postgresql object with 
 cd to the the home and use
 `sudo -i -u postgres`
-Use this command to start the Postgres interactive shell and to switch user to Postgres: You must be already logged in as a sudo user at the 
+Use this command to start the Postgres interactive shell and to switch user to Postgres:, You must be already logged in as a sudo user at the 
 
 * Create database user with:
 `postgresql@IP Adress: createruser -P <username>`
@@ -273,7 +273,7 @@ Give password as password on prompt
 
 ### Customise the Apache to hand-off certain requests to myapp
 #### Setting Up Virtual Hosts
-* Configure Apache to handle requests using the WSGI module. But instead of by editing the file `/etc/apache2/sites-enabled/000-default.conf`, lets create a new file with:
+* Configure Apache to handle requests using the WSGI module., But instead of by editing the file `/etc/apache2/sites-enabled/000-default.conf`, lets create a new file with:
 
   `sudo vim  /etc/apache2/sites-enabled/catalog.conf`,
   Take note that this is you app configuration file and is inate. It doesn not require touching.
@@ -337,11 +337,11 @@ logging.basicConfig(stream=sys.stderr)
 sys.path.insert(0,"/var/www/datafrica/")
 
 from datafrica import app as application
-application.secret_key = os.urandom(24)
+application.secret_key = 'os.urandom(24)'
 
 def application(environ, start_response):
     status = '200 OK'
-    output = b'Hello World!'
+    output = 'Hello World!'
 
     response_headers = [('Content-type', 'text/plain'),
                         ('Content-Length', str(len(output)))]
@@ -352,6 +352,14 @@ def application(environ, start_response):
 if __name__ == '__main__':
 
 ```
+## Using the "unattended-upgrades" package
+The purpose of unattended-upgrades is to keep the computer,
+current with the latest security (and others) updates automatically,
+Install the unattended-upgrades package:,
+`sudo apt-get install unattended-upgrades`,
+To enable it, do:
+`udo dpkg-reconfigure --priority=low unattended-upgrades`
+
 
 
 ## Usage
@@ -362,9 +370,9 @@ example code.
 
 ## Networking
 Attach your instance to a static IP address,
-Create A records with example.com inside your amazon lighsail instance. Also create subdomains starting with `www` subdomain record.,
+Create A records with example.com inside your amazon lighsail instance. Also create subdomains starting with `www` subdomain, record.,
 
-Go to your DNS host provider and map your domain to the Nameservers provided in the lightsail instance
+Go to your DNS host provider and map your domain to the Nameservers provided in the lightsail instance,
 Also map your domain name, to the A recors you created inside lighsail.,
 
 These mappings to show you are the owner of the domain name.
@@ -372,7 +380,7 @@ These mappings to show you are the owner of the domain name.
 
 
 ## Contributing
-We encourgae contributions to Configuring linux web server. Please checkout  [guidelines]() on how to proceed.
+We encourgae contributions to Configuring linux web server. Please checkout  [guidelines]() on how to proceed.,
 
 ## Licensing
 Configuring a linux web server is licenced under [GNU AGPLv3](https://choosealicense.com/licenses/agpl-3.0/)
