@@ -1,5 +1,5 @@
 # Configuring Linux Web Server
-The project explains how to a take a baseline installation of a linux server and prepare it to host a web applications. At the end of the project you will secure your server from a number of attack vectors, install and configure a database server, and delpoy an existing web applications onto it. The steps should progress from acquiring and updating the server dependencies,  user managment(creating, permission, log in via ssh) to configuring the firewall rules followed by application deployment and configuration and finally, database configuration.
+The project explains how to a take a baseline installation of a linux server and prepare it to host a web applications.   At the end of the project you will secure your server from a number of attack vectors, install and configure a database server,   and delpoy an existing web applications onto it. The steps should progress from acquiring and updating the server dependencies,  user managment(creating, permission, log in via ssh) to configuring the firewall rules followed by application deployment and configuration and finally, database configuration.
 
 ## Installation
 Initial setup before using the code.
@@ -33,22 +33,22 @@ Configure ports:
 status inactive
 
 ### Start configuring various ports the application will need
-To support SSH:
+To support SSH:  
 
 ```sudo ufw allow ssh```
 
-We are going to be using SSH on port 2200, so let us setup ssh to allow port 2200
+We are going to be using SSH on port 2200, so let us setup ssh to allow port 2200. 
 
 ```sudo ufw allow 2200/tcp```
 
-We plan to support a basic http server,and we can allow this by using:
+We plan to support a basic http server,and we can allow this by using:  
 
 ```sudo ufw allow wwww```
 
 Also allow port 123 on udp
 ```sudo ufw allow 123/udp```
 
-With that we can now enable our firewall with `sudo ufw enable`
+With that we can now enable our firewall with `sudo ufw enable`. 
 
 Finally, confirm that all our configuration are working with
 
@@ -56,84 +56,87 @@ Finally, confirm that all our configuration are working with
 
 
 ### Add custom firewall configuration like so:
-  1. Open amazon lightsail panel and, select firewall,
-  2. Add _custom_ port 2200, then select tcp protocol and finally save.,
-  3. Now go to `/etc/ssh/sshd_config` file and change port option from 22 to 2200.,
-  4. Make to configure firewall to allow port 2200 if not already done with `sudo ufw allow 2200/tcp`
-  5. Restart SSH service with `sudo systemctl restart ssh`
-  6. Exit and connect through ssh with the new ssh port 2200.
+  1. Open amazon lightsail panel and, select firewall. 
+  2. Add _custom_ port 2200, then select tcp protocol and finally save. 
+  3. Now go to `/etc/ssh/sshd_config` file and change port option from 22 to 2200.  
+  4. Make to configure firewall to allow port 2200 if not already done with `sudo ufw allow 2200/tcp`. 
+  5. Restart SSH service with `sudo systemctl restart ssh`. 
+  6. Exit and connect through ssh with the new ssh port 2200.  
 
-_Configure the local timezone to UTC `sudo dpkg-reconfigure tzdata`_
+_Configure the local timezone to UTC `sudo dpkg-reconfigure tzdata`_. 
 
 
 
 ### User management
 #### Create user with access
 Create a new user,
-Install finger `sudo apt-get install finger,`
+Install finger. 
+`sudo apt-get install finger`   
 
 
-`sudo adduser grader`
-Give a password to user when prompted to do so,
-Log in as grader with given password,
+Create user. 
+`sudo adduser grader`. 
+Give a password to user when prompted to do so. 
+Log in as grader with given password. 
 
 
-### Give Sudo Access,
-Do this in the main admin account - ubuntu@IP address,
-Create a new file inside - sudoers.d with the name of the new user in this case 'grader',
+### Give Sudo Access. 
+Do this in the main admin account - ubuntu@IP address. 
+Create a new file inside - sudoers.d with the name of the new user in this case 'grader'. 
 Open this file with visudo,
-Create a file name grader with how to [here](https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file-on-ubuntu-and-centos):
-`sudo visudo -f /etc/sudoers.d/grader`,
+Create a file name grader with how to.  [here](https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file-on-ubuntu-and-centos):
+`sudo visudo -f /etc/sudoers.d/grader`. 
 
-Add this line of code inside this file,
-`grader ALL = (ALL : ALL) ALL`,
-Save and quit.
-Now login as the new user ie grader
+Add this line of code inside this file. 
+`grader ALL = (ALL : ALL) ALL`. 
+Save and quit  
+Now login as the new user ie grader. 
 
 ### Finally force key based authentication
-With `sudo vim /etc/ssh/sshd_config`This is the server listening for all of your ssh connections
+With `sudo vim /etc/ssh/sshd_config`This is the server listening for all of your ssh connections. 
 
 
 
 ### Generate key pairs with the commmand
-`ssh-keygen
-* Once done, use the `cat` command to copy the public key ending in `.pub`,
-* Upload this key to your amazon account as one of the keys to be used for access.,
+Use this command to generate key pairs. 
+`ssh-keygen`. 
+* Once done, use the `cat` command to copy the public key ending in `.pub`. 
+* Upload this key to your amazon account as one of the keys to be used for access.  
 * Alternatively, first make sure to lohin as the grader,
   * Then create a directory .ssh with `mkdir .ssh` within the home directory
-  * Then create a new file within this directory called authorized_keys `sudo touch ~/.ssh/authorized_keys`,
-  * Back in your local machine, read out the content of the key pair generated with the extension `.pub`,
-  * Copy it, and back in your server, edit the authorized keys file by adding this key.
-  * go into `sudo /etc/.ssh/sshd_config` and change `PasswordAuthentication no`
+  * Then create a new file within this directory called authorized_keys `sudo touch ~/.ssh/authorized_keys`. 
+  * Back in your local machine, read out the content of the key pair generated with the extension `.pub`. 
+  * Copy it, and back in your server, edit the authorized keys file by adding this key. 
+  * go into `sudo /etc/.ssh/sshd_config` and change `PasswordAuthentication no`. 
   
-Then restart the service with sudo ssh service restart`
+Then restart the service with sudo ssh service restart`. 
 
-Then login with `ssh <username>@ip-address -p 2200 -i ~/.ssh/your_private_key_name`.,
-login as grader
-Create a directory `mkdir .ssh`
-In your loacl machine, look view the public key and copy it with `cat .ssh/grader.pub`
-Post the public key inside this file
+Then login with `ssh <username>@ip-address -p 2200 -i ~/.ssh/your_private_key_name`.  
+login as grader. 
+Create a directory `mkdir .ssh`. 
+In your loacl machine, look view the public key and copy it with `cat .ssh/grader.pub`. 
+Post the public key inside this file. 
 
 ## Install apache2:
 ## Install and configure the Apache Web Server on an Ubuntu
-`sudo apt-get update`
-`sudo apt-get install apache2`
+`sudo apt-get update`. 
+`sudo apt-get install apache2`. 
 
-Then visit your client to check if you have a working server by typing,
-`your_domain_name_or_ip_address:80`
-This is the default web page for this server.
+Then visit your client to check if you have a working server by typing. 
+`your_domain_name_or_ip_address:80`. 
+This is the default web page for this server. 
 
 
 ### Prelimnary configuration of apache to display "Hello World!"
-* The first step in this process is to install `libapache2-mod-wsgi-py3`
-`sudo apt-get install libapache2-mod-wsgi-py3`,
+* The first step in this process is to install `libapache2-mod-wsgi-py3`. 
+`sudo apt-get install libapache2-mod-wsgi-py3`,  
 
 ### Configure the virtaul host
-You then need to configure Apache to handle requests using the WSGI module. You will do this by editing:
- Now **edit** the `/etc/apache2/sites-enabled/000-default.conf` file., This file tells Apache how to respond to requests, where to find the files for a particular site and much more.
+You then need to configure Apache to handle requests using the WSGI module. You will do this by editing:   
+ Now **edit** the `/etc/apache2/sites-enabled/000-default.conf` file., This file tells Apache how to respond to requests.  where to find the files for a particular site and much more. 
 
- Adding the following line  
- `WSGIScriptAlias / /var/www/html/myapp.wsgi`  at the end of the
+ Adding the following line. 
+ `WSGIScriptAlias / /var/www/html/myapp.wsgi`  at the end of the. 
  
  ```
  <VirtualHost *:80>
@@ -169,12 +172,13 @@ You then need to configure Apache to handle requests using the WSGI module. You 
 ```
 
 ### Create your first wsgi application
-First install wsgi module with:
+First install wsgi module with:  
 
- Then **_create_** the `/var/www/html/myapp.wsgi` file using the command `sudo vim /var/www/html/myapp.wsgi`
- This is a python application even though it ends with wsgi.
+ Then **_create_** the `/var/www/html/myapp.wsgi` file using the command `sudo vim /var/www/html/myapp.wsgi`. 
+ This is a python application even though it ends with wsgi.  
  
- Add this code to file and change the output to 'Hello World!'
+ Add this code to file and change the output to. 
+ 'Hello World!'    
  
  ```
  def application(environ, start_response):
@@ -187,60 +191,61 @@ First install wsgi module with:
     return [output]
     
  ```
- Finally, restart Apache with the `sudo apache2ctl restart`
+ Finally, restart Apache with the `sudo apache2ctl restart`. 
 
-Refresh your browser and you should see your app runing Hello World!
+Refresh your browser and you should see your app runing Hello World!   
 
 
 
 ### Install dependencies on other software or libraries
-To run flask app on the instance (ubuntu OS), we have to install Apache server, 
+To run flask app on the instance (ubuntu OS), we have to install Apache server. 
 WSGI (Web Server Gateway Interface), flask and other libraries used in the app. 
 
-Create the project directory with `sudo mkdir /var/www/datafrica`:-,
-cd into /var/www/datafrica,
-Now clone your direcory and cd into it,
+Create the project directory with `sudo mkdir /var/www/datafrica`:-
+cd into `/var/www/datafrica`. 
+Now clone your direcory and cd into it. 
 
-Then install virtual environment:,
-From `/var/www/datafrica/catalog` directory,
-First install pip:,
-`sudo apt-get install python3-pip`,
+Then install virtual environment:  
+From `/var/www/datafrica/catalog` directory. 
+First install pip:
+`sudo apt-get install python3-pip`. 
 
-Then install virtual environment with:,
-`python3 -m pip install --user virtualenv`,
-Then create venv with  `python3 -m venv env`,
-Now activate virtualenv with `source env/bin/activate`
+Then install virtual environment with: 
+`python3 -m pip install --user virtualenv`. 
+Then create venv with  `python3 -m venv env`. 
+Now activate virtualenv with `source env/bin/activate`. 
 
 
 ### Install app dependencies
 
-cd projectFolder ie catalog and activate your venv with `source venv/bin/activate`
-Now install the following packages in the virtualenv by using inside the application directory(catalog) with,
+cd projectFolder ie catalog and activate your venv with `source venv/bin/activate`. 
+Now install the following packages in the virtualenv by using inside the application directory(catalog) with. 
 
-1.`sudo apt-get install python3-flask`,
-2. `sudo apt-get install python3-sqlalchemy`
-3 `sudo apt-get install postgresql`
-4. `sudo pat-get install python3-psycopg2`
+1.`sudo apt-get install python3-flask`. 
+2. `sudo apt-get install python3-sqlalchemy`. 
+3 `sudo apt-get install postgresql`. 
+4. `sudo pat-get install python3-psycopg2`. 
 
-Then deactivate venv with just `Deactivate`
-
-
-
+Then deactivate venv with just. 
+`Deactivate`    
 
 
-* Still inside the cloned `cd /var/www/datafrica/catalog`
-* Next assign ownership of the project directory with user environment variable.
 
-   `sudo chown -R $user:$user /var/www/datafrica/catalog`
 
-* Next give permissions to the user
 
-  `sudo chmod -R 775 /var/www/datafrica/catalog`
+* Still inside the cloned `cd /var/www/datafrica/catalog`. 
+* Next assign ownership of the project directory with user environment variable. 
+
+   `sudo chown -R $user:$user /var/www/datafrica/catalog`. 
+
+* Next give permissions to the user. 
+
+  `sudo chmod -R 775 /var/www/datafrica/catalog`. 
   
   
 ### Setting up posgresql
-Create a file` __init__.py`  inside the application directory,
-To convert catalog into a module with a sample flask app at a minimum:
+Create a file` __init__.py`  inside the application directory. 
+To convert catalog into a module with a sample flask app at a minimum:  
 
 ```
 from flask import Flask
@@ -248,46 +253,48 @@ app = Flask(__name__)
 ```
 
 Eedit the files within the cloned directory as follows:
-* Edit `application.py`, `database_setup.py`, `lotsofitems.py`and `functions_helper.py` to change `engine = create_engine('sqlite:///database.db')` to `engine = create_engine('postgresql://catalog:password@localhost/catalog')`
+* Edit `application.py`, `database_setup.py`, `lotsofitems.py`and `functions_helper.py`. to change `engine = create_engine('sqlite:///database.db')` to.  `engine = create_engine('postgresql://catalog:password@localhost/catalog')`
 Then run:
-`python3 database_setup.py`
+`python3 database_setup.py`. 
 To populate the database run: 
-`python3 lotsofitems.py`
+`python3 lotsofitems.py`. 
 
-### Switch to postgresql object with 
-cd to the the home and use
-`sudo -i -u postgres`
-Use this command to start the Postgres interactive shell and to switch user to Postgres:, You must be already logged in as a sudo user at the 
+### Switch to postgresql object with:
+cd to the the home and use. 
+`sudo -i -u postgres`. 
+Use this command to start the Postgres interactive shell and to switch user to Postgres:  
+You must be already logged in as a sudo user at the.  
 
 * Create database user with:
-`postgresql@IP Adress: createruser -P <username>`
-Give password as password on prompt
+`postgresql@IP Adress: createruser -P <username>`. 
+Give password as password on prompt. 
 
-* Create database with the same name as username
-`postgresql@IP Adress: createrdb <username>`
+* Create database with the same name as username. 
+`postgresql@IP Adress: createrdb <username>`. 
 
- Connect to db
-`psql postgresql://catalog:password@localhost/catalog`
+ Connect to db. 
+`psql postgresql://catalog:password@localhost/catalog`. 
 
 
 
 ### Customise the Apache to hand-off certain requests to myapp
 #### Setting Up Virtual Hosts
-* Configure Apache to handle requests using the WSGI module., But instead of by editing the file `/etc/apache2/sites-enabled/000-default.conf`, lets create a new file with:
+* Configure Apache to handle requests using the WSGI module.  But instead of by editing the file `/etc/apache2/sites-enabled/000-default.conf`.  
+Lets create a new file with:
 
-  `sudo vim  /etc/apache2/sites-enabled/catalog.conf`,
-  Take note that this is you app configuration file and is inate. It doesn not require touching.
+  `sudo vim  /etc/apache2/sites-enabled/catalog.conf`. 
+  Take note that this is you app configuration file and is inate. It doesn not require touching. 
 
   * Add the following default values to `/etc/apache2/sites-enabled/catalog.conf`:
 
-    * ServerAdmin webmaster@localhost to the email address of the domain manager
+    * ServerAdmin webmaster@localhost to the email address of the domain manager. 
 
-    * ServerName www.example.com to your DNS or IP address.
+    * ServerName www.example.com to your DNS or IP address. 
 
-    * DocumentRoot `/var/www/html` to `/var/www/datafrica/catalog
+    * DocumentRoot `/var/www/html` to `/var/www/datafrica/catalog. 
 
-    * Add the following line
-     `WSGIScriptAlias / /var/www/datafrica/catalog.wsgi` at the end of the block right before the closing line
+    * Add the following line. 
+     `WSGIScriptAlias / /var/www/datafrica/catalog.wsgi` at the end of the block right before the closing line. 
 
 The `/etc/apache2/sites-enabled/catalog.conf` should now look like this:
 
@@ -319,14 +326,14 @@ The `/etc/apache2/sites-enabled/catalog.conf` should now look like this:
  ```
   Enable the virtual host with the following command:
 
-Reload Apache with `sudo service apache2 reload`
+Reload Apache with `sudo service apache2 reload`. 
 
 
 #### Setup my catalog.wsgi file:
-Add this code to it `catalog.wsgi`.
+Add this code to it `catalog.wsgi`. 
 
 The final wsgi app look something like this `catalog.wsgi`:
-We first must import the os module.
+We first must import the os module    
 
 ```
 #!/usr/bin/python3
@@ -353,34 +360,34 @@ if __name__ == '__main__':
 
 ```
 ## Using the "unattended-upgrades" package
-The purpose of unattended-upgrades is to keep the computer,
-current with the latest security (and others) updates automatically,
-Install the unattended-upgrades package:,
-`sudo apt-get install unattended-upgrades`,
+The purpose of unattended-upgrades is to keep the computer. 
+current with the latest security (and others) updates automatically. 
+Install the unattended-upgrades package:  
+`sudo apt-get install unattended-upgrades`. 
 To enable it, do:
-`udo dpkg-reconfigure --priority=low unattended-upgrades`
+`udo dpkg-reconfigure --priority=low unattended-upgrades`. 
 
 
 
 ## Usage
-Configuring a linux web server requires a number of environmental variables for runtime configuration as shown above. The following examples demonstrate how to run it manually from the command line in the appriopriate directory
-example code.
+Configuring a linux web server requires a number of environmental variables for runtime configuration as shown above.  The following examples demonstrate how to run it manually from the command line in the appriopriate directory
+example code. 
 
 ## Known Bugs
 
 ## Networking
-Attach your instance to a static IP address,
-Create A records with example.com inside your amazon lighsail instance. Also create subdomains starting with `www` subdomain, record.,
+Attach your instance to a static IP address. 
+Create A records with example.com inside your amazon lighsail instance.  Also create subdomains starting with `www` subdomain, record. 
 
-Go to your DNS host provider and map your domain to the Nameservers provided in the lightsail instance,
-Also map your domain name, to the A recors you created inside lighsail.,
+Go to your DNS host provider and map your domain to the Nameservers provided in the lightsail instance. 
+Also map your domain name, to the A recors you created inside lighsail. 
 
-These mappings to show you are the owner of the domain name.
+These mappings to show you are the owner of the domain name. 
 
 
 
 ## Contributing
-We encourgae contributions to Configuring linux web server. Please checkout  [guidelines]() on how to proceed.,
+We encourgae contributions to Configuring linux web server. Please checkout  [guidelines]() on how to proceed. 
 
 ## Licensing
-Configuring a linux web server is licenced under [GNU AGPLv3](https://choosealicense.com/licenses/agpl-3.0/)
+Configuring a linux web server is licenced under [GNU AGPLv3](https://choosealicense.com/licenses/agpl-3.0/). 
