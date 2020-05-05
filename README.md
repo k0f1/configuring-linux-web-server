@@ -212,9 +212,9 @@ First install pip:
 
 #### Then install virtual environment with: 
 `python3 -m pip install --user virtualenv`. 
-Then create venv with.  
+Then create venv with:.  
 `python3 -m venv env`. 
-Now activate virtualenv with. 
+Now activate virtualenv with:. 
 `source env/bin/activate`. 
 
 
