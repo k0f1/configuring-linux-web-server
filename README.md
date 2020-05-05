@@ -205,15 +205,17 @@ Create the project directory with `sudo mkdir /var/www/datafrica`:-
 cd into `/var/www/datafrica`. 
 Now clone your direcory and cd into it. 
 
-Then install virtual environment:  
+
 From `/var/www/datafrica/catalog` directory. 
 First install pip:
 `sudo apt-get install python3-pip`. 
 
-Then install virtual environment with: 
+#### Then install virtual environment with: 
 `python3 -m pip install --user virtualenv`. 
-Then create venv with  `python3 -m venv env`. 
-Now activate virtualenv with `source env/bin/activate`. 
+Then create venv with.  
+`python3 -m venv env`. 
+Now activate virtualenv with. 
+`source env/bin/activate`. 
 
 
 ### Install app dependencies
