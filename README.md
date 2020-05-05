@@ -387,7 +387,7 @@ These mappings to show you are the owner of the domain name.
 
 
 ## Contributing
-We encourgae contributions to Configuring linux web server. Please checkout  [guidelines]() on how to proceed. 
+We encourgae contributions to Configuring linux web server. Please checkout  [guidelines]() on how to proceed. I wish to acknowledge the use of knowledge materials from Udacity videos, digitalocean, ubuntu ask questions and stackoverflow in this README.
 
 ## Licensing
 Configuring a linux web server is licenced under [GNU AGPLv3](https://choosealicense.com/licenses/agpl-3.0/). 
