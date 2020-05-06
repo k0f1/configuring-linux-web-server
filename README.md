@@ -235,12 +235,12 @@ Then deactivate venv with just.
 
 
 
-
+If you cannot pip install these packages, then you you have a permission problem which you can solve as shown below
 
 * Still inside the cloned `cd /var/www/datafrica/catalog`. 
 * Next assign ownership of the project directory with user environment variable. 
 
-   `sudo chown -R $user:$user /var/www/datafrica/catalog`. 
+   `sudo chown -R $USERr:$USER /var/www/datafrica/catalog`. 
 
 * Next give permissions to the user. 
 
