@@ -214,7 +214,9 @@ First install pip:
 `python3 -m pip install --user virtualenv`. 
 Then create venv with:.  
 `python3 -m venv env`. 
-Now activate virtualenv with:. 
+Now activate virtualenv with:.
+You need to be inside the directory with the venv in the case catalog.
+Then invoke:
 `source env/bin/activate`. 
 
 
