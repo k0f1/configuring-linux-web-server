@@ -131,6 +131,8 @@ This is the default web page for this server.
 * The first step in this process is to install `libapache2-mod-wsgi-py3`. 
 `sudo apt-get install libapache2-mod-wsgi-py3`,  
 
+
+
 ### Configure the virtaul host
 You then need to configure Apache to handle requests using the WSGI module. You will do this by editing:   
  Now **edit** the `/etc/apache2/sites-enabled/000-default.conf` file., This file tells Apache how to respond to requests.  where to find the files for a particular site and much more. 
@@ -198,19 +200,17 @@ Refresh your browser and you should see your app runing Hello World!
 
 
 ### Install dependencies on other software or libraries
-To run flask app on the instance (ubuntu OS), we have to install Apache server. 
-WSGI (Web Server Gateway Interface), flask and other libraries used in the app. 
+_The first step is to install pip_: a dependencies manager tool we will use to install flask
+To install pip:
+`sudo apt install python3-pip`.
+If you desire to do a global installation without venv. 
+Now install flask globally on your system.
+`sudo apt-get install python3-flask`. 
 
-Create the project directory with `sudo mkdir /var/www/datafrica`:-
-cd into `/var/www/datafrica`. 
 Now clone your direcory and cd into it. 
 
-
-From `/var/www/datafrica/catalog` directory. 
-First install pip:
-`sudo apt-get install python3-pip`. 
-
 #### Then install virtual environment with: 
+If you want to use a virtual environment, the install a wrapper like so:
 `python3 -m pip install --user virtualenv`. 
 Then create venv with:.  
 `python3 -m venv env`. 
@@ -237,14 +237,14 @@ Then deactivate venv with just.
 
 If you cannot pip install these packages, then you you have a permission problem which you can solve as shown below
 
-* Still inside the cloned `cd /var/www/datafrica/catalog`. 
+* Still inside the cloned `cd /var/www/catalog`. 
 * Next assign ownership of the project directory with user environment variable. 
 
-   `sudo chown -R $USERr:$USER /var/www/datafrica/catalog`. 
+   `sudo chown -R $USERr:$USER /var/www/catalog`. 
 
 * Next give permissions to the user. 
 
-  `sudo chmod -R 775 /var/www/datafrica/catalog`. 
+  `sudo chmod -R 775 /var/www/catalog`. 
   
   
 ### Setting up posgresql
@@ -306,14 +306,14 @@ The `/etc/apache2/sites-enabled/catalog.conf` should now look like this:
        <VirtualHost *:80>
         ServerName datafrica.com
         ServerAlias www.datafrica.com
-        DocumentRoot /var/www/datafrica/
+        DocumentRoot /var/www/catalog/
 
-        <Directory /var/www/datafrica/catalog/>
+        <Directory /var/www/catalog/>
                 Order allow,deny
                 Allow from all
         </Directory>
-        Alias /static /var/www/datafrica/catalog/static
-        <Directory /var/www/datafrica/catalog/static/>
+        Alias /static /var/www/catalog/static
+        <Directory /var/www/catalog/static/>
                 Order allow,deny
                 Allow from all
         </Directory>
@@ -323,7 +323,7 @@ The `/etc/apache2/sites-enabled/catalog.conf` should now look like this:
         LogLevel warn
         CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-        WSGIScriptAlias / /var/www/datafrica/catalog.wsgi
+        WSGIScriptAlias / /var/www/catalog.wsgi
 
 </VirtualHost>
 
@@ -345,9 +345,9 @@ Import os
 import sys
 import logging
 logging.basicConfig(stream=sys.stderr)
-sys.path.insert(0,"/var/www/datafrica/")
+sys.path.insert(0,"/var/www/catalog")
 
-from datafrica import app as application
+from catalog import app as application
 application.secret_key = 'os.urandom(24)'
 
 def application(environ, start_response):
