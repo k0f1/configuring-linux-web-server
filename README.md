@@ -202,10 +202,11 @@ Refresh your browser and you should see your app runing Hello World!
 ### Install dependencies on other software or libraries
 _The first step is to install pip_: a dependencies manager tool we will use to install flask
 To install pip:
-`sudo apt install python3-pip`.
+`sudo apt-get install python3-pip`.
 If you desire to do a global installation without venv. 
 Now install flask globally on your system.
-`sudo apt-get install python3-flask`. 
+`pip install python3-flask`. 
+`pip install python3-sqlalchemy`. 
 
 Now clone your direcory and cd into it. 
 
@@ -226,9 +227,7 @@ cd projectFolder ie catalog and activate your venv with `source venv/bin/activat
 Now install the following packages in the virtualenv by using inside the application directory(catalog) with. 
 
 1.`sudo apt-get install python3-flask`. 
-2. `sudo apt-get install python3-sqlalchemy`. 
-3 `sudo apt-get install postgresql`. 
-4. `sudo pat-get install python3-psycopg2`. 
+2. `sudo apt-get install python3-sqlalchemy`.  
 
 Then deactivate venv with just. 
 `Deactivate`    
@@ -240,7 +239,7 @@ If you cannot pip install these packages, then you you have a permission problem
 * Still inside the cloned `cd /var/www/catalog`. 
 * Next assign ownership of the project directory with user environment variable. 
 
-   `sudo chown -R $USERr:$USER /var/www/catalog`. 
+   `sudo chown -R user:group /var/www/catalog`. 
 
 * Next give permissions to the user. 
 
@@ -257,6 +256,10 @@ app = Flask(__name__)
 ```
 
 Eedit the files within the cloned directory as follows:
+First install as ubuntu global user:
+`sudo apt-get install postgresql`. 
+`sudo pat-get install python3-psycopg2`.
+
 * Edit `application.py`, `database_setup.py`, `lotsofitems.py`and `functions_helper.py`. to change `engine = create_engine('sqlite:///database.db')` to.  `engine = create_engine('postgresql://catalog:password@localhost/catalog')`
 Then run:
 `python3 database_setup.py`. 
