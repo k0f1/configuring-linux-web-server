@@ -79,6 +79,9 @@ Create user.
 Give a password to user when prompted to do so. 
 Log in as grader with given password. 
 
+Make these changes to `sudo nano /etc/ssh/sshd_config`:
+`PermitRootLogin prohibit-password` to `PermitRootLogin yes` 
+`PasswordAuthentication no` to `PasswordAuthentication yes`
 
 ### Give Sudo Access. 
 Do this in the main admin account - ubuntu@IP address. 
@@ -89,12 +92,15 @@ Create a file name grader with how to.  [here](https://www.digitalocean.com/comm
 
 Add this line of code inside this file. 
 `grader ALL = (ALL : ALL) ALL`. 
-Save and quit  
+Save and quit  with `control + o`, then press enter, and then `control + x`.
+
+Create public key pairs in your local amchine and upload the public key to amazon
 Now login as the new user ie grader. 
+with `ssh <username>@Public IP Address -p 2200 ~/.ssh/user-private-key-name`.
+
 
 ### Finally force key based authentication
 With `sudo vim /etc/ssh/sshd_config`This is the server listening for all of your ssh connections. 
-
 
 
 ### Generate key pairs with the commmand
