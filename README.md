@@ -122,6 +122,15 @@ login as grader.
 Create a directory `mkdir .ssh`. 
 In your loacl machine, look view the public key and copy it with `cat .ssh/grader.pub`. 
 Post the public key inside this file. 
+	
+Set up some specific file permissions on .ssh and authorized_keys with
+
+`chmod 700 .ssh`
+`chmod 644 .ssh/authorized_keys`
+
+set up a change of passwd when next the users login
+`sudo passwd -e grader`
+When when next the user log in, they will be forced to change thier password.
 
 ## Install apache2:
 ## Install and configure the Apache Web Server on an Ubuntu
