@@ -137,6 +137,7 @@ When when next the user log in, they will be forced to change thier password.
 `sudo apt-get update`. 
 `sudo apt-get install apache2`. 
 
+
 Then visit your client to check if you have a working server by typing. 
 `your_domain_name_or_ip_address:80`. 
 This is the default web page for this server. 
@@ -215,13 +216,15 @@ Refresh your browser and you should see your app runing Hello World!
 
 
 ### Install dependencies on other software or libraries
-_The first step is to install pip_: a dependencies manager tool we will use to install flask
+_The first step is to install pip_: a dependencies manager tool we will use to install flask. 
 To install pip:
-`sudo apt-get install python3-pip`.
+`sudo apt install python-pip`
 If you desire to do a global installation without venv. 
 Now install flask globally on your system.
-`pip install python3-flask`. 
-`pip install python3-sqlalchemy`. 
+`pip install Flask`. 
+`pip install sqlalchemy`.
+`sudo apt-get install python3-oauth2client` If afterwards there is module not found error message use,.
+`pip install --upgrade google-api-python-client oauth2client`
 
 Now clone your direcory and cd into it. 
 
@@ -235,15 +238,6 @@ You need to be inside the directory with the venv in the case catalog.
 Then invoke:
 `source env/bin/activate`. 
 
-
-### Install app dependencies
-
-cd projectFolder ie catalog and activate your venv with `source venv/bin/activate`. 
-Now install the following packages in the virtualenv by using inside the application directory(catalog) with. 
-
-1.`sudo apt-get install python3-flask`. 
-2. `sudo apt-get install python3-sqlalchemy`.  
-
 Then deactivate venv with just. 
 `Deactivate`    
 
@@ -254,7 +248,7 @@ If you cannot pip install these packages, then you you have a permission problem
 * Still inside the cloned `cd /var/www/catalog`. 
 * Next assign ownership of the project directory with user environment variable. 
 
-   `sudo chown -R user:group /var/www/catalog`. 
+   `sudo chown -R $USER:$USER /var/www/catalog`. 
 
 * Next give permissions to the user. 
 
