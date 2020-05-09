@@ -226,7 +226,7 @@ Now install flask globally on your system.
 `sudo apt-get install python3-oauth2client` If afterwards there is module not found error message use,.
 `pip install --upgrade google-api-python-client oauth2client`
 
-Now clone your direcory and cd into it. 
+### Now clone your direcory and cd into it. 
 
 #### Then install virtual environment with: 
 If you want to use a virtual environment, the install a wrapper like so:
@@ -267,7 +267,7 @@ app = Flask(__name__)
 Eedit the files within the cloned directory as follows:
 First install as ubuntu global user:
 `sudo apt-get install postgresql`. 
-`sudo pat-get install python3-psycopg2`.
+`sudo apt-get install python3-psycopg2`.
 
 * Edit `application.py`, `database_setup.py`, `lotsofitems.py`and `functions_helper.py`. to change `engine = create_engine('sqlite:///database.db')` to.  `engine = create_engine('postgresql://catalog:password@localhost/catalog')`
 Then run:
