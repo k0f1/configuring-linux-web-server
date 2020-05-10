@@ -230,7 +230,7 @@ Now install flask globally on your system.
 
 #### Then install virtual environment with: 
 If you want to use a virtual environment, the install a wrapper like so:
-`python3 -m pip install --user virtualenv`. 
+`apt-get install python3-venv`. 
 Then create venv with:.  
 `python3 -m venv env`. 
 Now activate virtualenv with:.
