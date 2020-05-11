@@ -214,29 +214,40 @@ First install wsgi module with:
 Refresh your browser and you should see your app runing Hello World!   
 
 
+## Install
 
-### Install dependencies on other software or libraries
-_The first step is to install pip_: a dependencies manager tool we will use to install flask. 
-To install pip:
-`sudo apt install python-pip`
-If you desire to do a global installation without venv. 
-Now install flask globally on your system.
-`pip install Flask`. 
-`pip install sqlalchemy`.
-`sudo apt-get install python3-oauth2client` If afterwards there is module not found error message use,.
-`pip install --upgrade google-api-python-client oauth2client`
+First create a new directory:
+`mkdir datafrica /var/www/`
+`cd /var/www/datafrica`
 
-### Now clone your direcory and cd into it. 
+```
+$ git clone https://github.com/k0f1/catalog.git
+$ cd catalog
+```
+Create a virtualenv and activate it:
+```
+$ python3 -m venv venv
+$ . venv/bin/activate
+```
+Then rename yourapplication.py to __init__.py. (Make sure to delete all .pyc files first, otherwise things would most likely break)
+Use `mv application.py __init__.py`
 
-#### Then install virtual environment with: 
-If you want to use a virtual environment, the install a wrapper like so:
-`apt-get install python3-venv`. 
-Then create venv with:.  
-`python3 -m venv env`. 
-Now activate virtualenv with:.
-You need to be inside the directory with the venv in the case catalog.
-Then invoke:
-`source env/bin/activate`. 
+ Python does not want modules in packages to be the startup file. 
+ So create a new file called `setup.py` inside the root directory datafrica. 
+ 
+
+```
+from setuptools import setup
+
+setup(
+    name='yourapplication',
+    packages=['yourapplication'],
+    include_package_data=True,
+    install_requires=[
+        'flask',
+    ],
+)
+```
 
 Then deactivate venv with just. 
 `Deactivate`    
