@@ -226,7 +226,6 @@ The permissions of your web roots should be correct and made as shown.
 sudo chown -R $USER:$USER /var/www/datafrica
 sudo chmod -R 755 /var/www/datafrica
 
-```
 $ git clone https://github.com/k0f1/catalog.git
 $ cd catalog
 ```
