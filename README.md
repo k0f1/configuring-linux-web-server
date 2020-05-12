@@ -220,16 +220,36 @@ First create a new directory:
 `mkdir datafrica /var/www/`
 `cd /var/www/datafrica`
 
+Assign ownership of the directory:
+The permissions of your web roots should be correct and made as shown. 
+```
+sudo chown -R $USER:$USER /var/www/datafrica
+sudo chmod -R 755 /var/www/datafrica
+
 ```
 $ git clone https://github.com/k0f1/catalog.git
 $ cd catalog
 ```
+
+
 Create a virtualenv and activate it:
 ```
 $ python3 -m venv venv
 $ . venv/bin/activate
 ```
-Then rename yourapplication.py to __init__.py. (Make sure to delete all .pyc files first, otherwise things would most likely break)
+
+Then install Flask inside the activated environment of the catalog
+```
+pip install Flask
+```
+Then deactivate venv with just. 
+`Deactivate`    
+
+
+If there is any issue with permission, then garnt catalog persmission as above. 
+Deactivate
+
+Then create  __init__.py. (Make sure to delete all .pyc files first, otherwise things would most likely break)
 Use `mv application.py __init__.py`
 
  Python does not want modules in packages to be the startup file. 
@@ -237,20 +257,42 @@ Use `mv application.py __init__.py`
  
 
 ```
-from setuptools import setup
+# Filename:  __init__.py
+# encoding: utf-8
 
-setup(
-    name='yourapplication',
-    packages=['yourapplication'],
-    include_package_data=True,
-    install_requires=[
-        'flask',
-    ],
+import os
+import sys
+
+
+from flask import Flask, render_template
+
+app = Flask('catalog', instance_relative_config=True)
+app.config.from_mapping(
+        # a default secret that should be overridden by instance config
+        SECRET_KEY="dev",
+        # store the database in the instance folder
+        DATABASE= 'sqlite:///' + os.path.join(app.instance_path,\
+                    'catalogwithusers.db'),
+        # ensure the instance folder exists
+        BASE_DIR = os.makedirs(app.instance_path)
 )
-```
 
-Then deactivate venv with just. 
-`Deactivate`    
+
+# Add the directory of the file being executed to the sys.path
+sys.path.append(  os.path.abspath(os.path.dirname(__file__)) )
+
+
+# Import routes
+from catalog import application
+
+# make url_for('index') == url_for('application.index')
+# in another app, you might define a separate main index here with
+# app.route, while giving the application blueprint a url_prefix, but for
+# the tutorial the application will be the main index
+app.add_url_rule("/", endpoint="index")
+
+```
+**_Make sure to delete all .pyc files first, otherwise things would most likely break_**
 
 
 
@@ -266,25 +308,10 @@ If you cannot pip install these packages, then you you have a permission problem
   `sudo chmod -R 775 /var/www/catalog`. 
   
   
-### Setting up posgresql
-Create a file` __init__.py`  inside the application directory. 
-To convert catalog into a module with a sample flask app at a minimum:  
-
-```
-from flask import Flask
-app = Flask(__name__)
-```
-
-Eedit the files within the cloned directory as follows:
+### Setting up posgresql  
 First install as ubuntu global user:
 `sudo apt-get install postgresql`. 
 `sudo apt-get install python3-psycopg2`.
-
-* Edit `application.py`, `database_setup.py`, `lotsofitems.py`and `functions_helper.py`. to change `engine = create_engine('sqlite:///database.db')` to.  `engine = create_engine('postgresql://catalog:password@localhost/catalog')`
-Then run:
-`python3 database_setup.py`. 
-To populate the database run: 
-`python3 lotsofitems.py`. 
 
 ### Switch to postgresql object with:
 cd to the the home and use. 
@@ -298,6 +325,12 @@ Give password as password on prompt.
 
 * Create database with the same name as username. 
 `postgresql@IP Adress: createrdb <username>`. 
+
+* Edit `application.py`, `database_setup.py`, `lotsofitems.py`and `functions_helper.py`. to change `engine = create_engine('sqlite:///database.db')` to.  `engine = create_engine('postgresql://catalog:password@localhost/catalog')`
+Then run:
+`python3 database_setup.py`. 
+To populate the database run: 
+`python3 lotsofitems.py`. 
 
  Connect to db. 
 `psql postgresql://catalog:password@localhost/catalog`. 
