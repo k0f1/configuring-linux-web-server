@@ -309,8 +309,10 @@ If you cannot pip install these packages, then you you have a permission problem
   
 ### Setting up posgresql  
 First install as ubuntu global user:
-`sudo apt-get install postgresql`. 
-`sudo apt-get install python3-psycopg2`.
+```
+sudo apt-get install postgresql. 
+sudo apt-get install python3-psycopg2.
+```
 
 ### Switch to postgresql object with:
 cd to the the home and use. 
@@ -325,15 +327,23 @@ Give password as password on prompt.
 * Create database with the same name as username. 
 `postgresql@IP Adress: createrdb <username>`. 
 
-* Edit `application.py`, `database_setup.py`, `lotsofitems.py`and `functions_helper.py`. to change `engine = create_engine('sqlite:///database.db')` to.  `engine = create_engine('postgresql://catalog:password@localhost/catalog')`
+* Edit
+```
+application.py
+database_setup.py
+lotsofitems.py
+functions_helper.py 
+Change engine = create_engine('sqlite:///database.db') to.  engine = create_engine('postgresql://catalog:password@localhost/catalog')
 Then run:
-`python3 database_setup.py`. 
+python3 database_setup.py 
 To populate the database run: 
-`python3 lotsofitems.py`. 
+python3 lotsofitems.py
+```
 
  Connect to db. 
-`psql postgresql://catalog:password@localhost/catalog`. 
-
+```
+psql postgresql://catalog:password@localhost/catalog
+```
 
 
 ### Customise the Apache to hand-off certain requests to myapp
@@ -341,7 +351,8 @@ To populate the database run:
 * Configure Apache to handle requests using the WSGI module.  But instead of by editing the file `/etc/apache2/sites-enabled/000-default.conf`.  
 Lets create a new file with:
 
-  `sudo vim  /etc/apache2/sites-enabled/catalog.conf`. 
+```
+sudo vim  /etc/apache2/sites-enabled/catalog.conf`. 
   Take note that this is you app configuration file and is inate. It doesn not require touching. 
 
   * Add the following default values to `/etc/apache2/sites-enabled/catalog.conf`:
@@ -354,6 +365,7 @@ Lets create a new file with:
 
     * Add the following line. 
      `WSGIScriptAlias / /var/www/datafrica/catalog.wsgi` at the end of the block right before the closing line. 
+```
 
 The `/etc/apache2/sites-enabled/catalog.conf` should now look like this:
 
