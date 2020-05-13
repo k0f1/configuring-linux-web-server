@@ -136,8 +136,8 @@ When when next the user log in, they will be forced to change thier password.
 ## Install and configure the Apache Web Server on an Ubuntu
 ```
 sudo apt-get update. 
-sudo apt-get install apache2
-Sudo systemctl restart apache2
+sudo apt install apache2
+sudo service apache2 start
 sudo systemctl status apache2
 
 
