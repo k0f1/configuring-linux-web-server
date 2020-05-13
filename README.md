@@ -239,6 +239,8 @@ $ git clone https://github.com/k0f1/catalog.git
 $ cd catalog
 ```
 
+Install pip;
+`apt install python3-pip'
 
 Create a virtualenv and activate it:
 ```
@@ -248,7 +250,7 @@ $ . venv/bin/activate
 
 Then install Flask inside the activated environment of the catalog
 ```
-pip install Flask
+pip3 install flask
 ```
 Then deactivate venv with just. 
 `Deactivate`    
