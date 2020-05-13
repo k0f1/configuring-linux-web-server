@@ -434,9 +434,11 @@ if __name__ == '__main__':
 The purpose of unattended-upgrades is to keep the computer. 
 current with the latest security (and others) updates automatically. 
 Install the unattended-upgrades package:  
-`sudo apt-get install unattended-upgrades`. 
+```
+sudo apt-get install unattended-upgrades
 To enable it, do:
-`udo dpkg-reconfigure --priority=low unattended-upgrades`. 
+sudo dpkg-reconfigure --priority=low unattended-upgrades
+```
 
 
 
