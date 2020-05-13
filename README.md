@@ -134,13 +134,14 @@ When when next the user log in, they will be forced to change thier password.
 
 ## Install apache2:
 ## Install and configure the Apache Web Server on an Ubuntu
-`sudo apt-get update`. 
-`sudo apt-get install apache2`. 
-
+```
+sudo apt-get update. 
+sudo apt-get install apache2
 
 Then visit your client to check if you have a working server by typing. 
-`your_domain_name_or_ip_address:80`. 
+your_domain_name_or_ip_address:80
 This is the default web page for this server. 
+```
 
 
 ### Prelimnary configuration of apache to display "Hello World!"
@@ -251,6 +252,8 @@ $ . venv/bin/activate
 Then install Flask inside the activated environment of the catalog
 ```
 pip3 install flask
+pip3 install sqlalchemy
+
 ```
 Then deactivate venv with just. 
 `Deactivate`    
