@@ -215,15 +215,24 @@ Refresh your browser and you should see your app runing Hello World!
 
 
 ## Install
-
+```
 First create a new directory:
-`mkdir datafrica /var/www/`
-`cd /var/www/datafrica`
+mkdir datafrica /var/www/
+cd /var/www/datafrica
 
 Assign ownership of the directory:
 The permissions of your web roots should be correct and made as shown. 
-```
-sudo chown -R $USER:$USER /var/www/datafrica
+
+Then check permissions with ls -al with inside the directory or add path to the directory.
+Your may change ownership to root if you want to with change owner - chown:
+sudo chown <newname> [name_of_entry]
+In this case using path to entry:
+sudo chown root /var/www/datafrica
+
+You may also change the group name with change group - chgrp:
+sudo chgrp root /var/www/datafrica
+
+You may add permissions with:
 sudo chmod -R 755 /var/www/datafrica
 
 $ git clone https://github.com/k0f1/catalog.git
