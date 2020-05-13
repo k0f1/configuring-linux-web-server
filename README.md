@@ -137,6 +137,9 @@ When when next the user log in, they will be forced to change thier password.
 ```
 sudo apt-get update. 
 sudo apt-get install apache2
+Sudo systemctl restart apache2
+sudo systemctl status apache2
+
 
 Then visit your client to check if you have a working server by typing. 
 your_domain_name_or_ip_address:80
