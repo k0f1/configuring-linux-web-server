@@ -138,6 +138,7 @@ When when next the user log in, they will be forced to change thier password.
 sudo apt-get update. 
 sudo apt install apache2
 sudo service apache2 start
+sudo service apache2 reload
 sudo systemctl status apache2
 
 
@@ -224,6 +225,7 @@ First create a new directory:
 mkdir datafrica /var/www/
 cd /var/www/datafrica
 
+## Permissions
 Assign ownership of the directory:
 The permissions of your web roots should be correct and made as shown. 
 
@@ -235,12 +237,17 @@ sudo chown root /var/www/datafrica
 
 You may also change the group name with change group - chgrp:
 sudo chgrp root /var/www/datafrica
+or
+sudo chgrp -R $USER /var/www/datafrica
+This will change it to whoever the user is that is logged in.
 
 You may add permissions with:
 sudo chmod -R 755 /var/www/datafrica
 
 $ git clone https://github.com/k0f1/catalog.git
 $ cd catalog
+Remove all files ending with .pyc. 
+The application.py file has been modified and no longer a astart up file but a views file.
 ```
 
 Install pip;
@@ -250,14 +257,29 @@ Create a virtualenv and activate it:
 ```
 $ python3 -m venv venv
 $ . venv/bin/activate
+Install catalog:
+pip3 install -e .
 ```
 
 Then install Flask inside the activated environment of the catalog
 ```
 pip3 install flask
 pip3 install sqlalchemy
+If there is persmission error:
+This line of code, will give ubuntu as the user the permission neccessary to install it.
+sudo chownn -R $USER . (inside venv folder)
 
 ```
+
+```
+Run
+
+$ export FLASK_APP=catalog
+$ export FLASK_ENV=development
+$ flask run
+```
+If you done everything right, your app should run
+
 Then deactivate venv with just. 
 `Deactivate`    
 
