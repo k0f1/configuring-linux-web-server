@@ -494,6 +494,25 @@ def application(environ, start_response):
 if __name__ == '__main__':
 
 ```
+
+```
+Let’s enable the file with the a2ensite tool:
+
+    sudo a2ensite catalog.conf
+
+Disable the default site defined in 000-default.conf:
+
+    sudo a2dissite 000-default.conf
+    
+Next, let’s test for configuration errors:
+
+    sudo apache2ctl configtest
+
+You should see the following output:
+syntax ok
+
+```
+
 ## Using the "unattended-upgrades" package
 The purpose of unattended-upgrades is to keep the computer. 
 current with the latest security (and others) updates automatically. 
