@@ -368,23 +368,27 @@ If you cannot pip install these packages, then you you have a permission problem
 ### Setting up posgresql  
 First install as ubuntu global user:
 ```
-sudo apt-get install postgresql. 
-sudo apt-get install python3-psycopg2.
+sudo apt-get update && sudo apt-get upgrade
+sudo apt install postgresql. 
+sudo apt install python3-psycopg2.
 ```
 
-### Switch to postgresql object with:
-cd to the the home and use. 
-`sudo -i -u postgres`. 
+### Switch over to postgresql object with:
+```
+sudo -i -u postgres. 
 Use this command to start the Postgres interactive shell and to switch user to Postgres:  
 You must be already logged in as a sudo user at the.  
 
 * Create database user with:
-`postgresql@IP Adress: createruser -P <username>`. 
+postgresql@IP Adress: createruser -P <username>. 
 Give password as password on prompt. 
 
 * Create database with the same name as username. 
-`postgresql@IP Adress: createrdb <username>`. 
+postgresql@IP Adress: createrdb <username> 
 
+Delete a user
+dropuser <username>
+```
 * Edit
 ```
 application.py
@@ -392,6 +396,7 @@ database_setup.py
 lotsofitems.py
 functions_helper.py 
 Change engine = create_engine('sqlite:///database.db') to.  engine = create_engine('postgresql://catalog:password@localhost/catalog')
+
 Then run:
 python3 database_setup.py 
 To populate the database run: 
