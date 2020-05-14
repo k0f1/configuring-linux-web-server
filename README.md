@@ -140,6 +140,7 @@ sudo apt install apache2
 sudo service apache2 start
 sudo service apache2 reload
 sudo systemctl status apache2
+sudo tail /var/log/apache2/error.log
 
 
 Then visit your client to check if you have a working server by typing. 
