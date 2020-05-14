@@ -224,6 +224,23 @@ Refresh your browser and you should see your app runing Hello World!
 First create a new directory:
 mkdir datafrica /var/www/
 cd /var/www/datafrica
+Create setup file:
+sudo touch setup.py
+Confugure setup.py file:
+
+from setuptools import setup
+
+setup(
+        name='catalog',
+        version='0.1.0',
+        packages=['catalog'],
+        include_package_data=True,
+        install_requires=[
+            'flask', sqlalchemy,
+        ],
+
+ )
+
 
 ## Permissions
 Assign ownership of the directory:
@@ -276,16 +293,12 @@ Run
 
 $ export FLASK_APP=catalog
 $ export FLASK_ENV=development
-$ flask run
+$ flask run 
+App run successful. No __init__.py file yet
 ```
-If you done everything right, your app should run
 
 Then deactivate venv with just. 
 `Deactivate`    
-
-
-If there is any issue with permission, then garnt catalog persmission as above. 
-Deactivate
 
 Then create  __init__.py. (Make sure to delete all .pyc files first, otherwise things would most likely break)
 Use `mv application.py __init__.py`
@@ -302,17 +315,22 @@ import os
 import sys
 
 
-from flask import Flask, render_template
+from flask import Flask
+from flask import render_template
 
 app = Flask('catalog', instance_relative_config=True)
 app.config.from_mapping(
         # a default secret that should be overridden by instance config
         SECRET_KEY="dev",
+
+        UPLOAD_FOLDER='/datafrica/catalog/uploads/'
         # store the database in the instance folder
-        DATABASE= 'sqlite:///' + os.path.join(app.instance_path,\
-                    'catalogwithusers.db'),
+        DATABASE=os.path.join(app.instance_path, "catalog.sqlite"),
+        # DATABASE=os.path.join(app.instance_path, "catalog.postgresql"),
+
         # ensure the instance folder exists
-        BASE_DIR = os.makedirs(app.instance_path)
+        INSTANCE=os.makedirs(app.instance_path)
+
 )
 
 
@@ -320,7 +338,7 @@ app.config.from_mapping(
 sys.path.append(  os.path.abspath(os.path.dirname(__file__)) )
 
 
-# Import routes
+# Explictly import modules containing routes
 from catalog import application
 
 # make url_for('index') == url_for('application.index')
