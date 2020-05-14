@@ -545,8 +545,21 @@ Subsequently install the mod_wsgi package and mod_wsgi-express like so:
 To run mod_wsgi-express:
 mod_wsgi-express start-server
 
+```
 
+```
+Apache has failed
+Login as grader and go to venv
 
+Activate venv
+Then= change ownership permission to:
+sudo chown -R grader:grader .
+
+Eable the virtual host by using the command:
+sudo a2ensite catalog
+Type the following command for restarting the apache:
+service apache2 reload
+service apache2 restart
 ```
 
 ## Using the "unattended-upgrades" package
