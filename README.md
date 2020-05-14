@@ -357,7 +357,8 @@ If you cannot pip install these packages, then you you have a permission problem
 * Still inside the cloned `cd /var/www/catalog`. 
 * Next assign ownership of the project directory with user environment variable. 
 
-   `sudo chown -R $USER:$USER /var/www/catalog`. 
+   `sudo chown -R $USER /var/www/catalog`. 
+   `sudo chgrp -R $USER /var/www/catalog`
 
 * Next give permissions to the user. 
 
