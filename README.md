@@ -148,8 +148,8 @@ This is the default web page for this server.
 
 
 ### Prelimnary configuration of apache to display "Hello World!"
-* The first step in this process is to install `libapache2-mod-wsgi-py3`. 
-`sudo apt-get install libapache2-mod-wsgi-py3`,  
+* The first step in this process is to install. 
+`sudo apt install libapache2-mod-wsgi-py3`,  
 
 
 
