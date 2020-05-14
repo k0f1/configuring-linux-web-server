@@ -511,6 +511,43 @@ Next, let’s test for configuration errors:
 You should see the following output:
 syntax ok
 
+Error:
+sudo apache2ctl configtest
+
+AH00526: Syntax error on line 7 of /etc/apache2/sites-enabled/catalog.conf:
+
+Invalid command 'WSGIDaemonProcess', perhaps misspelled or defined by a module not included in the server configuration
+
+Action 'configtest' failed.
+
+The Apache error log may have more information.
+
+```
+Trouble shooting the WSGIDeamonProcess:
+```
+sudo apt install python3-dev python3-pip libapache2-mod-wsgi
+Then enable mod_wsgi:
+sudo a2enmod wsgi
+This lead to a new error:
+ERROR: Module wsgi does not exist!
+$ which mod*
+No output
+$ locate mod_wsgi
+No output
+$ pip3 install mod_wsgi
+Lead to a new error message thus:'missing Apache httpd server packages.' % APXS)
+    RuntimeError: The 'apxs' command appears not to be installed or is not executable. Please check the list of prerequisites in the documentation for this package and install any missing Apache httpd server packages.
+    
+To correct the above, run:
+pip install -v mod_wsgi-httpd
+After completion of the above installation 
+Subsequently install the mod_wsgi package and mod_wsgi-express like so:
+pip install mod_wsgi
+To run mod_wsgi-express:
+mod_wsgi-express start-server
+
+
+
 ```
 
 ## Using the "unattended-upgrades" package
