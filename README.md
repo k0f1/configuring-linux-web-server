@@ -542,7 +542,6 @@ To correct the above, run:
 pip install -v mod_wsgi-httpd
 After completion of the above installation 
 Subsequently install the mod_wsgi package and mod_wsgi-express like so:
-pip install mod_wsgi
 To run mod_wsgi-express:
 mod_wsgi-express start-server
 
