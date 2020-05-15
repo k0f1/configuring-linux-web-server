@@ -530,10 +530,7 @@ Then enable mod_wsgi:
 sudo a2enmod wsgi
 This lead to a new error:
 ERROR: Module wsgi does not exist!
-$ which mod*
-No output
-$ locate mod_wsgi
-No output
+
 $ pip3 install mod_wsgi
 Lead to a new error message thus:'missing Apache httpd server packages.' % APXS)
     RuntimeError: The 'apxs' command appears not to be installed or is not executable. Please check the list of prerequisites in the documentation for this package and install any missing Apache httpd server packages.
@@ -541,27 +538,46 @@ Lead to a new error message thus:'missing Apache httpd server packages.' % APXS)
 To correct the above, run:
 pip install -v mod_wsgi-httpd
 After completion of the above installation 
-Subsequently install the mod_wsgi package and mod_wsgi-express like so:
-To run mod_wsgi-express:
-mod_wsgi-express start-server
 
 ```
 
 ```
-Apache has failed
-Login as grader and go to venv
+Error- mod_wsgi could not be installed, permission denied:
+I needed to install this inside the venv but the permission was not correct.
+venv ownership is root currently.
+I changed this `sudo chown -R $USER:$USER venv`
+Now when I activate venv and use pip install mod_wsgi`
+it worked.
 
-Activate venv
-Then= change ownership permission to:
-sudo chown -R grader:grader .
 
-Eable the virtual host by using the command:
+Enable the virtual host by using the command:
 sudo a2ensite catalog
 Type the following command for restarting the apache:
 service apache2 reload
 service apache2 restart
 ```
+```
+Error message:
+$ sudo apt install libapache2-mod-wsgi-py3
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+E: Unable to locate package libapache2-mod-wsgi-py3
 
+Solution:
+sudo add-apt-repository universe
+sudo add-apt-repository multiverse
+sudo apt update
+Thereafter:
+$ sudo apt install libapache2-mod-wsgi-py3 
+Successful
+
+Now when I run `sudo apache2ctl configtest`, I get syntax OK finally.
+
+Key takeaway:
+Install `libapcahe2-mod-wsgi-py3` as ubuntu user and make sure the ownership of your project directory is matched by this user.
+Make sure you are in venv and it is activated, when you `pip install mod_wsgi`
+```
 ## Using the "unattended-upgrades" package
 The purpose of unattended-upgrades is to keep the computer. 
 current with the latest security (and others) updates automatically. 
