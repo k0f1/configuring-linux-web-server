@@ -326,6 +326,9 @@ app.config.from_mapping(
 
         UPLOAD_FOLDER='/datafrica/catalog/uploads/'
 
+        # Lets define the project root
+        PROJECT_ROOT=os.path.dirname(os.path.abspath(__file__))
+
 )
 
 # Explictly import modules containing routes
