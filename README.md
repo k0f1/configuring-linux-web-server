@@ -325,19 +325,8 @@ app.config.from_mapping(
         SECRET_KEY="dev",
 
         UPLOAD_FOLDER='/datafrica/catalog/uploads/'
-        # store the database in the instance folder
-        DATABASE=os.path.join(app.instance_path, "catalog.sqlite"),
-        # DATABASE=os.path.join(app.instance_path, "catalog.postgresql"),
-
-        # ensure the instance folder exists
-        INSTANCE=os.makedirs(app.instance_path)
 
 )
-
-
-# Add the directory of the file being executed to the sys.path
-sys.path.append(  os.path.abspath(os.path.dirname(__file__)) )
-
 
 # Explictly import modules containing routes
 from catalog import application
@@ -415,54 +404,41 @@ psql postgresql://catalog:password@localhost/catalog
 * Configure Apache to handle requests using the WSGI module.  But instead of by editing the file `/etc/apache2/sites-enabled/000-default.conf`.  
 Lets create a new file with:
 
-```
 sudo vim  /etc/apache2/sites-enabled/catalog.conf`. 
-  Take note that this is you app configuration file and is inate. It doesn not require touching. 
-
-  * Add the following default values to `/etc/apache2/sites-enabled/catalog.conf`:
-
-    * ServerAdmin webmaster@localhost to the email address of the domain manager. 
-
-    * ServerName www.example.com to your DNS or IP address. 
-
-    * DocumentRoot `/var/www/html` to `/var/www/datafrica/catalog. 
-
-    * Add the following line. 
-     `WSGIScriptAlias / /var/www/datafrica/catalog.wsgi` at the end of the block right before the closing line. 
-```
 
 The `/etc/apache2/sites-enabled/catalog.conf` should now look like this:
 
  ```
-       <VirtualHost *:80>
-        ServerName datafrica.com
-        ServerAlias www.datafrica.com
-        DocumentRoot /var/www/catalog/
-
-        <Directory /var/www/catalog/>
-                Order allow,deny
-                Allow from all
+  <VirtualHost *:80>
+        ServerName ec2-52-56-204-217.eu-west-2.compute.amazonaws.comm
+        ServerAdmin kofuafor@gmail.com
+        DocumentRoot /var/www/datafrica/
+        
+        # WSGIDaemonProcess yourapplication user=user1 group=group1 threads=5
+        WSGIDaemonProcess catalog user=ubuntu group=ubuntu processes=2 threads=5
+        WSGIProcessGroup catalog
+        <Directory /var/www/datafrica/catalog/>
+            Order allow,deny
+            Allow from all
         </Directory>
-        Alias /static /var/www/catalog/static
-        <Directory /var/www/catalog/static/>
-                Order allow,deny
-                Allow from all
+        Alias /static /var/www/datafrica/catalog/static
+        <Directory /var/www/datafrica/catalog/static/>
+            Order allow,deny
+            Allow from all
         </Directory>
-
-
         ErrorLog ${APACHE_LOG_DIR}/error.log
         LogLevel warn
         CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-        WSGIScriptAlias / /var/www/catalog.wsgi
-
+        WSGIScriptAlias / /var/www/datafrica/catalog.wsgi
 </VirtualHost>
-
  ```
-  Enable the virtual host with the following command:
-
-Reload Apache with `sudo service apache2 reload`. 
-
+ 
+Enable the virtual host with the following command:
+```
+Reload Apache with
+`sudo service apache2 reload`. 
+```
 
 #### Setup my catalog.wsgi file:
 Add this code to it `catalog.wsgi`. 
@@ -472,13 +448,20 @@ We first must import the os module
 
 ```
 #!/usr/bin/python3
-Import os
+
+import os
 import sys
 import logging
+
+
 logging.basicConfig(stream=sys.stderr)
-sys.path.insert(0,"/var/www/catalog")
+
+# Path to project
+sys.path.insert(0,"/var/www/datafrica")
 
 from catalog import app as application
+application.root_path = 'var/www/datafrica/
+
 application.secret_key = 'os.urandom(24)'
 
 def application(environ, start_response):
@@ -490,28 +473,33 @@ def application(environ, start_response):
     start_response(status, response_headers)
 
     return [output]
-    :
+
+
 if __name__ == '__main__':
+    app.run()
 
 ```
 
-```
 Let’s enable the file with the a2ensite tool:
-
-    sudo a2ensite catalog.conf
+```
+sudo a2ensite catalog.conf
+```
 
 Disable the default site defined in 000-default.conf:
-
-    sudo a2dissite 000-default.conf
+```
+sudo a2dissite 000-default.conf
+```
     
 Next, let’s test for configuration errors:
-
-    sudo apache2ctl configtest
+```
+sudo apache2ctl configtest
+```
 
 You should see the following output:
-syntax ok
+`syntax ok`
 
 Error:
+```
 sudo apache2ctl configtest
 
 AH00526: Syntax error on line 7 of /etc/apache2/sites-enabled/catalog.conf:
@@ -523,6 +511,7 @@ Action 'configtest' failed.
 The Apache error log may have more information.
 
 ```
+
 Trouble shooting the WSGIDeamonProcess:
 ```
 sudo apt install python3-dev python3-pip libapache2-mod-wsgi
