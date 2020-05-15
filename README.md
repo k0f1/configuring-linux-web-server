@@ -476,11 +476,6 @@ def application(environ, start_response):
     return [output]
 
 
-if __name__ == '__main__':
-    app.run()
-
-
-
 ```
 
 Let’s enable the file with the a2ensite tool:
@@ -571,6 +566,38 @@ Key takeaway:
 Install `libapcahe2-mod-wsgi-py3` as ubuntu user and make sure the ownership of your project directory is matched by this user.
 Make sure you are in venv and it is activated, when you `pip install mod_wsgi`
 ```
+More Troublke shooting
+Missing flask module
+```
+Traceback (most recent call last):
+  File "/var/www/datafrica/catalog.wsgi", line 13, in <module>
+    from catalog import app as application
+  File "/var/www/datafrica/catalog/__init__.py", line 8, in <module>
+    from flask import Flask
+ModuleNotFoundError: No module named 'flask'
+
+Debug (missing global packages)
+Start python in REPL mode (just type in python3 in the command line to enter python terminal)
+
+Try importing the module there. import flask for example.
+python3
+Python 3.6.9 (default, Apr 18 2020, 01:56:04) 
+[GCC 8.4.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import flask
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ModuleNotFoundError: No module named 'flask'
+
+If you get the same ImportError the module is not installed, therefore your application cannot use it
+
+Solution 
+Install the missing modules with sudo and pip. 
+sudo pip3 install flask.
+This successfully resolved the issue
+```
+
+
 ## Using the "unattended-upgrades" package
 The purpose of unattended-upgrades is to keep the computer. 
 current with the latest security (and others) updates automatically. 
