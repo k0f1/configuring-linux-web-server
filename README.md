@@ -463,7 +463,7 @@ logging.basicConfig(stream=sys.stderr)
 sys.path.insert(0,"/var/www/datafrica")
 
 from catalog import app as application
-application.root_path = 'var/www/datafrica/
+application.root_path = '/var/www/datafrica/catalog/'
 
 application.secret_key = 'os.urandom(24)'
 
@@ -480,6 +480,8 @@ def application(environ, start_response):
 
 if __name__ == '__main__':
     app.run()
+
+
 
 ```
 
