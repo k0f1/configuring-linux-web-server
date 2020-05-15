@@ -539,17 +539,15 @@ To correct the above, run:
 pip install -v mod_wsgi-httpd
 After completion of the above installation 
 
-```
-
-```
 Error- mod_wsgi could not be installed, permission denied:
 I needed to install this inside the venv but the permission was not correct.
 venv ownership is root currently.
 I changed this `sudo chown -R $USER:$USER venv`
 Now when I activate venv and use pip install mod_wsgi`
 it worked.
+```
 
-
+```
 Enable the virtual host by using the command:
 sudo a2ensite catalog
 Type the following command for restarting the apache:
