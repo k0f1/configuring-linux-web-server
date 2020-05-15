@@ -319,17 +319,16 @@ import sys
 from flask import Flask
 from flask import render_template
 
-app = Flask('catalog', instance_relative_config=True)
+app = Flask('catalog')
 app.config.from_mapping(
         # a default secret that should be overridden by instance config
         SECRET_KEY="dev",
-
         UPLOAD_FOLDER='/datafrica/catalog/uploads/'
 
-        # Lets define the project root
-        PROJECT_ROOT=os.path.dirname(os.path.abspath(__file__))
-
 )
+
+# Lets define the project root
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # Explictly import modules containing routes
 from catalog import application
@@ -339,7 +338,6 @@ from catalog import application
 # app.route, while giving the application blueprint a url_prefix, but for
 # the tutorial the application will be the main index
 app.add_url_rule("/", endpoint="index")
-
 ```
 **_Make sure to delete all .pyc files first, otherwise things would most likely break_**
 
