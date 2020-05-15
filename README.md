@@ -510,7 +510,7 @@ The Apache error log may have more information.
 
 ```
 
-Trouble shooting the WSGIDeamonProcess:
+## Trouble shooting the WSGIDeamonProcess:
 ```
 sudo apt install python3-dev python3-pip libapache2-mod-wsgi
 Then enable mod_wsgi:
