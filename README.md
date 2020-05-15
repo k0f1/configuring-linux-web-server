@@ -542,6 +542,9 @@ sudo a2ensite catalog
 Type the following command for restarting the apache:
 service apache2 reload
 service apache2 restart
+
+And verify that wsgi module is loaded: 
+sudo apache2ctl -M|grep -i wsgi
 ```
 ```
 Error message:
