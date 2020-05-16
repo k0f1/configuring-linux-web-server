@@ -596,7 +596,7 @@ Install the missing modules with sudo and pip.
 sudo pip3 install flask.
 This successfully resolved the issue
 ```
-## Test if my flask app imoort is correct
+## Test if my flask app import in catalog.wsgi
 ```
  python3
 Python 3.6.9 (default, Apr 18 2020, 01:56:04) 
