@@ -620,8 +620,7 @@ example code.
 Attach your instance to a static IP address. 
 Create A records with example.com inside your amazon lighsail instance.  Also create subdomains starting with `www` subdomain, record. 
 
-Go to your DNS host provider and map your domain to the Nameservers provided in the lightsail instance. 
-Also map your domain name, to the A recors you created inside lighsail. 
+Go to your DNS host provider and add the Nameservers provided in the lightsail instance.  
 
 These mappings to show you are the owner of the domain name. 
 
