@@ -566,7 +566,7 @@ Key takeaway:
 Install `libapcahe2-mod-wsgi-py3` as ubuntu user and make sure the ownership of your project directory is matched by this user.
 Make sure you are in venv and it is activated, when you `pip install mod_wsgi`
 ```
-## Troublke shooting missing flask module
+## Trouble shooting missing flask module
 Missing flask module
 ```
 Traceback (most recent call last):
