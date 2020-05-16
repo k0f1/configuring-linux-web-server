@@ -596,7 +596,17 @@ Install the missing modules with sudo and pip.
 sudo pip3 install flask.
 This successfully resolved the issue
 ```
-
+## Test if my flask app imoort is correct
+```
+ python3
+Python 3.6.9 (default, Apr 18 2020, 01:56:04) 
+[GCC 8.4.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from catalog import app as application
+>>> print (application)
+<Flask 'catalog'>
+>>> 
+```
 
 ## Using the "unattended-upgrades" package
 The purpose of unattended-upgrades is to keep the computer. 
