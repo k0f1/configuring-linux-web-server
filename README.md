@@ -410,14 +410,16 @@ sudo vim  /etc/apache2/sites-enabled/catalog.conf`.
 The `/etc/apache2/sites-enabled/catalog.conf` should now look like this:
 
  ```
-  <VirtualHost *:80>
-        ServerName ec2-52-56-204-217.eu-west-2.compute.amazonaws.comm
-        ServerAdmin kofuafor@gmail.com
+<VirtualHost *:80>
+        ServerName www.datafrica.com
+        ServerAdmin kofuafor@datafrica.com
         DocumentRoot /var/www/datafrica/
-        
-        # WSGIDaemonProcess yourapplication user=user1 group=group1 threads=5
-        WSGIDaemonProcess catalog user=ubuntu group=ubuntu processes=2 threads=5
+       
+        # python-home set to the location of an empty python virtual environment. 
+        WSGIDaemonProcess catalog python-home=/usr/local/venv/empty user=ubuntu group=ubuntu processes=2 threads=5 python-path=/var/www/datafrica/catalog/
+     
         WSGIProcessGroup catalog
+
         <Directory /var/www/datafrica/catalog/>
             Order allow,deny
             Allow from all
@@ -433,6 +435,7 @@ The `/etc/apache2/sites-enabled/catalog.conf` should now look like this:
 
         WSGIScriptAlias / /var/www/datafrica/catalog.wsgi
 </VirtualHost>
+
  ```
  
 Enable the virtual host with the following command:
