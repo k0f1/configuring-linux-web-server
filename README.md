@@ -271,7 +271,7 @@ The application.py file has been modified and no longer a astart up file but a v
 Install pip;
 `apt install python3-pip'
 
-Create a virtualenv and activate it:
+## Create a virtualenv and activate it:
 ```
 $ python3 -m venv venv
 $ . venv/bin/activate
@@ -283,6 +283,7 @@ Then install Flask inside the activated environment of the catalog
 ```
 pip3 install flask
 pip3 install sqlalchemy
+pip install psycopg2-binary
 If there is persmission error:
 This line of code, will give ubuntu as the user the permission neccessary to install it.
 sudo chownn -R $USER . (inside venv folder)
@@ -361,7 +362,8 @@ First install as ubuntu global user:
 ```
 sudo apt-get update && sudo apt-get upgrade
 sudo apt install postgresql. 
-sudo apt install python3-psycopg2.
+Inside the venv, pip install psycopg2 like so:
+pip install psycopg2-binary.
 ```
 
 ### Switch over to postgresql object with:
