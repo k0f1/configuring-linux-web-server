@@ -7,14 +7,25 @@ Initial setup before using the code.
 ### Get your server
 * Amazon account with a _lightsail_
   * Start a new Ubuntu linux server intstance
-  * SSH into the Server
-  `ssh ubuntu@IP Address -p 22 -i ~/.ssh/privateKeyName`
-  We will see later how to generate key pairs and upload the public key to amazon
+  
+### Generate key pairs with the commmand
 
-The IP address: XXXXXXXX
-SSH port: XXXX
-The complete URL to your hosted web application: www.datafrica.com
+Use this command to generate key pairs. ssh-keygen.
 
+    Once done, use the cat command to copy the public key ending in .pub.
+    Upload this key to your amazon account as one of the keys to be used for access.
+    
+Then restart the service with ```sudo ssh service restart````.
+
+Then login with ```ssh <username>@ip-address -p 22 -i ~/.ssh/your_private_key_name```.
+
+
+
+login as grader. Create a directory mkdir .ssh. In your loacl machine, look view the public key and copy it with cat .ssh/grader.pub. Post the public key inside this file.
+
+Set up some specific file permissions on .ssh and authorized_keys with
+
+chmod 700 .ssh chmod 644 .ssh/authorized_keys
 
 
 ## Secure your server
