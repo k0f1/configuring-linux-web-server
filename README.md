@@ -17,7 +17,7 @@ Use this command to generate key pairs. ssh-keygen.
     
 Then restart the service with:
 
-```sudo ssh service restart````
+```sudo ssh service restart```
 
 Then login with
 
