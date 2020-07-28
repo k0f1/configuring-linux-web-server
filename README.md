@@ -15,9 +15,9 @@ Use this command to generate key pairs. ssh-keygen.
     Once done, use the cat command to copy the public key ending in .pub.
     Upload this key to your amazon account as one of the keys to be used for access.
     
-Then restart the service with
+Then restart the service with:
 
-```sudo ssh service restart````.
+```sudo ssh service restart````
 
 Then login with
 
