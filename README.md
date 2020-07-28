@@ -16,9 +16,11 @@ Use this command to generate key pairs. ssh-keygen.
     Upload this key to your amazon account as one of the keys to be used for access.
     
 Then restart the service with
+
 ```sudo ssh service restart````.
 
 Then login with
+
 ```ssh <username>@ip-address -p 22 -i ~/.ssh/your_private_key_name```.
 
 
