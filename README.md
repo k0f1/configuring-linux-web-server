@@ -1,6 +1,48 @@
 # Configuring Linux Web Server
 The project explains how to a take a baseline installation of a linux server and prepare it to host a web applications.   At the end of the project you will secure your server from a number of attack vectors, install and configure a database server,   and delpoy an existing web applications onto it. The steps should progress from acquiring and updating the server dependencies,  user managment(creating, permission, log in via ssh) to configuring the firewall rules followed by application deployment and configuration and finally, database configuration.
 
+### Tasks
+1. Launch your Virtual Machine with your Udacity account
+2. Follow the instructions provided to SSH into your server
+3. Create a new user named grader
+4. Give the grader the permission to sudo
+5. Update all currently installed packages
+6. Change the SSH port from 22 to 2200
+7. Configure the Uncomplicated Firewall (UFW) to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123)
+8. Configure the local timezone to UTC
+9. Install and configure Apache to serve a Python mod_wsgi application
+10. Install and configure PostgreSQL:
+        Do not allow remote connections
+        Create a new user named catalog that has limited permissions to your catalog application database
+11. Install git, clone and setup your Catalog App project (from your GitHub repository from earlier in the Nanodegree program) so that it functions correctly when visiting your server’s IP address in a browser. Remember to set this up appropriately so that your .git directory is not publicly accessible via a browser!
+
+### First generate priavte key
+In your local machine, generate key pair with
+```ssh-keygen```
+copy the key end with ```.pub```
+Save the file
+
+
+### Launch your Virtual Machine
+Sign up to aws account. 
+Choose lightsail service
+Choose ubuntus image
+Then finally add key by uploading the public key created in your local machine
+
+### Development environment
+Public IP: 3.11.231.124
+
+### Login remotely
+
+In your local machine
+Open the terminal
+enter this line oof code
+```ssh ubuntu@3.11.231.124 -p 22 -i ~/.ssh/privateKeyName```
+
+
+
+
+
 ## Installation
 Initial setup before using the code.
 
