@@ -48,8 +48,7 @@ Public IP: 3.11.231.124
 2. Give a password to user when prompted to do so. 
 3. ```sudo vim /etc/sudoers```
 4. ```sudo touch /etc/sudoers.d/grader```
-**Give Sudo Access.** 
-5. ```sudo vim /etc/sudoers.d/grader```, type in grader ALL=(ALL:ALL) ALL, save and quit
+5. **Give Sudo Access.** ```sudo vim /etc/sudoers.d/grader```, type in grader ALL=(ALL:ALL) ALL, save and quit
 
 ### Set ssh login using keys
 1. Generate keys for the user grader on local machine using ssh-keygen ; then save the private key in ~/.ssh on local machine
