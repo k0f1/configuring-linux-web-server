@@ -143,27 +143,86 @@ exit
 
 ### Install git, clone and setup your Catalog App project.
 
-1 Install Git using sudo apt-get install git
-2 Use cd /var/www to move to the /var/www directory
-3 Create the application directory ```sudo mkdir Datafrica```
-4 Move inside this directory using ```cd Datafrica```
-5 Clone and renmae the Catalog App to the virtual machine ```git clone https://github.com/kongling893/Item_Catalog_UDACITY.git FlaskApp```
-6. Move to the inner FlaskApp directory using ```cd FlaskApp```
-7. Create an ``` __init__.py``` using ```sudo touch  __init__.py```
-8. Edit database_setup.py, application.py and functions_helper.py and change engine = create_engine('sqlite:///catalogwithusers.db') to engine = create_engine('postgresql://catalog:password@localhost/catalog')
-9. Install pip ```sudo apt-get install python3-pip```
-10. Use pip to install dependencies ```pip freeze >  requirements.txt /var/www/Datafrica/FlaskApp```
-11. Install psycopg2 ```sudo apt-get -qqy install postgresql python-psycopg2```
-12. Create database schema python3 database_setup.py. It would ask for missing libraries such as sqlalchemy
+1 Install Git using sudo apt-get install git.
+2 Use cd /var/www to move to the /var/www directory.
+3 Create the application directory ```sudo mkdir Datafrica```.
+4 Move inside this directory using ```cd Datafrica```.
+5 Clone and renmae the Catalog App to the virtual machine ```git clone https://github.com/kongling893/Item_Catalog_UDACITY.git FlaskApp```.
+6. Move to the inner FlaskApp directory using ```cd FlaskApp```.
+7. Create an ``` __init__.py``` using ```sudo touch  __init__.py```.
+8. Edit database_setup.py, application.py and functions_helper.py and change engine = create_engine('sqlite:///catalogwithusers.db') to engine = create_engine('postgresql://catalog:password@localhost/catalog').
+9. Install pip ```sudo apt-get install python3-pip```.
+10. Use pip to install dependencies ```pip freeze >  requirements.txt /var/www/Datafrica/FlaskApp```.
+11. Install psycopg2 ```sudo apt-get -qqy install postgresql python-psycopg2```.
+12. Create database schema python3 database_setup.py. It would ask for missing libraries such as sqlalchemy.
 
 
 ### Configure and Enable a New Virtual Host
+1. Create FlaskApp.conf to edit: sudo nano /etc/apache2/sites-available/FlaskApp.conf
+
+2. Add the following lines of code to the file to configure the virtual host.
 
 
+```
+<VirtualHost *:80>
+        ServerName www.datafrica.com
+        ServerAdmin kofuafor@dgmail.com
 
+        <Directory /var/www/Datafrica/FlaskApp/>
+            Order allow,deny
+            Allow from all
+        </Directory>
+        Alias /static /var/www/Datafrica/FlaskApp/static
+        <Directory /var/www/Datafrica/FlaskApp/static/>
+            Order allow,deny
+            Allow from all
+        </Directory>
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        LogLevel warn
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
 
+        WSGIScriptAlias / /var/www/Datafrica/flaskapp.wsgi
+</VirtualHost>
+```
 
+3. Enable the virtual host with the following command: ```sudo a2ensite FlaskApp```
 
+### Create the .wsgi File
+1. Create the .wsgi File under /var/www/Datafrica:
+
+```
+cd /var/www/Datafrica
+sudo nano flaskapp.wsgi
+```
+
+2. Add the following lines of code to the flaskapp.wsgi file:
+
+```
+#!/usr/bin/python
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/FlaskApp/")
+
+from FlaskApp import app as application
+application.secret_key = 'Add your secret key'
+```
+Existing code.
+```
+def application(environ, start_response):
+    status = '200 OK'
+    output = 'Hello World!'
+
+    response_headers = [('Content-type', 'text/plain'), ('Content-Length', str(len(output)))]
+    start_response(status, response_headers)
+
+    return [output]
+  ```
+
+### Restart Apache
+1. Restart Apache sudo service apache2 restart
+2. Next you want to create a new host record in your hosts file (/etc/hosts).
+```127.0.0.1 my.flaskapp
 
 
 
