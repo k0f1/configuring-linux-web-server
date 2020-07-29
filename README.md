@@ -19,36 +19,68 @@ The project explains how to a take a baseline installation of a linux server and
 ### First generate priavte key
 In your local machine, generate key pair with
 ```ssh-keygen```
+look view the public key and copy it with cat .ssh/grader.pub. Post the public key inside this file.
 copy the key end with ```.pub```
 Save the file
 
 
 ### Launch your Virtual Machine
-Sign up to aws account. 
-Choose lightsail service
-Choose ubuntus image
-Then finally add key by uploading the public key created in your local machine
+1. Sign up to aws account. 
+2. Create a lightsail instance
+3. Choose an ubuntu image
+4. Choose your instance plan
+5. Give your instance a host name- say ubuntu
+6. Wait for it to start
+7. Then finally add key by uploading the public key created in your local machine
 
 ### Development environment
 Public IP: 3.11.231.124
 
-### Login remotely
+### Connect remotely securely
 
-In your local machine
-Open the terminal
-enter this line oof code
+1. In your local machine open the terminal
+2. Enter this line oof code
 ```ssh ubuntu@3.11.231.124 -p 22 -i ~/.ssh/privateKeyName```
 
 
+### Create a new user named grader
+1. ```sudo adduser grader```
+2. Give a password to user when prompted to do so. 
+3. ```sudo vim /etc/sudoers```
+4. ```sudo touch /etc/sudoers.d/grader```
+**Give Sudo Access.** 
+5. ```sudo vim /etc/sudoers.d/grader```, type in grader ALL=(ALL:ALL) ALL, save and quit
+
+### Set ssh login using keys
+1. Generate keys for the user grader on local machine using ssh-keygen ; then save the private key in ~/.ssh on local machine
+2. Deploy public key on developement enviroment
+
+On you virtual machine:
+```
+su - grader
+mkdir .ssh
+touch .ssh/authorized_keys
+sudo vim .ssh/authorized_keys
+```
+
+Copy the public key generated on your local machine to this file and save```
+```
+chmod 700 .ssh
+$ chmod 644 .ssh/authorized_keys
+```
+3. Reload SSH using ```sudo service ssh restart```
+
+4. You can use ssh to login with the new user you created
+```ssh grader@52.24.125.52 -i <privateKeyName>```
 
 
 
-## Installation
-Initial setup before using the code.
+### Finally force key based authentication
+With `sudo vim /etc/ssh/sshd_config`This is the server listening for all of your ssh connections. 
 
-### Get your server
-* Amazon account with a _lightsail_
-  * Start a new Ubuntu linux server intstance
+
+
+
   
 ### Generate key pairs with the commmand
 
