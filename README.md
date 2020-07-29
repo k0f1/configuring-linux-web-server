@@ -72,76 +72,36 @@ $ chmod 644 .ssh/authorized_keys
 4. You can use ssh to login with the new user you created
 ```ssh grader@52.24.125.52 -i <privateKeyName>```
 
+### Update all currently installed packages
+```
+sudo apt-get update
+sudo apt-get upgrade
+```
 
-
-### Finally force key based authentication
-With `sudo vim /etc/ssh/sshd_config`This is the server listening for all of your ssh connections. 
-
-
-
-
-  
-### Generate key pairs with the commmand
-
-Use this command to generate key pairs. ssh-keygen.
-
-    Once done, use the cat command to copy the public key ending in .pub.
-    Upload this key to your amazon account as one of the keys to be used for access.
-    
-Then restart the service with:
-
-```sudo ssh service restart```
-
-Then login with
-
-```ssh <username>@ip-address -p 22 -i ~/.ssh/your_private_key_name```.
-
-
-
-login as grader. Create a directory mkdir .ssh. In your loacl machine, look view the public key and copy it with cat .ssh/grader.pub. Post the public key inside this file.
-
-Set up some specific file permissions on .ssh and authorized_keys with
-
-chmod 700 .ssh chmod 644 .ssh/authorized_keys
+### Change the SSH port from 22 to 2200
+1. Use ```sudo vim /etc/ssh/sshd_config``` and then change Port 22 to Port 2200 , save & quit.
+2. Reload SSH using ```sudo service ssh restart```
 
 
 ## Secure your server
 Configure your firewall ()**ufw**} earlier on
 
-```sudo ufw status```
-status -inactive
-
-Configure ports:
-
-```sudo ufw default deny incoming```
-
-```sudo ufw default allow outgoing```
-
-```ufw enable status```
+```
+sudo ufw status
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+ufw enable status
 status inactive
+```
+### Configure the Uncomplicated Firewall (UFW)
+Configure the Uncomplicated Firewall (UFW) to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123)
 
-### Start configuring various ports the application will need
-To support SSH:  
-
-```sudo ufw allow ssh```
-
-We are going to be using SSH on port 2200, so let us setup ssh to allow port 2200. 
-
-```sudo ufw allow 2200/tcp```
-
-We plan to support a basic http server,and we can allow this by using:  
-
-```sudo ufw allow wwww```
-
-Also allow port 123 on udp
-```sudo ufw allow 123/udp```
-
-With that we can now enable our firewall with `sudo ufw enable`. 
-
-Finally, confirm that all our configuration are working with
-
-```sudo ufw status``` command  
-
+```
+sudo ufw allow 2200/tcp
+sudo ufw allow 80/tcp
+sudo ufw allow 123/udp
+sudo ufw enable 
+```
 
 ### Add custom firewall configuration like so:
   1. Open amazon lightsail panel and, select firewall. 
@@ -151,7 +111,87 @@ Finally, confirm that all our configuration are working with
   5. Restart SSH service with `sudo systemctl restart ssh`. 
   6. Exit and connect through ssh with the new ssh port 2200.  
 
-_Configure the local timezone to UTC `sudo dpkg-reconfigure tzdata`_. 
+
+### Configure the local timezone to UTC 
+```sudo dpkg-reconfigure tzdata``` 
+
+
+### Install and configure Apache to serve a Python mod_wsgi application
+1. Install Apache ```sudo apt-get install apache2```
+2. Install python-setuptools ```sudo apt-get install python-setuptools```
+3 install mod-wsgi ```sudo apt-get install libapache2-mod-wsgi```
+3. Restart Apache ```sudo service apache2 restart```
+
+### Install and configure PostgreSQL
+1. Install PostgreSQL ```sudo apt-get install postgresql```
+2. Check if no remote connections are allowed ```sudo vim /etc/postgresql/9.3/main/pg_hba.conf```
+3. Login as user "postgres" sudo su - postgres
+4. Get into postgreSQL shell psql
+5. Create a new database named catalog and create a new user named catalog in postgreSQL shell
+	```
+	createuser -P <username>. and set password
+	createdb <username> 
+	```
+
+
+7. Quit postgreSQL ```postgres=# \q```
+
+8. Exit from user "postgres"
+```
+exit
+```
+
+### Install git, clone and setup your Catalog App project.
+
+1 Install Git using sudo apt-get install git
+2 Use cd /var/www to move to the /var/www directory
+3 Create the application directory ```sudo mkdir Datafrica```
+4 Move inside this directory using ```cd Datafrica```
+5 Clone and renmae the Catalog App to the virtual machine ```git clone https://github.com/kongling893/Item_Catalog_UDACITY.git FlaskApp```
+6. Move to the inner FlaskApp directory using ```cd FlaskApp```
+7. Create an ``` __init__.py``` using ```sudo touch  __init__.py```
+8. Edit database_setup.py, application.py and functions_helper.py and change engine = create_engine('sqlite:///catalogwithusers.db') to engine = create_engine('postgresql://catalog:password@localhost/catalog')
+9. Install pip ```sudo apt-get install python3-pip```
+10. Use pip to install dependencies ```pip freeze >  requirements.txt /var/www/Datafrica/FlaskApp```
+11. Install psycopg2 ```sudo apt-get -qqy install postgresql python-psycopg2```
+12. Create database schema python3 database_setup.py. It would ask for missing libraries such as sqlalchemy
+
+
+### Configure and Enable a New Virtual Host
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
