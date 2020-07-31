@@ -477,6 +477,7 @@ Install pip;
 ```
 $ python3 -m venv venv
 $ . venv/bin/activate
+or use source venv/bin/activate
 pip3 install flask
 ```
 
