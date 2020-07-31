@@ -469,12 +469,11 @@ The application.py file has been modified and no longer a astart up file but a v
 Install pip;
 `apt install python3-pip'
 
-## Create a virtualenv and activate it:
+### Create a virtualenv and activate it:
 ```
 $ python3 -m venv venv
 $ . venv/bin/activate
-Install catalog:
-pip3 install -e .
+pip3 install flask
 ```
 
 Then install Flask inside the activated environment of the catalog
