@@ -144,16 +144,27 @@ exit
 ### Install git, clone and setup your Catalog App project.
 
 1 Install Git using sudo apt-get install git.
+
 2 Use cd /var/www to move to the /var/www directory.
+
 3 Create the application directory ```sudo mkdir Datafrica```.
+
 4 Move inside this directory using ```cd Datafrica```.
+
 5 Clone and renmae the Catalog App to the virtual machine ```git clone https://github.com/kongling893/Item_Catalog_UDACITY.git FlaskApp```.
+
 6. Move to the inner FlaskApp directory using ```cd FlaskApp```.
-7. Create an ``` __init__.py``` using ```sudo touch  __init__.py```.
+
+7. Rename application.py to  ``` __init__.py``` using ```sudo mv  __init__.py```.
+
 8. Edit database_setup.py, application.py and functions_helper.py and change engine = create_engine('sqlite:///catalogwithusers.db') to engine = create_engine('postgresql://catalog:password@localhost/catalog').
+
 9. Install pip ```sudo apt-get install python3-pip```.
+
 10. Use pip to install dependencies ```pip freeze >  requirements.txt /var/www/Datafrica/FlaskApp```.
+
 11. Install psycopg2 ```sudo apt-get -qqy install postgresql python-psycopg2```.
+
 12. Create database schema python3 database_setup.py. It would ask for missing libraries such as sqlalchemy.
 
 
