@@ -121,10 +121,12 @@ sudo ufw enable
 2. Install python-setuptools ```sudo apt-get install python-setuptools```
 3 install mod-wsgi ```sudo apt-get install libapache2-mod-wsgi```
 3. Restart Apache ```sudo service apache2 restart```
+4. Check with the systemd init system to make sure the service is running by typing: ```sudo systemctl status apache2```
+4. Access the default Apache landing page to confirm that the software is running properly through your public IP address: http://your_server_ip
 
 ### Install and configure PostgreSQL
 1. Install PostgreSQL ```sudo apt-get install postgresql```
-2. Check if no remote connections are allowed ```sudo vim /etc/postgresql/9.3/main/pg_hba.conf```
+2. Check if no remote connections are allowed ```sudo vim /etc/postgresql/9.3/main/pg_hba.conf``` see version with ```psql --version```
 3. Login as user "postgres" sudo su - postgres
 4. Get into postgreSQL shell psql
 5. Create a new database named catalog and create a new user named catalog in postgreSQL shell
@@ -147,25 +149,88 @@ exit
 
 2 Use cd /var/www to move to the /var/www directory.
 
-3 Create the application directory ```sudo mkdir Datafrica```.
+3 Create the application directory ```sudo mkdir datafrica```.
 
-4 Move inside this directory using ```cd Datafrica```.
+4 Move inside this directory using ```cd datafrica```.
 
-5 Clone and renmae the Catalog App to the virtual machine ```git clone https://github.com/kongling893/Item_Catalog_UDACITY.git FlaskApp```.
+5 Clone and renmae the Catalog App to the virtual machine ```git clone https://github.com/k0f1/catalog.git flaskApp```.
 
-6. Move to the inner FlaskApp directory using ```cd FlaskApp```.
+6. Move to the inner flaskApp directory using ```cd flaskApp```.
+	* Assign ownership of the directory: ```sudo chown -R grader:grader /var/www/datafrica/flaskApp```
+	* Assign permissions to the web root: ```sudo chmod -R 775 grader:grader /var/www/datafrica/flaskApp```
 
-7. Rename application.py to  ``` __init__.py``` using ```sudo mv  __init__.py```.
+7. Create an   ``` __init__.py``` to define the flask app as a package.
+	Make sure to delete all .pyc files first, otherwise things would most likely break
 
-8. Edit database_setup.py, application.py and functions_helper.py and change engine = create_engine('sqlite:///catalogwithusers.db') to engine = create_engine('postgresql://catalog:password@localhost/catalog').
+	 Python does not want modules in packages to be the startup file. 
+	 So create a new file called `setup.py` inside the root directory datafrica. 
+
+
+	```
+	# Filename:  __init__.py
+	# encoding: utf-8
+
+	import os
+	import sys
+
+
+	from flask import Flask
+	from flask import render_template
+
+	app = Flask('flaskApp')
+
+
+	# Explictly import modules containing routes
+	from flaskApp import application
+
+	# make url_for('index') == url_for('application.index')
+	# in another app, you might define a separate main index here with
+	# app.route, while giving the application blueprint a url_prefix, but for
+	# the tutorial the application will be the main index
+	app.add_url_rule("/", endpoint="index")
+	```
+
+8. Edit database_setup.py, application.py and functions_helper.py and change engine = create_engine('sqlite:///catalogwithusers.db') to engine = create_engine('postgresql://flaspApp:password@localhost/flaskApp').
 
 9. Install pip ```sudo apt-get install python3-pip```.
 
-10. Use pip to install dependencies ```pip freeze >  requirements.txt /var/www/Datafrica/FlaskApp```.
+10. Use pip to install dependencies ```pip freeze >  requirements.txt /var/www/datafrica/flaskApp```.
 
 11. Install psycopg2 ```sudo apt-get -qqy install postgresql python-psycopg2```.
 
 12. Create database schema python3 database_setup.py. It would ask for missing libraries such as sqlalchemy.
+
+
+## Install
+
+Inside  /var/www/datafrica
+Create setup file:
+sudo touch setup.py
+Confugure setup.py file:
+```
+from setuptools import setup
+
+setup(
+        name='flaskApp',
+        version='0.1.0',
+        packages=['flaskApp'],
+        include_package_data=True,
+        install_requires=[
+            'flask', sqlalchemy,
+        ],
+
+ )
+ ```
+
+Inside flaskApp directory:
+Run source venv/bin/activate:
+then Run
+
+1. $ export FLASK_APP=catalog
+2. $ export FLASK_ENV=development
+3. $ flask run
+Successful: App is runing on port 5000
+
 
 
 ### Configure and Enable a New Virtual Host
@@ -192,7 +257,7 @@ exit
         LogLevel warn
         CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-        WSGIScriptAlias / /var/www/Datafrica/flaskapp.wsgi
+        WSGIScriptAlias / /var/www/datafrica/flaskApp.wsgi
 </VirtualHost>
 ```
 
@@ -213,7 +278,7 @@ sudo nano flaskapp.wsgi
 import sys
 import logging
 logging.basicConfig(stream=sys.stderr)
-sys.path.insert(0,"/var/www/FlaskApp/")
+sys.path.insert(0,"/var/www/datafrica/flaskApp/")
 
 from FlaskApp import app as application
 application.secret_key = 'Add your secret key'
@@ -341,9 +406,9 @@ sudo apt-get update.
 sudo apt install apache2
 sudo service apache2 start
 sudo service apache2 reload
+
 sudo systemctl status apache2
 sudo tail /var/log/apache2/error.log
-
 
 Then visit your client to check if you have a working server by typing. 
 your_domain_name_or_ip_address:80
@@ -830,16 +895,6 @@ sudo dpkg-reconfigure --priority=low unattended-upgrades
 ## Usage
 Configuring a linux web server requires a number of environmental variables for runtime configuration as shown above.  The following examples demonstrate how to run it manually from the command line in the appriopriate directory
 example code. 
-
-## Known Bugs
-
-## Networking
-Attach your instance to a static IP address. 
-Create A records with example.com inside your amazon lighsail instance.  Also create subdomains starting with `www` subdomain, record. 
-
-Go to your DNS host provider and add the Nameservers provided in the lightsail instance.  
-
-These mappings to show you are the owner of the domain name. 
 
 
 
