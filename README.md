@@ -190,11 +190,9 @@ exit
 	then Run
 	```
 
-	1. $ export FLASK_APP=datafrica
-	2. pip install -e .
-	3. $ flask run
+	1. $ export FLASK_ENV=datafrica
+	2. pip3 install -e .
 	```
-	Successful: App is runing on port 5000
 	
 	**Installing setup.py** 
 	
@@ -211,13 +209,7 @@ exit
 	source venv/bin/activate
 	
 	Run
-	gunicorn -b localhost:8000 -w 4 datafrica:app
-
-	```
-		1. The ```-b option``` tells gunicorn where to listen for requests
-		2. The ```-w option``` configures how many workers gunicorn will run
-		3. The ```datafrica:app``` argument tells gunicorn how to load the application instance
-	
+	flask run -b localhost:8000 -w 4 datafrica:app
 
 	
 	**Create views.py file**.
@@ -288,14 +280,29 @@ sudo nano datafrica.wsgi
 
 ```
 #!/usr/bin/python
+
+import os
 import sys
 import logging
 logging.basicConfig(stream=sys.stderr)
 sys.path.insert(0,"/var/www/datafrica/datafrica/")
 
-from FlaskApp import app as application
+from datafrica import app as application
 application.secret_key = 'Add your secret key'
-application.run()
+_environ = os.environ.get("FLASK_ENV", default="true")
+
+
+ def application(environ, start_response):
+    status = '200 OK'
+    output = 'Hello World!'
+
+    response_headers = [('Content-type', 'text/plain'), ('Content-Length', str(len(output)))]
+    start_response(status, response_headers)
+
+    return [output]
+
+if '__name__' == '__main__':
+	application(_environ, start_response(status, response_headers))
 
 
 ### Restart Apache
@@ -354,6 +361,7 @@ First install wsgi module with:
  def application(environ, start_response):
     status = '200 OK'
     output = 'Hello World!'
+    _environ = 
 
     response_headers = [('Content-type', 'text/plain'), ('Content-Length', str(len(output)))]
     start_response(status, response_headers)
@@ -424,6 +432,20 @@ sudo apache2ctl restart
 sudo tail /var/log/apache2/error.log
 ```
 
+### Flask config file
+```
+app = Flask(__name__)
+app.config['FLASK_ENV'] = True # defaults to the production
+app.config['DEBUG'] = True 
+app.config['TESTING'] = True 
+
+```
+
+## Environ variables
+export FLASK_ENV=datafrica
+import os
+
+environ = os.environ.get("FLASK_ENV", default="true")
 
 ## Usage
 Configuring a linux web server requires a number of environmental variables for runtime configuration as shown above.  The following examples demonstrate how to run it manually from the command line in the appriopriate directory
