@@ -195,6 +195,12 @@ exit
 	3. $ flask run
 	```
 	Successful: App is runing on port 5000
+	
+	**Installing setup.py** 
+	
+	To install your application (ideally into a virtualenv) just run the setup.py script with the 	           install parameter.  It will install your application into the virtualenv’s site-packages folder and 	       also download and install all dependencies:
+	
+	```(venv) $ python setup.py install```
 
 	**Setting Up Gunicorn and Supervisor**
 	When you run the server with flask run, you are using a web server that comes with Flask. This 		server isn't a good choice to use for a production server because it wasn't built with performance         and robustness in mind. Instead of the Flask development server, for this deployment I will use    	      gunicorn, which is also a pure Python web server, but unlike Flask's, it is a robust production    	 server.
