@@ -153,11 +153,11 @@ exit
 
 4 Move inside this directory using ```cd datafrica```.
 
-5 Clone and renmae the Catalog App to the virtual machine ```git clone https://github.com/k0f1/catalog.git flaskApp```.
+5 Clone and renmae the Catalog App to the virtual machine ```git clone https://github.com/k0f1/catalog.git datafrica```.
 
-6. Move to the inner flaskApp directory using ```cd flaskApp```.
-	* Assign ownership of the directory: ```sudo chown -R grader:grader /var/www/datafrica/flaskApp```
-	* Assign permissions to the web root: ```sudo chmod -R 775 grader:grader /var/www/datafrica/flaskApp```
+6. Move to the inner flaskApp directory using ```cd datafrica```.
+	* Assign ownership of the directory: ```sudo chown -R grader:grader /var/www/datafrica/datafrica```
+	* Assign permissions to the web root: ```sudo chmod -R 775 /var/www/datafrica/datafrica```
 
 7. Create an   ``` __init__.py``` to define the flask app as a package.
 	Make sure to delete all .pyc files first, otherwise things would most likely break
@@ -177,31 +177,26 @@ exit
 	from flask import Flask
 	from flask import render_template
 
-	app = Flask('flaskApp')
+	app = Flask('datafrica')
 
 
 	# Explictly import modules containing routes
-	from flaskApp import application
+	from datafrica import application
 
-	# make url_for('index') == url_for('application.index')
-	# in another app, you might define a separate main index here with
-	# app.route, while giving the application blueprint a url_prefix, but for
-	# the tutorial the application will be the main index
-	app.add_url_rule("/", endpoint="index")
 	```
 
 8. Edit database_setup.py, application.py and functions_helper.py and change engine = create_engine('sqlite:///catalogwithusers.db') to engine = create_engine('postgresql://flaspApp:password@localhost/flaskApp').
 
 9. Install pip ```sudo apt-get install python3-pip```.
 
-10. Use pip to install dependencies ```pip freeze >  requirements.txt /var/www/datafrica/flaskApp```.
+10. Use pip to install dependencies ```pip freeze >  requirements.txt /var/www/datafrica/datafrica```.
 
 11. Install psycopg2 ```sudo apt-get -qqy install postgresql python-psycopg2```.
 
 12. Create database schema python3 database_setup.py. It would ask for missing libraries such as sqlalchemy.
 
 
-## Install
+## Create setup.py file
 
 Inside  /var/www/datafrica
 Create setup file:
@@ -211,22 +206,22 @@ Confugure setup.py file:
 from setuptools import setup
 
 setup(
-        name='flaskApp',
+        name='datafrica',
         version='0.1.0',
-        packages=['flaskApp'],
+        packages=['datafrica'],
         include_package_data=True,
         install_requires=[
-            'flask', sqlalchemy,
+            'flask', ,sqlalchemy',
         ],
 
  )
  ```
 
-Inside flaskApp directory:
+Inside datafrica directory: var/www/datafrica/
 Run source venv/bin/activate:
 then Run
 
-1. $ export FLASK_APP=catalog
+1. $ export FLASK_APP=datafrica
 2. $ export FLASK_ENV=development
 3. $ flask run
 Successful: App is runing on port 5000
@@ -234,7 +229,7 @@ Successful: App is runing on port 5000
 
 
 ### Configure and Enable a New Virtual Host
-1. Create FlaskApp.conf to edit: sudo nano /etc/apache2/sites-available/FlaskApp.conf
+1. Create FlaskApp.conf to edit: sudo nano /etc/apache2/sites-available/datafrica.conf
 
 2. Add the following lines of code to the file to configure the virtual host.
 
@@ -244,12 +239,12 @@ Successful: App is runing on port 5000
         ServerName www.datafrica.com
         ServerAdmin kofuafor@dgmail.com
 
-        <Directory /var/www/Datafrica/FlaskApp/>
+        <Directory /var/www/datafrica/datafrica/>
             Order allow,deny
             Allow from all
         </Directory>
-        Alias /static /var/www/Datafrica/FlaskApp/static
-        <Directory /var/www/Datafrica/FlaskApp/static/>
+        Alias /static /var/www/datafrica/datafrica/static
+        <Directory /var/www/datafrica/datafrica/static/>
             Order allow,deny
             Allow from all
         </Directory>
@@ -257,18 +252,18 @@ Successful: App is runing on port 5000
         LogLevel warn
         CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-        WSGIScriptAlias / /var/www/datafrica/flaskApp.wsgi
+        WSGIScriptAlias / /var/www/datafrica/datafrica.wsgi
 </VirtualHost>
 ```
 
-3. Enable the virtual host with the following command: ```sudo a2ensite FlaskApp```
+3. Enable the virtual host with the following command: ```sudo a2ensite datafrica```
 
 ### Create the .wsgi File
-1. Create the .wsgi File under /var/www/Datafrica:
+1. Create the .wsgi File under /var/www/datafrica:
 
 ```
-cd /var/www/Datafrica
-sudo nano flaskapp.wsgi
+cd /var/www/datafrica
+sudo nano datafrica.wsgi
 ```
 
 2. Add the following lines of code to the flaskapp.wsgi file:
@@ -278,157 +273,22 @@ sudo nano flaskapp.wsgi
 import sys
 import logging
 logging.basicConfig(stream=sys.stderr)
-sys.path.insert(0,"/var/www/datafrica/flaskApp/")
+sys.path.insert(0,"/var/www/datafrica/datafrica/")
 
 from FlaskApp import app as application
 application.secret_key = 'Add your secret key'
-```
-Existing code.
-```
-def application(environ, start_response):
-    status = '200 OK'
-    output = 'Hello World!'
+application.run()
 
-    response_headers = [('Content-type', 'text/plain'), ('Content-Length', str(len(output)))]
-    start_response(status, response_headers)
-
-    return [output]
-    
-  if __name__ == '__main__':
-  	application.run()
-
-  ```
 
 ### Restart Apache
 1. Restart Apache sudo service apache2 restart
 2. Next you want to create a new host record in your hosts file (/etc/hosts).
-```127.0.0.1 my.flaskapp
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### User management
-#### Create user with access
-Create a new user,
-Install finger. 
-`sudo apt-get install finger`   
-
-
-Create user. 
-`sudo adduser grader`. 
-Give a password to user when prompted to do so. 
-Log in as grader with given password. 
-
-Make these changes to `sudo nano /etc/ssh/sshd_config`:
-`PermitRootLogin prohibit-password` to `PermitRootLogin yes` 
-`PasswordAuthentication no` to `PasswordAuthentication yes`
-
-### Give Sudo Access. 
-Do this in the main admin account - ubuntu@IP address. 
-Create a new file inside - sudoers.d with the name of the new user in this case 'grader'. 
-Open this file with visudo,
-Create a file name grader with how to.  [here](https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file-on-ubuntu-and-centos):
-`sudo visudo -f /etc/sudoers.d/grader`. 
-
-Add this line of code inside this file. 
-`grader ALL = (ALL : ALL) ALL`. 
-Save and quit  with `control + o`, then press enter, and then `control + x`.
-
-Create public key pairs in your local amchine and upload the public key to amazon
-Now login as the new user ie grader. 
-with `ssh <username>@Public IP Address -p 2200 ~/.ssh/user-private-key-name`.
-
-
-### Finally force key based authentication
-With `sudo vim /etc/ssh/sshd_config`This is the server listening for all of your ssh connections. 
-
-
-### Generate key pairs with the commmand
-Use this command to generate key pairs. 
-`ssh-keygen`. 
-* Once done, use the `cat` command to copy the public key ending in `.pub`. 
-* Upload this key to your amazon account as one of the keys to be used for access.  
-* Alternatively, first make sure to lohin as the grader,
-  * Then create a directory .ssh with `mkdir .ssh` within the home directory
-  * Then create a new file within this directory called authorized_keys `sudo touch ~/.ssh/authorized_keys`. 
-  * Back in your local machine, read out the content of the key pair generated with the extension `.pub`. 
-  * Copy it, and back in your server, edit the authorized keys file by adding this key. 
-  * go into `sudo /etc/.ssh/sshd_config` and change `PasswordAuthentication no`. 
-  
-Then restart the service with sudo ssh service restart`. 
-
-Then login with `ssh <username>@ip-address -p 2200 -i ~/.ssh/your_private_key_name`.  
-login as grader. 
-Create a directory `mkdir .ssh`. 
-In your loacl machine, look view the public key and copy it with `cat .ssh/grader.pub`. 
-Post the public key inside this file. 
-	
-Set up some specific file permissions on .ssh and authorized_keys with
-
-`chmod 700 .ssh`
-`chmod 644 .ssh/authorized_keys`
-
-set up a change of passwd when next the users login
-`sudo passwd -e grader`
-When when next the user log in, they will be forced to change thier password.
-
-## Install apache2:
-## Install and configure the Apache Web Server on an Ubuntu
-```
-sudo apt-get update. 
-sudo apt install apache2
-sudo service apache2 start
-sudo service apache2 reload
-
-sudo systemctl status apache2
-sudo tail /var/log/apache2/error.log
-
-Then visit your client to check if you have a working server by typing. 
-your_domain_name_or_ip_address:80
-This is the default web page for this server. 
+27.0.0.1 my.datafrica
 ```
 
 
-### Prelimnary configuration of apache to display "Hello World!"
-* The first step in this process is to install. 
-`sudo apt install libapache2-mod-wsgi-py3`,  
+### Defualt virtual host file
 
-
-
-### Configure the virtaul host
-You then need to configure Apache to handle requests using the WSGI module. You will do this by editing:   
- Now **edit** the `/etc/apache2/sites-enabled/000-default.conf` file., This file tells Apache how to respond to requests.  where to find the files for a particular site and much more. 
-
- Adding the following line. 
- `WSGIScriptAlias / /var/www/html/myapp.wsgi`  at the end of the. 
- 
  ```
  <VirtualHost *:80>
 	# The ServerName directive sets the request scheme, hostname and port that
@@ -462,7 +322,8 @@ You then need to configure Apache to handle requests using the WSGI module. You 
 </VirtualHost>
 ```
 
-### Create your first wsgi application
+
+### First/test wsgi application
 First install wsgi module with:  
 
  Then **_create_** the `/var/www/html/myapp.wsgi` file using the command `sudo vim /var/www/html/myapp.wsgi`. 
@@ -487,357 +348,7 @@ First install wsgi module with:
 Refresh your browser and you should see your app runing Hello World!   
 
 
-## Install
-```
-First create a new directory:
-mkdir datafrica /var/www/
-cd /var/www/datafrica
-Create setup file:
-sudo touch setup.py
-Confugure setup.py file:
 
-from setuptools import setup
-
-setup(
-        name='catalog',
-        version='0.1.0',
-        packages=['catalog'],
-        include_package_data=True,
-        install_requires=[
-            'flask', sqlalchemy,
-        ],
-
- )
-
-
-## Permissions
-Assign ownership of the directory:
-The permissions of your web roots should be correct and made as shown. 
-
-Then check permissions with ls -al with inside the directory or add path to the directory.
-Your may change ownership to root if you want to with change owner - chown:
-sudo chown <newname> [name_of_entry]
-In this case using path to entry:
-sudo chown root /var/www/datafrica
-
-You may also change the group name with change group - chgrp:
-sudo chgrp root /var/www/datafrica
-or
-sudo chgrp -R $USER /var/www/datafrica
-This will change it to whoever the user is that is logged in.
-
-You may add permissions with:
-sudo chmod -R 755 /var/www/datafrica
-
-$ git clone https://github.com/k0f1/catalog.git
-$ cd catalog
-Remove all files ending with .pyc. 
-The application.py file has been modified and no longer a astart up file but a views file.
-```
-
-Install pip;
-`apt install python3-pip'
-
-### Create a virtualenv and activate it:
-```
-$ python3 -m venv venv
-$ . venv/bin/activate
-or use source venv/bin/activate
-pip3 install flask
-```
-
-Then install Flask inside the activated environment of the catalog
-```
-pip3 install flask
-pip3 install sqlalchemy
-pip install psycopg2-binary
-If there is persmission error:
-This line of code, will give ubuntu as the user the permission neccessary to install it.
-sudo chownn -R $USER . (inside venv folder)
-
-```
-
-```
-Run
-
-$ export FLASK_APP=catalog
-$ export FLASK_ENV=development
-$ flask run 
-App run successful. No __init__.py file yet
-```
-
-Then deactivate venv with just. 
-`Deactivate`    
-
-Then create  __init__.py. (Make sure to delete all .pyc files first, otherwise things would most likely break)
-Use `mv application.py __init__.py`
-
- Python does not want modules in packages to be the startup file. 
- So create a new file called `setup.py` inside the root directory datafrica. 
- 
-
-```
-# Filename:  __init__.py
-# encoding: utf-8
-
-import os
-import sys
-
-
-from flask import Flask
-from flask import render_template
-
-app = Flask('catalog')
-app.config.from_mapping(
-        # a default secret that should be overridden by instance config
-        SECRET_KEY="dev",
-        UPLOAD_FOLDER='/datafrica/catalog/uploads/'
-
-)
-
-# Lets define the project root
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-
-# Explictly import modules containing routes
-from catalog import application
-
-# make url_for('index') == url_for('application.index')
-# in another app, you might define a separate main index here with
-# app.route, while giving the application blueprint a url_prefix, but for
-# the tutorial the application will be the main index
-app.add_url_rule("/", endpoint="index")
-```
-**_Make sure to delete all .pyc files first, otherwise things would most likely break_**
-
-
-
-If you cannot pip install these packages, then you you have a permission problem which you can solve as shown below
-
-* Still inside the cloned `cd /var/www/catalog`. 
-* Next assign ownership of the project directory with user environment variable. 
-
-   `sudo chown -R $USER /var/www/catalog`. 
-   `sudo chgrp -R $USER /var/www/catalog`
-
-* Next give permissions to the user. 
-
-  `sudo chmod -R 775 /var/www/catalog`. 
-  
-  
-### Setting up posgresql  
-First install as ubuntu global user:
-```
-sudo apt-get update && sudo apt-get upgrade
-sudo apt install postgresql. 
-Inside the venv, pip install psycopg2 like so:
-pip install psycopg2-binary.
-```
-
-### Switch over to postgresql object with:
-```
-sudo -i -u postgres. 
-Use this command to start the Postgres interactive shell and to switch user to Postgres:  
-You must be already logged in as a sudo user at the.  
-
-* Create database user with:
-postgresql@IP Adress: createruser -P <username>. 
-Give password as password on prompt. 
-
-* Create database with the same name as username. 
-postgresql@IP Adress: createrdb <username> 
-
-Delete a user
-dropuser <username>
-```
-* Edit
-```
-application.py
-database_setup.py
-lotsofitems.py
-functions_helper.py 
-Change engine = create_engine('sqlite:///database.db') to.  engine = create_engine('postgresql://catalog:password@localhost/catalog')
-
-Then run:
-python3 database_setup.py 
-To populate the database run: 
-python3 lotsofitems.py
-```
-
- Connect to db. 
-```
-psql postgresql://catalog:password@localhost/catalog
-```
-
-
-### Customise the Apache to hand-off certain requests to myapp
-#### Setting Up Virtual Hosts
-* Configure Apache to handle requests using the WSGI module.  But instead of by editing the file `/etc/apache2/sites-enabled/000-default.conf`.  
-Lets create a new file with:
-
-sudo vim  /etc/apache2/sites-enabled/catalog.conf`. 
-
-The `/etc/apache2/sites-enabled/catalog.conf` should now look like this:
-
- ```
-<VirtualHost *:80>
-        ServerName www.datafrica.com
-        ServerAdmin kofuafor@datafrica.com
-        DocumentRoot /var/www/datafrica/
-       
-        # python-home set to the location of an empty python virtual environment. 
-        WSGIDaemonProcess catalog python-home=/usr/local/venv/empty user=ubuntu group=ubuntu processes=2 threads=5 python-path=/var/www/datafrica/catalog/
-     
-        WSGIProcessGroup catalog
-
-        <Directory /var/www/datafrica/catalog/>
-            Order allow,deny
-            Allow from all
-        </Directory>
-        Alias /static /var/www/datafrica/catalog/static
-        <Directory /var/www/datafrica/catalog/static/>
-            Order allow,deny
-            Allow from all
-        </Directory>
-        ErrorLog ${APACHE_LOG_DIR}/error.log
-        LogLevel warn
-        CustomLog ${APACHE_LOG_DIR}/access.log combined
-
-        WSGIScriptAlias / /var/www/datafrica/catalog.wsgi
-</VirtualHost>
-
- ```
- 
-Enable the virtual host with the following command:
-```
-Reload Apache with
-`sudo service apache2 reload`. 
-```
-
-#### Setup my catalog.wsgi file:
-Add this code to it `catalog.wsgi`. 
-
-The final wsgi app look something like this `catalog.wsgi`:
-We first must import the os module    
-
-```
-#!/usr/bin/python3
-
-import os
-import sys
-import logging
-
-
-logging.basicConfig(stream=sys.stderr)
-
-# Path to project
-sys.path.insert(0,"/var/www/datafrica")
-
-from catalog import app as application
-application.root_path = '/var/www/datafrica/catalog/'
-
-application.secret_key = 'os.urandom(24)'
-
-def application(environ, start_response):
-    status = '200 OK'
-    output = 'Hello World!'
-
-    response_headers = [('Content-type', 'text/plain'),
-                        ('Content-Length', str(len(output)))]
-    start_response(status, response_headers)
-
-    return [output]
-
-
-```
-
-Let’s enable the file with the a2ensite tool:
-```
-sudo a2ensite catalog.conf
-```
-
-Disable the default site defined in 000-default.conf:
-```
-sudo a2dissite 000-default.conf
-```
-    
-Next, let’s test for configuration errors:
-```
-sudo apache2ctl configtest
-```
-
-You should see the following output:
-`syntax ok`
-
-Error:
-```
-sudo apache2ctl configtest
-
-AH00526: Syntax error on line 7 of /etc/apache2/sites-enabled/catalog.conf:
-
-Invalid command 'WSGIDaemonProcess', perhaps misspelled or defined by a module not included in the server configuration
-
-Action 'configtest' failed.
-
-The Apache error log may have more information.
-
-```
-
-## Trouble shooting the WSGIDeamonProcess:
-```
-sudo apt install python3-dev python3-pip libapache2-mod-wsgi
-Then enable mod_wsgi:
-sudo a2enmod wsgi
-This lead to a new error:
-ERROR: Module wsgi does not exist!
-
-$ pip3 install mod_wsgi
-Lead to a new error message thus:'missing Apache httpd server packages.' % APXS)
-    RuntimeError: The 'apxs' command appears not to be installed or is not executable. Please check the list of prerequisites in the documentation for this package and install any missing Apache httpd server packages.
-    
-To correct the above, run:
-pip install -v mod_wsgi-httpd
-After completion of the above installation 
-
-Error- mod_wsgi could not be installed, permission denied:
-I needed to install this inside the venv but the permission was not correct.
-venv ownership is root currently.
-I changed this `sudo chown -R $USER:$USER venv`
-Now when I activate venv and use pip install mod_wsgi`
-it worked.
-```
-
-```
-Enable the virtual host by using the command:
-sudo a2ensite catalog
-Type the following command for restarting the apache:
-service apache2 reload
-service apache2 restart
-
-And verify that wsgi module is loaded: 
-sudo apache2ctl -M|grep -i wsgi
-```
-```
-Error message:
-$ sudo apt install libapache2-mod-wsgi-py3
-Reading package lists... Done
-Building dependency tree
-Reading state information... Done
-E: Unable to locate package libapache2-mod-wsgi-py3
-
-Solution:
-sudo add-apt-repository universe
-sudo add-apt-repository multiverse
-sudo apt update
-Thereafter:
-$ sudo apt install libapache2-mod-wsgi-py3 
-Successful
-
-Now when I run `sudo apache2ctl configtest`, I get syntax OK finally.
-
-Key takeaway:
-Install `libapcahe2-mod-wsgi-py3` as ubuntu user and make sure the ownership of your project directory is matched by this user.
-Make sure you are in venv and it is activated, when you `pip install mod_wsgi`
-```
 ## Trouble shooting missing flask module
 Missing flask module
 ```
@@ -868,15 +379,15 @@ Install the missing modules with sudo and pip.
 sudo pip3 install flask.
 This successfully resolved the issue
 ```
-## Test if my flask app import in catalog.wsgi
+## Test if my flask app import in datafrica.wsgi
 ```
  python3
 Python 3.6.9 (default, Apr 18 2020, 01:56:04) 
 [GCC 8.4.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
->>> from catalog import app as application
+>>> from datafrica import app as application
 >>> print (application)
-<Flask 'catalog'>
+<Flask 'datafrica'>
 >>> 
 ```
 
