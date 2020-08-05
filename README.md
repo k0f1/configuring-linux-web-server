@@ -159,31 +159,73 @@ exit
 	* Assign ownership of the directory: ```sudo chown -R grader:grader /var/www/datafrica/datafrica```
 	* Assign permissions to the web root: ```sudo chmod -R 775 /var/www/datafrica/datafrica```
 
-7. Create an   ``` __init__.py``` to define the flask app as a package.
-	Make sure to delete all .pyc files first, otherwise things would most likely break
+7. Then rename application.py to __init__.py. (Make sure to delete all .pyc files first, otherwise 	things would most likely break) to define the datafrica as a package.
+
 
 	 Python does not want modules in packages to be the startup file. 
 	 So create a new file called `setup.py` inside the root directory datafrica. 
+	 
+	 ## Create setup.py file
 
+	Inside  /var/www/datafrica
+	Create setup file:
+	sudo touch setup.py
+	Confugure setup.py file:
+	
+	```
+	from setuptools import setup
+
+	setup(
+		name='datafrica',
+		version='0.1.0',
+		packages=['datafrica'],
+		include_package_data=True,
+		install_requires=['Flask']
+
+	 )
+	 ```
+
+	Inside datafrica directory: var/www/datafrica/
+	Run source venv/bin/activate:
+	then Run
+	```
+
+	1. $ export FLASK_APP=datafrica
+	2. pip install -e .
+	3. $ flask run
+	```
+	Successful: App is runing on port 5000
+
+	**Setting Up Gunicorn and Supervisor**
+	When you run the server with flask run, you are using a web server that comes with Flask. This 		server isn't a good choice to use for a production server because it wasn't built with performance         and robustness in mind. Instead of the Flask development server, for this deployment I will use    	      gunicorn, which is also a pure Python web server, but unlike Flask's, it is a robust production    	 server.
+
+	To start datafrica under gunicorn you can use the following command:
+	```
+	cd into /var/www/datafrica
+	source venv/bin/activate
+	
+	Run
+	gunicorn -b localhost:8000 -w 4 datafrica:app
 
 	```
-	# Filename:  __init__.py
-	# encoding: utf-8
+		1. The ```-b option``` tells gunicorn where to listen for requests
+		2. The ```-w option``` configures how many workers gunicorn will run
+		3. The ```datafrica:app``` argument tells gunicorn how to load the application instance
+	
 
-	import os
-	import sys
+	
+	**Create views.py file**.
+	```
+	from datafrica import app
 
-
-	from flask import Flask
-	from flask import render_template
-
-	app = Flask('datafrica')
-
-
-	# Explictly import modules containing routes
-	from datafrica import application
+	@app.route('/')
+	@app.route('/index')
+	def showIndex():
+	    return render_template("index.html")
 
 	```
+	
+	
 
 8. Edit database_setup.py, application.py and functions_helper.py and change engine = create_engine('sqlite:///catalogwithusers.db') to engine = create_engine('postgresql://flaspApp:password@localhost/flaskApp').
 
@@ -195,36 +237,6 @@ exit
 
 12. Create database schema python3 database_setup.py. It would ask for missing libraries such as sqlalchemy.
 
-
-## Create setup.py file
-
-Inside  /var/www/datafrica
-Create setup file:
-sudo touch setup.py
-Confugure setup.py file:
-```
-from setuptools import setup
-
-setup(
-        name='datafrica',
-        version='0.1.0',
-        packages=['datafrica'],
-        include_package_data=True,
-        install_requires=[
-            'flask', ,sqlalchemy',
-        ],
-
- )
- ```
-
-Inside datafrica directory: var/www/datafrica/
-Run source venv/bin/activate:
-then Run
-
-1. $ export FLASK_APP=datafrica
-2. $ export FLASK_ENV=development
-3. $ flask run
-Successful: App is runing on port 5000
 
 
 
@@ -400,7 +412,11 @@ sudo apt-get install unattended-upgrades
 To enable it, do:
 sudo dpkg-reconfigure --priority=low unattended-upgrades
 ```
-
+### Important trouble shooting code
+```
+sudo apache2ctl restart
+sudo tail /var/log/apache2/error.log
+```
 
 
 ## Usage
