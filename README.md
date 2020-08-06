@@ -126,10 +126,11 @@ sudo ufw enable
 ```/etc/apache2/sites-enabled/000-default.conf```  file.
 For now, add the following line ```WSGIScriptAlias / /var/www/html/myapp.wsgi``` at the end of the virtual host block, right before the closing tag
 
-```<VirtualHost *:80> 
+```
+<VirtualHost *:80> 
    
-   #### here ####
-   </VirtualHost>
+#### here ####
+</VirtualHost>
 
 ```
 7. You just defined the name of the file you need to write within your Apache configuration by using the WSGIScriptAlias directive.
