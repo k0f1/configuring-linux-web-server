@@ -90,7 +90,6 @@ Configure your firewall ()**ufw**} earlier on
 sudo ufw status
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
-ufw enable status
 status inactive
 ```
 ### Configure the Uncomplicated Firewall (UFW)
