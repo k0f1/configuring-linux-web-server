@@ -117,11 +117,39 @@ sudo ufw enable
 
 ### Install and configure Apache to serve a Python mod_wsgi application
 1. Install Apache ```sudo apt-get install apache2```
-2. Install python-setuptools ```sudo apt-get install python-setuptools```
-3 install mod-wsgi ```sudo apt-get install libapache2-mod-wsgi```
+2 install mod-wsgi ```sudo apt-get install libapache2-mod-wsgi```
 3. Restart Apache ```sudo service apache2 restart```
 4. Check with the systemd init system to make sure the service is running by typing: ```sudo systemctl status apache2```
-4. Access the default Apache landing page to confirm that the software is running properly through your public IP address: http://your_server_ip
+5. Access the default Apache landing page to confirm that the software is running properly through your public IP address: http://your_server_ip
+
+6. You then need to configure Apache to handle requests using the WSGI module. You’ll do this by editing the:
+```/etc/apache2/sites-enabled/000-default.conf```  file.
+For now, add the following line ```WSGIScriptAlias / /var/www/html/myapp.wsgi``` at the end of the virtual host block, right before the closing tag
+
+```<VirtualHost *:80> 
+   
+   #### here ####
+   </VirtualHost>
+
+```
+7. You just defined the name of the file you need to write within your Apache configuration by using the WSGIScriptAlias directive.
+Create the ```/var/www/html/myapp.wsgi``` file using the command ```sudo nano /var/www/html/myapp.wsgi```. 
+
+Within this file, write the following application:
+
+```
+def application(environ, start_response):
+    status = '200 OK'
+    output = 'Hello Udacity!'
+
+    response_headers = [('Content-type', 'text/plain'), ('Content-Length', str(len(output)))]
+    start_response(status, response_headers)
+
+    return [output]
+```
+
+8. Finally, restart Apache with the ```sudo apache2ctl restart``` command.
+
 
 ### Install and configure PostgreSQL
 1. Install PostgreSQL ```sudo apt-get install postgresql```
@@ -347,27 +375,6 @@ if '__name__' == '__main__':
 ```
 
 
-### First/test wsgi application
-First install wsgi module with:  
-
- Then **_create_** the `/var/www/html/myapp.wsgi` file using the command `sudo vim /var/www/html/myapp.wsgi`. 
- This is a python application even though it ends with wsgi.  
- 
- Add this code to file and change the output to. 
- 'Hello World!'    
- 
- ```
- def application(environ, start_response):
-    status = '200 OK'
-    output = 'Hello World!'
-    _environ = 
-
-    response_headers = [('Content-type', 'text/plain'), ('Content-Length', str(len(output)))]
-    start_response(status, response_headers)
-
-    return [output]
-    
- ```
  Finally, restart Apache with the `sudo apache2ctl restart`. 
 
 Refresh your browser and you should see your app runing Hello World!   
