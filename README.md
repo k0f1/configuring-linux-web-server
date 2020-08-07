@@ -213,8 +213,8 @@ exit
 5 Clone and renmae the Catalog App to the virtual machine  with a new name datafrica```git clone https://github.com/k0f1/catalog.git datafrica```.
 
 6. Assign ownership and permissions:
-	* Assign ownership of the directory: ```sudo chown -R grader:grader /var/www/datafrica/datafrica```
-	* Assign permissions to the web root: ```sudo chmod -R 775 /var/www/datafrica/datafrica```
+* Assign ownership of the directory: ```sudo chown -R grader:grader /var/www/datafrica/datafrica```
+* Assign permissions to the web root: ```sudo chmod -R 775 /var/www/datafrica/datafrica```
 
 7. Then rename application.py to __init__.py. (Make sure to delete all .pyc files first, otherwise 	things would most likely break) to define the datafrica as a package.
 	
