@@ -202,15 +202,15 @@ exit
 
 ### Install git, clone and setup your Catalog App project.
 
-1 Install Git using sudo apt-get install git.
+1. Install Git using sudo apt-get install git.
 
-2 Use cd /var/www to move to the /var/www directory.
+2. Use cd /var/www to move to the /var/www directory.
 
-3 Create the application directory ```sudo mkdir datafrica```.
+3. Create the application directory ```sudo mkdir datafrica```.
 
-4 Move inside this directory using ```cd datafrica```.
+4. Move inside this directory using ```cd datafrica```.
 
-5 Clone and renmae the Catalog App to the virtual machine  with a new name datafrica```git clone https://github.com/k0f1/catalog.git datafrica```.
+5. Clone and renmae the Catalog App to the virtual machine  with a new name datafrica```git clone https://github.com/k0f1/catalog.git datafrica```.
 
 6. Assign ownership and permissions:
 	* Assign ownership of the directory:
