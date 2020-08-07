@@ -126,13 +126,41 @@ sudo ufw enable
 ```/etc/apache2/sites-enabled/000-default.conf```  file.
 For now, add the following line ```WSGIScriptAlias / /var/www/html/myapp.wsgi``` at the end of the virtual host block, right before the closing tag
 
-```
-<VirtualHost *:80> 
-   
-#### here ####
-</VirtualHost>
 
+### Defualt virtual host file
+ ```
+ <VirtualHost *:80>
+	# The ServerName directive sets the request scheme, hostname and port that
+	# the server uses to identify itself. This is used when creating
+	# redirection URLs. In the context of virtual hosts, the ServerName
+	# specifies what hostname must appear in the request's Host: header to
+	# match this virtual host. For the default virtual host (this file) this
+	# value is not decisive as it is used as a last resort host regardless.
+	# However, you must set it for any further virtual host explicitly.
+	#ServerName www.example.com
+
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/html
+
+	# Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+	# error, crit, alert, emerg.
+	# It is also possible to configure the loglevel for particular
+	# modules, e.g.
+	#LogLevel info ssl:warn
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+	# For most configuration files from conf-available/, which are
+	# enabled or disabled at a global level, it is possible to
+	# include a line for only one particular virtual host. For example the
+	# following line enables the CGI configuration for this host only
+	# after it has been globally disabled with "a2disconf".
+	#Include conf-available/serve-cgi-bin.conf
+	WSGIScriptAlias / /var/www/html/myapp.wsgi
+</VirtualHost>
 ```
+
 7. You just defined the name of the file you need to write within your Apache configuration by using the WSGIScriptAlias directive.
 Create the ```/var/www/html/myapp.wsgi``` file using the command ```sudo nano /var/www/html/myapp.wsgi```. 
 
@@ -231,40 +259,6 @@ exit
 
 3. Enable the virtual host with the following command: ```sudo a2ensite datafrica```
 
-### Defualt virtual host file
-
- ```
- <VirtualHost *:80>
-	# The ServerName directive sets the request scheme, hostname and port that
-	# the server uses to identify itself. This is used when creating
-	# redirection URLs. In the context of virtual hosts, the ServerName
-	# specifies what hostname must appear in the request's Host: header to
-	# match this virtual host. For the default virtual host (this file) this
-	# value is not decisive as it is used as a last resort host regardless.
-	# However, you must set it for any further virtual host explicitly.
-	#ServerName www.example.com
-
-	ServerAdmin webmaster@localhost
-	DocumentRoot /var/www/html
-
-	# Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
-	# error, crit, alert, emerg.
-	# It is also possible to configure the loglevel for particular
-	# modules, e.g.
-	#LogLevel info ssl:warn
-
-	ErrorLog ${APACHE_LOG_DIR}/error.log
-	CustomLog ${APACHE_LOG_DIR}/access.log combined
-
-	# For most configuration files from conf-available/, which are
-	# enabled or disabled at a global level, it is possible to
-	# include a line for only one particular virtual host. For example the
-	# following line enables the CGI configuration for this host only
-	# after it has been globally disabled with "a2disconf".
-	#Include conf-available/serve-cgi-bin.conf
-	WSGIScriptAlias / /var/www/html/myapp.wsgi
-</VirtualHost>
-```
 
 
  Finally, restart Apache with the `sudo apache2ctl restart`. 
