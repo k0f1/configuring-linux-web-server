@@ -221,7 +221,11 @@ exit
 7. Then rename application.py to __init__.py. (Make sure to delete all .pyc files first, otherwise 	things would most likely break) to define the datafrica as a package.
 	
 
-8. Edit database_setup.py, application.py and functions_helper.py and change engine = create_engine('sqlite:///catalogwithusers.db') to engine = create_engine('postgresql://datafrica:password@localhost/datafrica').
+8. Edit: 
+```
+database_setup.py, application.py and functions_helper.py and change engine = create_engine('sqlite:///catalogwithusers.db') to 
+engine = create_engine('postgresql://datafrica:password@localhost/datafrica').
+```
 
 9. Install pip ```sudo apt-get install python3-pip```.
 
