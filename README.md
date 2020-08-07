@@ -181,79 +181,16 @@ exit
 
 4 Move inside this directory using ```cd datafrica```.
 
-5 Clone and renmae the Catalog App to the virtual machine ```git clone https://github.com/k0f1/catalog.git datafrica```.
+5 Clone and renmae the Catalog App to the virtual machine  with a new name datafrica```git clone https://github.com/k0f1/catalog.git datafrica```.
 
-6. Move to the inner flaskApp directory using ```cd datafrica```.
+6. Assign ownership and permissions:
 	* Assign ownership of the directory: ```sudo chown -R grader:grader /var/www/datafrica/datafrica```
 	* Assign permissions to the web root: ```sudo chmod -R 775 /var/www/datafrica/datafrica```
 
 7. Then rename application.py to __init__.py. (Make sure to delete all .pyc files first, otherwise 	things would most likely break) to define the datafrica as a package.
-
-
-	 Python does not want modules in packages to be the startup file. 
-	 So create a new file called `setup.py` inside the root directory datafrica. 
-	 
-	 ## Create setup.py file
-
-	Inside  /var/www/datafrica
-	Create setup file:
-	sudo touch setup.py
-	Confugure setup.py file:
-	
-	```
-	from setuptools import setup
-
-	setup(
-		name='datafrica',
-		version='0.1.0',
-		packages=['datafrica'],
-		include_package_data=True,
-		install_requires=['Flask']
-
-	 )
-	 ```
-
-	Inside datafrica directory: var/www/datafrica/
-	Run source venv/bin/activate:
-	then Run
-	```
-
-	1. $ export FLASK_ENV=datafrica
-	2. pip3 install -e .
-	```
-	
-	**Installing setup.py** 
-	
-	To install your application (ideally into a virtualenv) just run the setup.py script with the 	           install parameter.  It will install your application into the virtualenv’s site-packages folder and 	       also download and install all dependencies:
-	
-	```(venv) $ python setup.py install```
-
-	**Setting Up Gunicorn and Supervisor**
-	When you run the server with flask run, you are using a web server that comes with Flask. This 		server isn't a good choice to use for a production server because it wasn't built with performance         and robustness in mind. Instead of the Flask development server, for this deployment I will use    	      gunicorn, which is also a pure Python web server, but unlike Flask's, it is a robust production    	 server.
-
-	To start datafrica under gunicorn you can use the following command:
-	```
-	cd into /var/www/datafrica
-	source venv/bin/activate
-	
-	Run
-	flask run -b localhost:8000 -w 4 datafrica:app
-
-	
-	**Create views.py file**.
-	```
-	from datafrica import app
-
-	@app.route('/')
-	@app.route('/index')
-	def showIndex():
-	    return render_template("index.html")
-
-	```
-	
 	
 
-8. Edit database_setup.py, application.py and functions_helper.py and change engine = create_engine('sqlite:///catalogwithusers.db') to engine = create_engine('postgresql://flaspApp:password@localhost/flaskApp').
+8. Edit database_setup.py, application.py and functions_helper.py and change engine = create_engine('sqlite:///catalogwithusers.db') to engine = create_engine('postgresql://datafrica:password@localhost/datafrica').
 
 9. Install pip ```sudo apt-get install python3-pip```.
 
@@ -262,8 +199,6 @@ exit
 11. Install psycopg2 ```sudo apt-get -qqy install postgresql python-psycopg2```.
 
 12. Create database schema python3 database_setup.py. It would ask for missing libraries such as sqlalchemy.
-
-
 
 
 ### Configure and Enable a New Virtual Host
@@ -295,50 +230,6 @@ exit
 ```
 
 3. Enable the virtual host with the following command: ```sudo a2ensite datafrica```
-
-### Create the .wsgi File
-1. Create the .wsgi File under /var/www/datafrica:
-
-```
-cd /var/www/datafrica
-sudo nano datafrica.wsgi
-```
-
-2. Add the following lines of code to the flaskapp.wsgi file:
-
-```
-#!/usr/bin/python
-
-import os
-import sys
-import logging
-logging.basicConfig(stream=sys.stderr)
-sys.path.insert(0,"/var/www/datafrica/datafrica/")
-
-from datafrica import app as application
-application.secret_key = 'Add your secret key'
-_environ = os.environ.get("FLASK_ENV", default="true")
-
-
- def application(environ, start_response):
-    status = '200 OK'
-    output = 'Hello World!'
-
-    response_headers = [('Content-type', 'text/plain'), ('Content-Length', str(len(output)))]
-    start_response(status, response_headers)
-
-    return [output]
-
-if '__name__' == '__main__':
-	application(_environ, start_response(status, response_headers))
-
-
-### Restart Apache
-1. Restart Apache sudo service apache2 restart
-2. Next you want to create a new host record in your hosts file (/etc/hosts).
-27.0.0.1 my.datafrica
-```
-
 
 ### Defualt virtual host file
 
@@ -452,7 +343,7 @@ app.config['TESTING'] = True
 export FLASK_ENV=datafrica
 import os
 
-environ = os.environ.get("FLASK_ENV", default="true")
+os.environ.get("FLASK_ENV", default="true")
 
 ## Usage
 Configuring a linux web server requires a number of environmental variables for runtime configuration as shown above.  The following examples demonstrate how to run it manually from the command line in the appriopriate directory
