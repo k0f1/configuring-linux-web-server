@@ -34,7 +34,7 @@ Save the file
 7. Then finally add key by uploading the public key created in your local machine
 
 ### Development environment
-Public IP: 3.11.231.124
+Public IP: http://18.133.89.142
 
 ### Connect remotely securely
 
@@ -65,7 +65,7 @@ sudo vim .ssh/authorized_keys
 Copy the public key generated on your local machine to this file and save```
 ```
 chmod 700 .ssh
-$ chmod 644 .ssh/authorized_keys
+chmod 644 .ssh/authorized_keys
 ```
 3. Reload SSH using ```sudo service ssh restart```
 
@@ -185,7 +185,7 @@ Within this file, write the following application:
 
 ### Install and configure PostgreSQL
 1. Install PostgreSQL ```sudo apt-get install postgresql```
-2. Check if no remote connections are allowed ```sudo vim /etc/postgresql/9.3/main/pg_hba.conf``` see version with ```psql --version```
+2. Check if no remote connections are allowed ```sudo vim /etc/postgresql/10.12/main/pg_hba.conf``` see version with ```psql --version```
 3. Login as user "postgres" sudo su - postgres
 4. Get into postgreSQL shell psql
 5. Create a new database named catalog and create a new user named catalog in postgreSQL shell
@@ -195,9 +195,7 @@ Within this file, write the following application:
 	```
 
 
-7. Quit postgreSQL ```postgres=# \q```
-
-8. Exit from user "postgres"
+7. Exit from user "postgres"
 ```
 exit
 ```
@@ -220,13 +218,16 @@ exit
 	* Assign permissions to the web root:
 	```sudo chmod -R 775 /var/www/datafrica/datafrica```
 
-7. Then rename application.py to __init__.py. (Make sure to delete all .pyc files first, otherwise 	things would most likely break) to define the datafrica as a package.
+7. Then rename application.py to __init__.py to define the datafrica as a package.. (Make sure to delete all .pyc files first, otherwise things would most likely break).
 	
 
 8. Edit: 
 ```
 database_setup.py, application.py and functions_helper.py and change engine = create_engine('sqlite:///catalogwithusers.db') to 
 engine = create_engine('postgresql://datafrica:password@localhost/datafrica').
+Run python3 __init__.py.
+Run python3 database_setup.py.
+Run python3 lotsofitems.py to pulate the database.
 ```
 
 9. Install pip ```sudo apt-get install python3-pip```.
@@ -235,7 +236,6 @@ engine = create_engine('postgresql://datafrica:password@localhost/datafrica').
 
 11. Install psycopg2 ```sudo apt-get -qqy install postgresql python-psycopg2```.
 
-12. Create database schema python3 database_setup.py. It would ask for missing libraries such as sqlalchemy.
 
 
 ### Configure and Enable a New Virtual Host
@@ -246,7 +246,7 @@ engine = create_engine('postgresql://datafrica:password@localhost/datafrica').
 
 ```
 <VirtualHost *:80>
-        ServerName www.datafrica.com
+        ServerName www.datafrica.com/Public IP Address
         ServerAdmin kofuafor@dgmail.com
 
         <Directory /var/www/datafrica/datafrica/>
@@ -267,6 +267,8 @@ engine = create_engine('postgresql://datafrica:password@localhost/datafrica').
 ```
 
 3. Enable the virtual host with the following command: ```sudo a2ensite datafrica```
+
+4. Disbale the default virtual host with ```sudo a2dissite 000-default.conf```
 
 
 
@@ -324,7 +326,8 @@ This successfully resolved the issue
 ```
 ## Test if my flask app import in datafrica.wsgi
 ```
- python3
+Run python3 /var/www/datafrica/datafrica.wsgi
+
 Python 3.6.9 (default, Apr 18 2020, 01:56:04) 
 [GCC 8.4.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
@@ -360,9 +363,7 @@ app.config['TESTING'] = True
 
 ## Environ variables
 export FLASK_ENV=datafrica
-import os
 
-os.environ.get("FLASK_ENV", default="true")
 
 ## Usage
 Configuring a linux web server requires a number of environmental variables for runtime configuration as shown above.  The following examples demonstrate how to run it manually from the command line in the appriopriate directory
