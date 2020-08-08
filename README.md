@@ -180,6 +180,8 @@ Within this file, write the following application:
 
 8. Finally, restart Apache with the ```sudo apache2ctl restart``` command.
 
+9. Now refresh the browser and you would get see the new page "Hello Udacity"
+
 
 ### Install and configure PostgreSQL
 1. Install PostgreSQL ```sudo apt-get install postgresql```
@@ -271,6 +273,22 @@ engine = create_engine('postgresql://datafrica:password@localhost/datafrica').
  Finally, restart Apache with the `sudo apache2ctl restart`. 
 
 Refresh your browser and you should see your app runing Hello World!   
+
+### Create your application wsgi file
+
+1. ```cd /var/www/datafrica``` project root folder
+2. ```sudo touch datafrica.wsgi```
+3. ```sudo vim datafica.wsgi```
+4. Add this code:
+```
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/datafrica/")
+from datafrica import app as application
+application.secret_key = 'os.urandom(34)'
+application.run()
+```
 
 
 
