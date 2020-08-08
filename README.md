@@ -33,7 +33,7 @@ Save the file
 6. Wait for it to start
 7. Then finally add key by uploading the public key created in your local machine
 
-### Development environment
+### Deployment environment
 Public IP: http://18.133.89.142
 
 ### Connect remotely securely
@@ -270,11 +270,7 @@ Run python3 lotsofitems.py to pulate the database.
 
 4. Disbale the default virtual host with ```sudo a2dissite 000-default.conf```
 
-
-
- Finally, restart Apache with the `sudo apache2ctl restart`. 
-
-Refresh your browser and you should see your app runing Hello World!   
+5. Finally, restart Apache with the `sudo apache2ctl restart`. 
 
 ### Create your application wsgi file
 
@@ -291,10 +287,9 @@ from datafrica import app as application
 application.secret_key = 'os.urandom(34)'
 application.run()
 ```
+5. Refresh your browser to display your awesome website to the world
 
-
-
-## Trouble shooting missing flask module
+### Trouble shooting missing flask module
 Missing flask module
 ```
 Traceback (most recent call last):
