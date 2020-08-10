@@ -279,6 +279,7 @@ Run python3 lotsofitems.py to pulate the database.
 3. ```sudo vim datafica.wsgi```
 4. Add this code:
 ```
+import os
 import sys
 import logging
 logging.basicConfig(stream=sys.stderr)
